@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <h1>Register</h1>
+    {% if user_type=="manager"%}
+    <p>Rejestrujesz się jako Manager, kliknij <a href="{{path('app_register',{type:"player"})}}">tutaj aby zarejestrować się jako Zawodnik</a></p>
+    {%else%}
+    <p>Rejestrujesz się jako Zawodnik, kliknij <a href="{{path('app_register',{type:"manager"})}}">tutaj aby zarejestrować się jako Manager</a></p>
+    {%endif%}
+    {{ form_start(registrationForm) }}
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.firstName) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.firstName)}}</div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.lastName) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.lastName)}}</div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.birthDate) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.birthDate)}}</div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.city) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.city)}}</div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.club) }}</div>
+            <div class="col-12 col-sm-9">
+            {{form_widget(registrationForm.club)}}
+            <button data-bs-toggle="modal" data-bs-target="#addClubModal" class="btn btn-success btn-sm" type="button" id="add_club_button" title="Dodaj klub">+</button>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.email) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.email)}}</div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.plainPassword) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.plainPassword)}}</div>
+        </div>
+        {% if user_type=="player"%}
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.position) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.position)}}</div>
+        </div>
+        {%endif%}
+        {% if user_type=="manager"%}
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.yearbook) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.yearbook)}}</div>
+        </div>
+        {%endif%}
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.data_consent) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.data_consent)}}</div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.marketing_consent) }}</div>
+            <div class="col-12 col-sm-9">{{form_widget(registrationForm.marketing_consent)}}</div>
+        </div>
+
+    {{ form_end(registrationForm) }}
+    </div>
+    </div>
+    {{include('modals/add_club_modal.html.twig')}}
+{% endblock %}

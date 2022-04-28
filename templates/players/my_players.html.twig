@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moi zawodnicy{% endblock %}
+
+{% block body %}
+
+
+<div class="row">
+    <div class="col-12">
+        <h1>Moi zawodnicy</h1>
+
+        <div>
+            <a href="{{path('app_players_list')}}" class="btn btn-success">Dodaj zawodników</a>
+        </div>
+        {%for player in players %}
+            {{dump(player)}}
+            {%else%}
+            <p class="alert alert-info">Brak przypisanych zawodników</p>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}

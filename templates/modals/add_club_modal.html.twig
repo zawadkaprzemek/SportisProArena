@@ -1,0 +1,29 @@
+<!-- Modal -->
+<div class="modal fade" id="addClubModal" tabindex="-1" aria-labelledby="addClubModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addClubModalLabel">Dodaj klub</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="addClubForm" action="{{path('app_ajax_add_club')}}">
+      <div class="modal-body">
+        <div class="form-group row">
+            <div class="col-12">
+                <label class="w-100"><input class="form-control" required="required" type="text" minlength="10" id="addClubName" name="addClubName" placeholder="Wprowadź nazwę klubu"></label>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <div class="row w-100">
+      <div class="col-6">
+        <button type="button" class="btn btn-sm btn-secondary close" data-bs-dismiss="modal">Anuluj</button>
+      </div>
+      <div class="col-6 text-end">
+        <button type="submit" class="btn btn-sm btn-primary">Zapisz</button>
+      </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

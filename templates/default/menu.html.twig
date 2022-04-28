@@ -1,0 +1,31 @@
+<div class="text-light py-5">
+{% if is_granted('ROLE_USER') %}
+    <p>Witaj, {{app.user.fullName}}</p>
+
+<div class="list-group">
+<li class="list-group-item">Profil</li>
+<a href="#" class="list-group-item list-group-item-action">Powiadomienia</a>
+  <a href="{{path('app_profile')}}" class="list-group-item list-group-item-action">Mój profil</a>
+  <a href="{{path('app_profile_edit')}}" class="list-group-item list-group-item-action">Edytuj dane</a>
+  {%if app.user.userType|manager_type%}
+    <a href="{{path('app_my_players')}}" class="list-group-item list-group-item-action">Moi zawodnicy</a>
+  {%endif%}
+  <li class="list-group-item">Saldo</li>
+  <li class="list-group-item">{{app.user.trainingUnits}} jednostek trenigowych</li>
+  <a href="{{path('app_payment_buy_units')}}" class="list-group-item list-group-item-action">Dokup jednostki</a>
+  <a href="#" class="list-group-item list-group-item-action">Zarezerwuj termin</a>
+  <li class="list-group-item">Raporty</li>
+
+  <li class="list-group-item">Zadania</li>
+
+  <li class="list-group-item">Rankingi</li>
+  <a href="{{path('app_logout')}}" class="list-group-item list-group-item-action">Wyloguj</a>
+</div>
+{%else%}
+<div class="list-group">
+<a href="{{path('app_login')}}" class="list-group-item list-group-item-action">Logowanie</a>
+<a href="{{path('app_register')}}" class="list-group-item list-group-item-action">Rejestracja</a>
+</div>
+{% endif %}
+
+</div>

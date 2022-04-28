@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Zawodnicy z mojego klubu{% endblock %}
+
+{% block body %}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="row px-2 mt-1">
+            <div class="col-6 col-md-2">
+                <img src="{{asset(club.logo)}}" alt="" class="img-fluid club-logo">
+            </div>
+            <div class="col">
+                <h3>{{club.name}}</h3>
+            </div>
+        </div>
+        <h1>Lista zawodników</h1>
+
+        <div class="row px-2">
+            {%for player in players %}
+            <div class="col-2 px-0 border">
+            <img src="{{asset(player.image)}}" alt="" class="img-fluid">
+            <p class="text-center">{{player.fullName}}</p>
+                <div class="btn-group btn-group-sm w-100">
+                   <a href="" class="btn btn-primary">Zobacz profil zawodnika</a>
+                   <button type="button" class="btn btn-success btn-assign-player" data-player="{{player.id}}">Przypisz zawodnika</button> 
+                </div>
+            </div>
+            {%else%}
+            <div class="col-12">
+            <p class="alert alert-info">Brak zawodników</p>
+            </div>
+        {%endfor%}
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
