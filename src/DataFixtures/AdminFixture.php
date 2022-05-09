@@ -48,7 +48,7 @@ class AdminFixture extends Fixture
             ->setCity('Olsztyn')
             ->setUuid($admin->generateUuid())
             ->setDataConsent(true)
-            ->setUserType(User::ADMIN_MASTER)
+            ->setUserType(User::ADMIN_MASTER_TYPE)
             ->setMarketingConsent(true)
             ->setIsVerified(1)
             ;
