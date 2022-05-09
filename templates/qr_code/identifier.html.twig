@@ -1,0 +1,8 @@
+{% extends 'base-pdf.html.twig' %}
+
+{% block title %}Kod identyfikacyjny{% endblock %}
+
+{% block body %}
+
+   <img src="{{ qr_code_url(url) }}" /> 
+{% endblock %}

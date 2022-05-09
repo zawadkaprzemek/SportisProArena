@@ -19,14 +19,7 @@
 
         <div class="row px-2">
             {%for player in players %}
-            <div class="col-2 px-0 border">
-            <img src="{{asset(player.image)}}" alt="" class="img-fluid">
-            <p class="text-center">{{player.fullName}}</p>
-                <div class="btn-group btn-group-sm w-100">
-                   <a href="" class="btn btn-primary">Zobacz profil zawodnika</a>
-                   <button type="button" class="btn btn-success btn-assign-player" data-player="{{player.id}}">Przypisz zawodnika</button> 
-                </div>
-            </div>
+            {%include 'modules/player_box.html.twig' with {'player':player,'with_assign_button':with_assign_button}%}
             {%else%}
             <div class="col-12">
             <p class="alert alert-info">Brak zawodników</p>

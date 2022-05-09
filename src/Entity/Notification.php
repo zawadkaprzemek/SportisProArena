@@ -41,6 +41,11 @@ class Notification
      */
     private $readed=0;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $referenceId;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +95,18 @@ class Notification
     public function setReaded(bool $readed): self
     {
         $this->readed = $readed;
+
+        return $this;
+    }
+
+    public function getReferenceId(): ?int
+    {
+        return $this->referenceId;
+    }
+
+    public function setReferenceId(?int $referenceId): self
+    {
+        $this->referenceId = $referenceId;
 
         return $this;
     }

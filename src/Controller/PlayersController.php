@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PlayersController extends AbstractController
 {
     /**
-     * @Route("/my_players", name="app_my_players")
+     * @Route("/assigned", name="app_my_players")
      */
     public function myPlayers(): Response
     {
@@ -47,7 +47,28 @@ class PlayersController extends AbstractController
 
         return $this->render('players/list.html.twig',[
             'players'=>$players,
-            'club'=>$user->getClub()
+            'club'=>$user->getClub(),
+            'with_assign_button'=>false
+        ]);
+    }
+
+    /**
+     * @Route("/possible_to_assign", name="app_players_possible_to_assign")
+     * Wyświetla tylko listę zawodników z klubu trenera
+     */
+    public function possibleToAssign()
+    {
+        /** @var User $user */
+        $user=$this->getUser();
+
+        $em=$this->getDoctrine()->getManager();
+        $repo=$em->getRepository(User::class);
+        $players=$repo->findUsersFromClub(User::PLAYER_TYPE,$user->getClub(),$user);
+
+        return $this->render('players/list.html.twig',[
+            'players'=>$players,
+            'club'=>$user->getClub(),
+            'with_assign_button'=>true
         ]);
     }
 }

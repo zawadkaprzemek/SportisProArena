@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rezerwacja - wybierz Arene{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+        <h1>Lista aren</h1>
+
+        <div id="arenas_list">
+            <div class="row border-bottom">
+                <div class="col-1">Id</div>
+                <div class="col">Nazwa</div>
+                <div class="col">Adres</div>
+                <div class="col"></div>
+            </div>
+
+            {%for arena in arenas %}
+                <div class="row mb-2">
+                <div class="col-1">{{arena.id}}</div>
+                <div class="col">{{arena.name}}</div>
+                <div class="col">{{arena.address}}</div>
+                <div class="col">
+                    <a href="{{path('app_training_reserve_choose_dates',{id:arena.id})}}" class="btn btn-primary btn-sm">Wybierz termin/y</a>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}

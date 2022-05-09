@@ -2,22 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Notification;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Unique;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/default", name="app_default")
-     */
-    public function index(): Response
-    {
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
-    }
 
     /**
      * @Route("/", name="app_home")
@@ -25,7 +18,23 @@ class DefaultController extends AbstractController
     public function home():Response
     {
         return $this->render('default/index.html.twig',[
-            'controller_name' => 'DefaultController',
+            
+        ]);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @Route("/notifications", name="app_notifications")
+     */
+    public function notifications()
+    {
+        $user=$this->getUser();
+        $em=$this->getDoctrine()->getManager();
+        $repo=$em->getRepository(Notification::class);
+        $notifications=$repo->getUserNotifications($user);
+        
+        return $this->render('default/notifications.html.twig',[
+            'notifications'=>$notifications
         ]);
     }
 

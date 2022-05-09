@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Club;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\PlayerManager;
+use App\Service\NotificationService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +19,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class AjaxController extends AbstractController
 {
+    private NotificationService $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService=$notificationService;
+    }
+
+
     /**
      * @Route("/add_club", methods={"POST"}, name="app_ajax_add_club")
      */
@@ -59,7 +69,7 @@ class AjaxController extends AbstractController
         $assign=$repo->isPlayerAssignedToManager($manager,$player);
         if($assign!==null)
         {
-            if($assign->getAccepted())
+            if($assign->isAccepted())
             {
                 return new JsonResponse(['status'=>'info','message'=>'Player assigned']);
             }else{
@@ -72,7 +82,55 @@ class AjaxController extends AbstractController
             ->setManager($manager);
         $em->persist($assign);
         $em->flush();
+        $this->notificationService->addNotification($player,NotificationService::PLAYER_ASSIGN_REQUEST,$manager->getId(),$assign->getId());
         return new JsonResponse(['status'=>'success','message'=>'Request send']);
+    }
+
+    /**
+     * @Route("/answer_request", methods={"POST"}, name="app_player_answer_request")
+     * @IsGranted("ROLE_USER")
+     */
+    public function answerPlayerRequest(Request $request)
+    {
+        $content=json_decode($request->getContent(),true);
+        $em=$this->getDoctrine()->getManager();
+        $user=$this->getUser();
+        $repo=$em->getRepository(PlayerManager::class);
+        
+        $request=$repo->findOneBy(['id'=>$content['request'],'player'=>$user]);
+        if($request===null)
+        {
+            return new JsonResponse(['status'=>'error','message'=>'Request dont exists']);
+        }
+        if((int)$content['answer']===1)
+        {
+            $request->setAccepted(1)->setActive(1);
+            $em->persist($request);
+            $this->notificationService->addNotification($request->getManager(),NotificationService::PLAYER_ASSIGN_ACCEPT,$request->getPlayer()->getId());
+        }else{
+            $em->remove($request);
+            $this->notificationService->addNotification($request->getManager(),NotificationService::PLAYER_ASSIGN_REJECT,$request->getPlayer()->getId());
+        }
+        $em->flush();
+        return new JsonResponse(['status'=>'success']);
+    }
+
+    /**
+     * @Route("/read_notification/{id}", methods={"GET"}, name="app_notification_read")
+     * @IsGranted("ROLE_USER")
+     */
+    public function readNotification(Notification $notification)
+    {
+        $user=$this->getUser();
+        if($notification->getUser()!==$user)
+        {
+            return new JsonResponse(['status'=>'error']);
+        }
+        $em=$this->getDoctrine()->getManager();
+        $notification->setReaded(1);
+        $em->persist($notification);
+        $em->flush();
+        return new JsonResponse(['status'=>'success']);
     }
 
 }

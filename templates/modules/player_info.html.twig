@@ -1,0 +1,16 @@
+<img src="{{asset(user.image)}}" alt="" class="img-fluid profile-pic">
+<p>Imię: {{user.firstName}}</p>
+<p>Nazwisko: {{user.lastName}}</p>
+<p>Data urodzenia: {{user.birthDate|date('d/m/Y')}} ({{user.birthDate|user_age}})</p>
+<p>Data rejestracji: {{user.createdAt|date('d/m/Y')}}</p>
+<p>Miejscowość: {{user.city}}</p>
+<p>Drużyna: {{user.club.name}}</p>
+{%if user.userType|player_type%}
+<p>Pozycje: 
+    <ul>
+        {%for position in user.position%}
+            <li>{{position.name}}</li>
+        {%endfor%}
+    </ul>
+</p>
+{%endif%}

@@ -31,6 +31,9 @@ class PlayerManager
 
     /**
      * @ORM\Column(type="boolean")
+     * 1- accepted
+     * 0- waiting for accept
+     * removed - rejected
      */
     private $accepted=0;
 
@@ -69,7 +72,7 @@ class PlayerManager
         return $this;
     }
 
-    public function getAccepted(): ?bool
+    public function isAccepted(): ?bool
     {
         return $this->accepted;
     }

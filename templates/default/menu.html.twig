@@ -2,27 +2,40 @@
 {% if is_granted('ROLE_USER') %}
     <p>Witaj, {{app.user.fullName}}</p>
 
-<div class="list-group">
+<div class="list-group list-group-flush">
 <li class="list-group-item">Profil</li>
-<a href="#" class="list-group-item list-group-item-action">Powiadomienia</a>
-  <a href="{{path('app_profile')}}" class="list-group-item list-group-item-action">Mój profil</a>
-  <a href="{{path('app_profile_edit')}}" class="list-group-item list-group-item-action">Edytuj dane</a>
+{%set newNotifications = app.user|unreadNotifications%}
+<a href="{{path('app_notifications')}}" class="list-group-item list-group-item-action list-group-item-dark d-flex justify-content-between align-items-center">
+Powiadomienia 
+{%if newNotifications>0%}<span class="badge bg-primary rounded-pill text-end">{{newNotifications}}</span>{%endif%}
+</a>
+  <a href="{{path('app_profile')}}" class="list-group-item list-group-item-action list-group-item-dark">Mój profil</a>
+  <a href="{{path('app_profile_edit')}}" class="list-group-item list-group-item-action list-group-item-dark">Edytuj dane</a>
+  <a href="{{path('app_profile_change_password')}}" class="list-group-item list-group-item-action list-group-item-dark">Zmiana hasła</a>
+  <a href="{{path('app_profile_identifier')}}" target="_blank" class="list-group-item list-group-item-action list-group-item-dark">Mój Identyfikator</a>
   {%if app.user.userType|manager_type%}
-    <a href="{{path('app_my_players')}}" class="list-group-item list-group-item-action">Moi zawodnicy</a>
+    <a href="{{path('app_my_players')}}" class="list-group-item list-group-item-action list-group-item-dark">Moi zawodnicy</a>
+    <a href="{{path('app_players_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Zawodnicy z mojego klubu</a>
   {%endif%}
-  <li class="list-group-item">Saldo</li>
-  <li class="list-group-item">{{app.user.trainingUnits}} jednostek trenigowych</li>
-  <a href="{{path('app_payment_buy_units')}}" class="list-group-item list-group-item-action">Dokup jednostki</a>
-  <a href="#" class="list-group-item list-group-item-action">Zarezerwuj termin</a>
+  <li class="list-group-item">Jednostki treningowe</li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">Wykupione jednostki treningowe 
+  <span class="text-end fw-bold" id="trainingUnitsCount">{{app.user.trainingUnits}}</span>
+  </li>
+  <a href="{{path('app_payment_buy_units')}}" class="list-group-item list-group-item-action list-group-item-dark">Dokup jednostki</a>
+  <a href="{{path('app_training_reserve_step1')}}" class="list-group-item list-group-item-action list-group-item-dark">Zarezerwuj termin</a>
+  <a href="{{path('app_training_reserved')}}" class="list-group-item list-group-item-action list-group-item-dark">Moje sesje treningowe</a>
   <li class="list-group-item">Raporty</li>
-
+<a href="{{path('app_raports')}}" class="list-group-item list-group-item-action list-group-item-dark">Raporty</a>
   <li class="list-group-item">Zadania</li>
-
+  <a href="{{path('app_tasks_completed')}}" class="list-group-item list-group-item-action list-group-item-dark">Zrealizowane</a>
+<a href="{{path('app_tasks_to_do')}}" class="list-group-item list-group-item-action list-group-item-dark">Do realizacji</a>
   <li class="list-group-item">Rankingi</li>
-  <a href="{{path('app_logout')}}" class="list-group-item list-group-item-action">Wyloguj</a>
+  <a href="{{path('app_ranking_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Rankingi</a>
+  <a href="{{path('app_competitions_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Konkursy</a>
+  <a href="{{path('app_logout')}}" class="list-group-item list-group-item-action list-group-item-dark">Wyloguj</a>
 </div>
 {%else%}
-<div class="list-group">
+<div class="list-group list-group-flush">
 <a href="{{path('app_login')}}" class="list-group-item list-group-item-action">Logowanie</a>
 <a href="{{path('app_register')}}" class="list-group-item list-group-item-action">Rejestracja</a>
 </div>

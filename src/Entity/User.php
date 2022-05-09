@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"uuid"}, message="Uuid must be unique")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -93,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $marketing_consent;
 
     /**
-     * @ORM\Column(type="string", length=12)
+     * @ORM\Column(type="string", length=12, unique=true)
      */
     private $uuid;
 
@@ -134,16 +135,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $player;
 
+    private $oldPassword;
+
     /**
      * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="user")
      */
     private $notifications;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TrainingSession::class, mappedBy="buyer")
+     */
+    private $purchasedTrainingSessions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TrainingSession::class, mappedBy="player")
+     */
+    private $trainingSessions;
 
     public function __construct()
     {
         $this->position = new ArrayCollection();
         $this->player = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->purchasedTrainingSessions = new ArrayCollection();
+        $this->trainingSessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -343,6 +358,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
+
+    /**
+     * @param mixed $oldPassword
+     */
+    public function setOldPassword($oldPassword): void
+    {
+        $this->oldPassword = $oldPassword;
+    }
+
+    /**
      * @return Collection<int, Position>
      */
     public function getPosition(): Collection
@@ -404,7 +435,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function generateUuid()
     {
-        return sprintf( '%04x%04x%02x',
+        return sprintf( '%04x%04x%04x',
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
             mt_rand( 0, 0xffff )
         );
@@ -437,6 +468,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->trainingUnits = $trainingUnits;
 
+        return $this;
+    }
+
+    public function addTrainingUnits(string $trainingUnits):self
+    {
+        $this->trainingUnits+=$trainingUnits;
+        return $this;
+    }
+
+    public function removeTrainingUnits(string $trainingUnits):self
+    {
+        $this->trainingUnits-=$trainingUnits;
         return $this;
     }
 
@@ -494,6 +537,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($notification->getUser() === $this) {
                 $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrainingSession>
+     */
+    public function getPurchasedTrainingSessions(): Collection
+    {
+        return $this->purchasedTrainingSessions;
+    }
+
+    public function addPurchasedTrainingSession(TrainingSession $purchasedTrainingSession): self
+    {
+        if (!$this->purchasedTrainingSessions->contains($purchasedTrainingSession)) {
+            $this->purchasedTrainingSessions[] = $purchasedTrainingSession;
+            $purchasedTrainingSession->setBuyer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchasedTrainingSession(TrainingSession $purchasedTrainingSession): self
+    {
+        if ($this->purchasedTrainingSessions->removeElement($purchasedTrainingSession)) {
+            // set the owning side to null (unless already changed)
+            if ($purchasedTrainingSession->getBuyer() === $this) {
+                $purchasedTrainingSession->setBuyer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrainingSession>
+     */
+    public function getTrainingSessions(): Collection
+    {
+        return $this->trainingSessions;
+    }
+
+    public function addTrainingSession(TrainingSession $trainingSession): self
+    {
+        if (!$this->trainingSessions->contains($trainingSession)) {
+            $this->trainingSessions[] = $trainingSession;
+            $trainingSession->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrainingSession(TrainingSession $trainingSession): self
+    {
+        if ($this->trainingSessions->removeElement($trainingSession)) {
+            // set the owning side to null (unless already changed)
+            if ($trainingSession->getPlayer() === $this) {
+                $trainingSession->setPlayer(null);
             }
         }
 

@@ -2,11 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Notification;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Notification|null find($id, $lockMode = null, $lockVersion = null)
@@ -43,6 +44,29 @@ class NotificationRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function getUserNotifications(User $user)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.user = :user')
+            ->addOrderBy('n.createdAt','DESC')
+            ->setParameter('user',$user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function getUserNotReadedNotifications(User $user)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.user = :user')
+            ->andWhere('n.readed = 0')
+            ->setParameter('user',$user)
+            ->addOrderBy('n.createdAt','DESC')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     // /**

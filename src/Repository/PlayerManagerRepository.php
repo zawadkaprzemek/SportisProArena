@@ -49,6 +49,22 @@ class PlayerManagerRepository extends ServiceEntityRepository
     public function getManagerPlayers(User $manager)
     {
         return $this->createQueryBuilder('pm')
+            ->addSelect('p')
+            ->join('pm.player','p')
+            ->andWhere('pm.manager = :manager')
+            ->andWhere('pm.accepted = true')
+            ->andWhere('pm.active = true')
+            ->setParameter('manager',$manager)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function getAssignedToManager(User $manager)
+    {
+        return $this->createQueryBuilder('pm')
+            ->select('p.id')
+            ->join('pm.player','p')
             ->andWhere('pm.manager = :manager')
             ->andWhere('pm.accepted = true')
             ->andWhere('pm.active = true')
@@ -70,6 +86,31 @@ class PlayerManagerRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getOneOrNullResult()
             ;
+    }
+
+
+    public function updatePlayersAssignedToManager(User $manager)
+    {
+        return $this->createQueryBuilder('pm')
+            ->update()
+            ->set('pm.active',0)
+            ->andWhere('pm.manager =:manager')
+            ->andWhere('pm.active = 1')
+            ->setParameter('manager',$manager)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function updateManagersAssignedToPlayer(User $player)
+    {
+        return $this->createQueryBuilder('pm')
+            ->update()
+            ->set('pm.active',0)
+            ->andWhere('pm.player =:player')
+            ->andWhere('pm.active = 1')
+            ->setParameter('player',$player)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     // /**

@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade" id="trainingDatesModal" tabindex="-1" aria-labelledby="trainingDatesModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="trainingDatesModalLabel">Wybierz terminy treningów</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="reserveTrainingForm" action="{{path('app_training_reserve_slots')}}">
+      <div class="modal-body">
+      <input id="arena_id" name="arena_id" value="{{arena.id}}" type="hidden">
+        <input id="training_day" name="training_day" value="" type="hidden">
+        <div class="form-group row">
+        <div class="col-12">
+            
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <div class="row w-100">
+      <div class="col-12 d-none alert"></div>
+      <div class="col-6">
+        <button type="button" class="btn btn-sm btn-secondary close" data-bs-dismiss="modal">Zamknij</button>
+      </div>
+      <div class="col-6 text-end">
+        <button type="submit" class="btn btn-sm btn-primary">Rezerwuję</button>
+      </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

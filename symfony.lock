@@ -1,9 +1,15 @@
 {
+    "bacon/bacon-qr-code": {
+        "version": "2.0.7"
+    },
     "behat/transliterator": {
         "version": "v1.5.0"
     },
     "cocur/slugify": {
         "version": "v4.1.0"
+    },
+    "dasprid/enum": {
+        "version": "1.0.3"
     },
     "doctrine/annotations": {
         "version": "1.13",
@@ -101,6 +107,15 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "endroid/installer": {
+        "version": "1.4.0"
+    },
+    "endroid/qr-code": {
+        "version": "4.4.8"
+    },
+    "endroid/qr-code-bundle": {
+        "version": "4.0.7"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
@@ -121,6 +136,21 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v5.8.0"
+    },
+    "knplabs/knp-snappy": {
+        "version": "v1.4.1"
+    },
+    "knplabs/knp-snappy-bundle": {
+        "version": "1.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.5",
+            "ref": "c81bdcf4a9d4e7b1959071457f9608631865d381"
+        },
+        "files": [
+            "config/packages/knp_snappy.yaml"
+        ]
     },
     "laminas/laminas-code": {
         "version": "4.5.1"
@@ -193,6 +223,9 @@
         "files": [
             "config/packages/stof_doctrine_extensions.yaml"
         ]
+    },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.3.0"
     },
     "symfony/amqp-messenger": {
         "version": "v5.4.5"
@@ -299,6 +332,15 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/google-mailer": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.4",
+            "ref": "f8fd4ddb9b477510f8f4bce2b9c054ab428c0120"
+        }
     },
     "symfony/http-client": {
         "version": "v5.4.7"
@@ -475,6 +517,20 @@
     "symfony/string": {
         "version": "v5.4.3"
     },
+    "symfony/swiftmailer-bundle": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.5",
+            "ref": "f0b2fccdca2dfd97dc2fd5ad216d5e27c4f895ac"
+        },
+        "files": [
+            "config/packages/dev/swiftmailer.yaml",
+            "config/packages/swiftmailer.yaml",
+            "config/packages/test/swiftmailer.yaml"
+        ]
+    },
     "symfony/translation": {
         "version": "5.4",
         "recipe": {
@@ -580,6 +636,9 @@
     },
     "twig/extra-bundle": {
         "version": "v3.3.8"
+    },
+    "twig/intl-extra": {
+        "version": "v3.3.5"
     },
     "twig/twig": {
         "version": "v3.3.10"

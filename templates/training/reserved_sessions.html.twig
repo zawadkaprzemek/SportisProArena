@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moje sesje treningowe{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+        <h1>Moje sesje treningowe</h1>
+
+        <div id="sessions_list">
+            <div class="row border-bottom text-center">
+                <div class="col-2">Arena</div>
+                <div class="col-2">Data</div>
+                <div class="col-2">Status</div>
+                <div class="col-2">Identyfikator</div>
+                {%if app.user.userType|manager_type%}
+                
+                <div class="col-2">Zawodnik</div>
+                {%endif%}
+            </div>
+
+            {%for session in reserved %}
+                <div class="row mb-2 text-center">
+                <div class="col-2">
+                <p class="mb-0">{{session.arena.name}}</p>
+                <p class="mb-0">{{session.arena.address}}</p>
+                </div>
+                <div class="col-2">{{session.sessionDate|date('d/m/Y H:i')}}</div>
+                <div class="col-2">{{session.status|status_name}}</div>
+                <div class="col-2">
+                {%if session.player is not null%}
+                    {#<a href="{{path('app_trainig_session_identifier',{"session_uuid":session.uuid,"player_uuid":session.player.uuid,"type":"print"})}}" class="btn btn-primary btn-sm">Wydrukuj</a>#}
+                    <a href="{{path('app_trainig_session_identifier',{"id":session.id})}}" target="_blank" class="btn btn-primary btn-sm">Pokaż</a>
+                {%else%}
+                    <div class="alert alert-warning">Przypisz zawodnika</div>
+                {%endif%}
+                </div>
+                {%if app.user.userType|manager_type%}
+                <div class="col-2">
+                    {%if session.player is null%}
+                    <a href="{{path('app_training_assign_player',{id:session.id})}}" class="btn btn-primary btn-sm">Przypisz</a>
+                    {%else%}
+                    {{session.player.fullName}}
+                    {%endif%}
+                </div>
+                {%endif%}
+            </div>
+            {%else%}
+                <div class="alert alert-info">Brak zarezerwowanych sesji treningowych</div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}

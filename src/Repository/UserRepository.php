@@ -64,16 +64,35 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
 
-    public function findUsersFromClub(int $userType,Club $club)
+    public function findUsersFromClub(int $userType,Club $club,?User $manager=null)
     {
-        return $this->createQueryBuilder('u')
+        $qb= $this->createQueryBuilder('u')
             ->andWhere('u.userType = :type')
             ->andWhere('u.club = :club')
             ->setParameter('type',$userType)
             ->setParameter('club',$club)
+            
+            ;
+        if($manager!==null){
+            $pmRepo=$this->getEntityManager()->getRepository('App:PlayerManager');
+            $ids=$this->prepareUserIds($pmRepo->getAssignedToManager($manager));
+            $qb->andWhere('u.id not in (:assigned)')
+            ->setParameter('assigned',$ids);
+        }
+          return $qb  
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    private function prepareUserIds(array $users)
+    {
+        $ids=array(0);
+        foreach($users as $user)
+        {
+            $ids[]=$user['id'];
+        }
+        return $ids;
     }
 
     // /**

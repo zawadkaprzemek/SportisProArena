@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rezerwacja - wybierz terminy{% endblock %}
+
+{% block body %}
+{% set time = date.start|date("U") %}
+{% set today = "now"|date('U') %}
+<div class="row">
+    <div class="col-12">
+        <h3>{{arena.name}}</h3>
+
+        <div id="calendar">
+		<div class="table-responsive">
+        <table class="table table-striped table-bordered text-center" data-url="{{path('app_training_arena_get_free_dates',{'id':arena.id})}}">
+		<thead>
+			<tr>
+				<th colspan="7" class="center">
+				<div class="d-flex justify-content-between align-items-center">
+				<a href="?date={{date.start|date_modify("-1 month")|date('Y-m')}}" class="btn btn-secondary"><<</a>
+					<span>{{ time|date('F Y') }}</span>
+				<a href="?date={{date.start|date_modify("+1 month")|date('Y-m')}}" class="btn btn-secondary">>></a>
+				</div>
+				</th>
+			</tr>
+			 <tr>
+                <th width="15%">Poniedziałek</th>
+                <th width="15%">Wtorek</th>
+                <th width="16%">Środa</th>
+                <th width="15%">Czwartek</th>
+                <th width="15%">Piątek</th>
+                <th width="12%">Sobota</th>
+                <th width="12%" class="text-danger">Niedziela</th>
+            </tr>
+		</thead>
+		<tbody>
+			<tr>
+			{% set daysInMonth = time|date('t') %}
+			{% set startDow = time|date('F 1\\s\\t Y')|date('N') - 1 %}
+			{% set dow = startDow %}
+			{% for day in range(1,daysInMonth) %}
+				{% set dday= (day~'-'~time|date('m')~'-'~time|date('Y'))|date('U')%}
+				{% if loop.first and startDow != 0 %}
+					<td colspan="{{ startDow }}"></td>
+				{% endif %}
+				<td class="{%if (day+startDow) is divisible by(7)%}text-danger{%endif%}{%if dday<= today%} text-muted{%endif%}">
+					<div>
+						<div ><h3>{{ day }}</h3></div>
+						<div>
+						<button {%if dday<= today %} disabled{%endif%} data-bs-toggle="modal" data-bs-target="#trainingDatesModal" data-date="{{date.start|date('Y-m')}}-{{day}}" class="btn btn-primary btn-sm training-date-btn" type="button">Pokaż dostępne terminy</button>
+						</div>
+					</div>
+				</td>
+				{% if loop.last and dow != 6 %}
+					<td colspan="{{ 6 - dow }}">&nbsp;</td>
+				{% endif %}
+				{% if dow == 6 %}
+					{% set dow = 0 %}
+				</tr>
+				<tr>
+				{% else %}
+					{% set dow = dow + 1 %}
+				{% endif %}
+			{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+	</div>
+        </div>
+    </div>
+</div>
+{%include 'modals/training_dates_modal.html.twig' with {'arena':arena}%}
+{% endblock %}

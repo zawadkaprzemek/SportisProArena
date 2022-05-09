@@ -7,20 +7,7 @@
 <div class="row">
 
     <div class="col-md-10 mx-auto mt-4">
-        <img src="{{asset(user.image)}}" alt="" class="img-fluid profile-pic">
-        <p>Imię: {{user.firstName}}</p>
-        <p>Nazwisko: {{user.lastName}}</p>
-        <p>Data urodzenia: {{user.birthDate|date('d/m/Y')}}</p>
-        <p>Data rejestracji: {{user.createdAt|date('d/m/Y')}}</p>
-        <p>Miejscowość: {{user.city}}</p>
-        <p>Drużyna: {{user.club.name}}</p>
-        <p>Pozycje: 
-            <ul>
-                {%for position in user.position%}
-                    <li>{{position.name}}</li>
-                {%endfor%}
-            </ul>
-        </p>
+    {%include 'modules/player_info.html.twig' with {'user':user}%}
     </div>
 </div>
 {% endblock %}
