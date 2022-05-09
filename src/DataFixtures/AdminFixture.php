@@ -50,6 +50,7 @@ class AdminFixture extends Fixture
             ->setDataConsent(true)
             ->setUserType(User::ADMIN_MASTER)
             ->setMarketingConsent(true)
+            ->setIsVerified(1)
             ;
             $this->entityManager->persist($admin);
             $this->entityManager->flush();
