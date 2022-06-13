@@ -52,7 +52,7 @@ $('#addClubForm').on('submit',function(e){
                     text: data.name
                 }));
                 select.val(data.id).trigger('change');
-                select.prop('disabled',true);
+                //select.prop('disabled',true);
                 btn.prop('disabled',true);
                 $("#addClubModal .close").click()
             }

@@ -18,23 +18,25 @@ class ChangePasswordFormType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
+                    'attr' => ['autocomplete' => 'new-password'],
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'register.password.blank',
+                            'message' => 'Please enter a password',
                         ]),
                         new Length([
-                            'min' => 6,
-                            'minMessage' => 'register.form.password.minMessage',
+                            'min' => 8,
+                            'minMessage' => 'Your password should be at least {{ limit }} characters',
                             // max length allowed by Symfony for security reasons
                             'max' => 4096,
                         ]),
                     ],
-                    'label' => 'reset.reset_form.password_new',
+                    'label' => 'New password',
                 ],
                 'second_options' => [
-                    'label' => 'reset.reset_form.repeat_password',
+                    'attr' => ['autocomplete' => 'new-password'],
+                    'label' => 'Repeat Password',
                 ],
-                'invalid_message' => 'reset.reset_form.passwords_do_not_match',
+                'invalid_message' => 'The password fields must match.',
                 // Instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -44,8 +46,6 @@ class ChangePasswordFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
+        $resolver->setDefaults([]);
     }
 }
