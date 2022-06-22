@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Konfiguracja treningu - {{config.name}}{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+    <h1>{{config.name}}</h1>
+
+    <h4>Jednostki treningowe</h4>
+
+
+    <a href="{{path('app_training_configuration_unit_form',{
+        'id':config.id,
+        'sort':(config.trainingUnits|length)+1
+    })
+    }}" class="btn btn-primary btn-sm">Dodaj jednostkę treningową</a>
+    <div class="row units_list">
+    {%for unit in units%}
+    <div class="col-12">
+
+    {{dump(unit)}}
+    </div>
+    </div>
+    {%else%}
+    <div class="col-12">
+    <div class="alert alert-info">Brak jednostek treningowych</div>
+    </div>
+    {%endfor%}
+    </div>
+    </div>
+</div>
+{% endblock %}

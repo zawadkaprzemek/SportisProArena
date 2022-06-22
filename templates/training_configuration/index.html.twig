@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Konfiguracja treningów{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12">
+    <h1>Konfiguracja treningów</h1>
+
+    <a href="{{path('app_training_configuration_add')}}" class="btn btn-primary">Dodaj nową konfiguracje treningu</a>
+    <div class="table-responsive">
+    <table class="table">
+    <thead>
+    <tr>
+        <th>Nazwa</th>
+        <th>Data utworzenia</th>
+        <th>Ilość sesji</th>
+        <th>&nbsp</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%for config in configurations%}
+    <tr>
+       <td>{{config.name}}</td>
+       <td>{{config.createdAt|date('d/m/Y H:i')}}</td>
+       <td>{{config.trainingUnits|length}}</td>
+       <td>
+        {%if config.status==0 %}
+        <a href="" class="btn btn-primary btn-sm">Dokończ konfiguracje</a>
+        {%else%}
+        <a href="" class="btn btn-primary btn-sm">Edytuj konfiguracje</a>
+        {%endif%}
+       </td>
+    </tr>
+    {%else%}
+    <tr>
+    <td colspan="4">
+    <div class="alert alert-info text-center">
+    Brak dodanych konfiguracji treningów
+    </div>
+    </td>
+    </tr>
+    {%endfor%}
+    </tbody>
+    </table>
+    </div>
+    </div>
+</div>
+{% endblock %}

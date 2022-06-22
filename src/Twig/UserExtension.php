@@ -17,6 +17,7 @@ class UserExtension extends AbstractExtension
             // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
             new TwigFilter('player_type', [$this, 'isPlayerType']),
             new TwigFilter('manager_type', [$this, 'isManagerType']),
+            new TwigFilter('admin_type', [$this, 'isAdminType']),
             new TwigFilter('user_age', [$this, 'userAge']),
         ];
     }
@@ -26,6 +27,7 @@ class UserExtension extends AbstractExtension
         return [
             new TwigFunction('player_type', [$this, 'isPlayerType']),
             new TwigFunction('manager_type', [$this, 'isManagerType']),
+            new TwigFunction('admin_type', [$this, 'isAdminType']),
             new TwigFunction('user_age', [$this, 'userAge']),
         ];
     }
@@ -38,6 +40,11 @@ class UserExtension extends AbstractExtension
     public function isManagerType($value):bool
     {
         return $value===User::MANAGER_TYPE;
+    }
+
+    public function isAdminType($value):bool
+    {
+        return in_array($value,[User::ADMIN_TYPE,User::ADMIN_MASTER_TYPE]);
     }
 
     public function userAge(\DateTime $value)

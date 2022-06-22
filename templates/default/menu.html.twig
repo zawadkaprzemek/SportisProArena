@@ -13,10 +13,15 @@ Powiadomienia
   <a href="{{path('app_profile_edit')}}" class="list-group-item list-group-item-action list-group-item-dark">Edytuj dane</a>
   <a href="{{path('app_profile_change_password')}}" class="list-group-item list-group-item-action list-group-item-dark">Zmiana hasła</a>
   <a href="{{path('app_profile_identifier')}}" target="_blank" class="list-group-item list-group-item-action list-group-item-dark">Mój Identyfikator</a>
+  {%if app.user.managerExpert%}
+  <li class="list-group-item">Konfiguracja treningu</li>
+<a href="{{path('app_training_configuration_my')}}" class="list-group-item list-group-item-action list-group-item-dark">Moje konfiguracje</a>
+  {%endif%}
   {%if app.user.userType|manager_type%}
     <a href="{{path('app_my_players')}}" class="list-group-item list-group-item-action list-group-item-dark">Moi zawodnicy</a>
     <a href="{{path('app_players_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Zawodnicy z mojego klubu</a>
   {%endif%}
+  {%if not app.user.userType|admin_type %}
   <li class="list-group-item">Jednostki treningowe</li>
   <li class="list-group-item d-flex justify-content-between align-items-center">Wykupione jednostki treningowe 
   <span class="text-end fw-bold" id="trainingUnitsCount">{{app.user.trainingUnits}}</span>
@@ -32,6 +37,7 @@ Powiadomienia
   <li class="list-group-item">Rankingi</li>
   <a href="{{path('app_ranking_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Rankingi</a>
   <a href="{{path('app_competitions_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Konkursy</a>
+  {%endif%}
   <a href="{{path('app_logout')}}" class="list-group-item list-group-item-action list-group-item-dark">Wyloguj</a>
 </div>
 {%else%}

@@ -152,6 +152,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $trainingSessions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=TrainingConfiguration::class, mappedBy="trainer")
+     */
+    private $trainingConfigurations;
+
     public function __construct()
     {
         $this->position = new ArrayCollection();
@@ -159,6 +164,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notifications = new ArrayCollection();
         $this->purchasedTrainingSessions = new ArrayCollection();
         $this->trainingSessions = new ArrayCollection();
+        $this->trainingConfigurations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -597,6 +603,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($trainingSession->getPlayer() === $this) {
                 $trainingSession->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isManagerExpert():bool
+    {
+        return in_array("ROLE_MANAGER_EXPERT",$this->roles);
+    }
+
+    /**
+     * @return Collection<int, TrainingConfiguration>
+     */
+    public function getTrainingConfigurations(): Collection
+    {
+        return $this->trainingConfigurations;
+    }
+
+    public function addTrainingConfiguration(TrainingConfiguration $trainingConfiguration): self
+    {
+        if (!$this->trainingConfigurations->contains($trainingConfiguration)) {
+            $this->trainingConfigurations[] = $trainingConfiguration;
+            $trainingConfiguration->setTrainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrainingConfiguration(TrainingConfiguration $trainingConfiguration): self
+    {
+        if ($this->trainingConfigurations->removeElement($trainingConfiguration)) {
+            // set the owning side to null (unless already changed)
+            if ($trainingConfiguration->getTrainer() === $this) {
+                $trainingConfiguration->setTrainer(null);
             }
         }
 
