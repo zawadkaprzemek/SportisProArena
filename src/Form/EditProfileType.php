@@ -19,8 +19,7 @@ class EditProfileType extends AbstractType
     {
         $user=$options['data'];
         $builder
-            ->add('firstName',TextType::class,['label'=>'firstName'])
-            ->add('lastName',TextType::class,['label'=>'lastName'])
+            ->add('fullName',TextType::class,['label'=>'Imię i nazwisko'])
             ->add('birthDate',DateType::class,['label'=>'birthDate','widget' => 'single_text'])
             ->add('city',TextType::class,['label'=>'city'])
             //->add('image')
@@ -30,7 +29,7 @@ class EditProfileType extends AbstractType
                 'attr'=>array('class'=>'selectpicker')
                 )
             )
-            ->add('submit',SubmitType::class,array('label'=>'Zapisz','attr'=>['class'=>'btn-primary']))
+            ->add('submit',SubmitType::class,array('label'=>'Zapisz zmiany','attr'=>['class'=>'btn-primary']))
         ;
         if($user->getUserType()==User::PLAYER_TYPE)
         {

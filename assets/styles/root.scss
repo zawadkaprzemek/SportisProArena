@@ -1,0 +1,28 @@
+:root {
+
+/* Colors: */
+    --light-color: #E5E5E5;
+    --success-color: #32B70B;
+    --warning-color: #F1DB1B;
+    --dark-color: #000000;
+    --danger-color: #B70B0B;
+    --light-gray-color: #8B8A8A;
+    --dark-gray-color: #5A5A5A;
+    --white-color: #F8FBFB;
+    --info-color: #0BAEB7;
+
+/* Font/text values */
+    --main-font-family: "darkmode-on";
+    --main-font-style: normal;
+    --main-font-weight: normal;
+    --main-font-size: 16px;
+    --main-character-spacing: 0px;
+    --main-line-spacing: 22px;
+}
+ 
+
+
+$primary: #0BAEB7;
+$danger: #B70B0B;
+$warning: #F1DB1B;
+$success:#32B70B;

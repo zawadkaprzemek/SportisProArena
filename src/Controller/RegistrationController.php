@@ -31,17 +31,12 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/register/{type}", name="app_register", requirements={"type"="player|manager"},defaults={"type"="player"})
+     * @Route("/register", name="app_register")
      */
-    public function register(string $type,Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        if($type=="manager")
-        {
-            $user->setUserType(User::MANAGER_TYPE);
-        }else{
-            $user->setUserType(User::PLAYER_TYPE);
-        }
+        $user->setUserType(User::PLAYER_TYPE);
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -77,8 +72,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
-            'user_type'=>$type
+            'registrationForm' => $form->createView()
         ]);
     }
 

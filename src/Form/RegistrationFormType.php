@@ -16,7 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -24,23 +26,37 @@ class RegistrationFormType extends AbstractType
     {
         $user=$options['data'];
         $builder
-            ->add('firstName',TextType::class,['label'=>'firstName'])
-            ->add('lastName',TextType::class,['label'=>'lastName'])
-            ->add('birthDate',DateType::class,['label'=>'birthDate','widget' => 'single_text'])
-            ->add('city',TextType::class,['label'=>'city'])
+            ->add('userType',ChoiceType::class,[
+                'label'=>false,
+                'expanded'=>true,
+                'multiple'=>false,
+                'choices'=>[
+                    'Jestem zawodnikiem'=>User::PLAYER_TYPE,
+                    'Jestem managerem'=>User::MANAGER_TYPE
+                ],
+                'attr' => [
+                    'class' => 'form-check-inline w-100 text-left',
+                ],
+            ])
+            ->add('fullName',TextType::class,['label'=>'Imię i nazwisko','attr'=>['placeholder'=>'Imię i nazwisko']])
+            ->add('birthDate',DateType::class,['label'=>'birthDate','widget' => 'single_text','placeholder'=>'DD-MM-YYYY'])
+            ->add('city',TextType::class,['label'=>'Miejscowość', 'attr'=>array('placeholder'=>'Miejscowość')])
             ->add('club',EntityType::class,array(
-                'placeholder'=>'select_your_club',
+                'placeholder'=>'Wybierz swój klub...',
                 'class'=>Club::class,
-                'label'=>'club',
-                'attr'=>array('class'=>'selectpicker')
+                'label'=>'Klub',
+                'attr'=>array('class'=>'selectpicker form-control','placeholder'=>'Wybierz klub')
                 )
             )
-            ->add('email',TextType::class,['label'=>'email'])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('email',TextType::class,['label'=>'Adres e-mail','attr'=>['placeholder'=>'Adres e-mail']])
+            ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'type' => PasswordType::class,
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'options' => ['attr' => ['class' => 'password-field']],
+                'first_options'  => ['label' => 'Podaj hasło','attr'=>['placeholder'=>'*****']],
+                'second_options' => ['label' => 'Powtórz hasło','attr'=>['placeholder'=>'*****']],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Wprowadź hasło',
@@ -71,29 +87,27 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            
-            
-            
-            ->add('submit',SubmitType::class,array('label'=>'Rejestracja','attr'=>['class'=>'btn-primary']))
-        ;
-
-        if($user->getUserType()==User::PLAYER_TYPE)
-        {
-            $builder
             ->add('position',EntityType::class,array(
                 'class'=>Position::class,
-                'label'=>'position',
+                'label'=>'Pozycja',
                 'multiple'=>true,
-                'attr'=>array('class'=>'selectpicker')
+                'attr'=>array('class'=>'selectpicker','placeholder'=>'Wybierz pozycję'),
+                'row_attr' => [
+                    'class' => 'player-field',
+                ],
                 )
-            );
-        }elseif($user->getUserType()==User::MANAGER_TYPE){
-            $builder
+            )
             ->add('yearbook',TextType::class,array(
-                'label'=>'yearbook',
+                'label'=>'Rocznik',
+                'attr'=>['placeholder'=>'Rocznik'],
+                'disabled'=>true,
+                'row_attr' => [
+                    'class' => 'manager-field d-none',
+                ],
                 )
-            );
-        }
+            )
+            ->add('submit',SubmitType::class,array('label'=>'Załóż konto','attr'=>['class'=>'btn-primary']))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

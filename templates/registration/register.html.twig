@@ -1,76 +1,83 @@
-{% extends 'base.html.twig' %}
+{% extends 'default/without_navbar.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Rejestracja{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
+<div class="col-12 player" id="registerPage">
+    <div class="row h-100">
+        <div class="col-lg-8 d-flex flex-column left-panel">
 
-    <h1>Register</h1>
-    {% if user_type=="manager"%}
-    <p>Rejestrujesz się jako Manager, kliknij <a href="{{path('app_register',{type:"player"})}}">tutaj aby zarejestrować się jako Zawodnik</a></p>
-    {%else%}
-    <p>Rejestrujesz się jako Zawodnik, kliknij <a href="{{path('app_register',{type:"manager"})}}">tutaj aby zarejestrować się jako Manager</a></p>
-    {%endif%}
-    {{ form_start(registrationForm) }}
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.firstName) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.firstName)}}</div>
+            <div class="col-md-8 mx-auto">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
         </div>
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.lastName) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.lastName)}}</div>
-        </div>
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.birthDate) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.birthDate)}}</div>
-        </div>
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.city) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.city)}}</div>
-        </div>
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.club) }}</div>
-            <div class="col-12 col-sm-9">
-            {{form_widget(registrationForm.club)}}
-            <button data-bs-toggle="modal" data-bs-target="#addClubModal" class="btn btn-success btn-sm" type="button" id="add_club_button" title="Dodaj klub">+</button>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.email) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.email)}}</div>
-        </div>
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.plainPassword) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.plainPassword)}}</div>
-        </div>
-        {% if user_type=="player"%}
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.position) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.position)}}</div>
-        </div>
-        {%endif%}
-        {% if user_type=="manager"%}
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.yearbook) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.yearbook)}}</div>
-        </div>
-        {%endif%}
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.data_consent) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.data_consent)}}</div>
-        </div>
+                <div class="d-flex flex-column">
+                    <div class="text-start">
+                        <img src="{{asset('assets/images/arena_logo.png')}}" class="img-fluid img-logo" />
+                    </div>
+                    <div class="w-100">
+                    {{ form_start(registrationForm,{'attr':{'id':'registerForm'}}) }}
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{form_row(registrationForm.userType)}}
+                            </div>
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.fullName)}}
+                            </div>
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.club)}}
+                                <button data-bs-toggle="modal" data-bs-target="#addClubModal" class="btn btn-success btn-sm d-none" type="button" id="add_club_button" title="Dodaj klub">+</button>
+                            </div>
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.city)}}
+                            </div>
+                        
 
-        <div class="form-group row">
-            <div class="col-12 col-sm-3 col-form-label">{{ form_label(registrationForm.marketing_consent) }}</div>
-            <div class="col-12 col-sm-9">{{form_widget(registrationForm.marketing_consent)}}</div>
-        </div>
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.position)}}
 
-    {{ form_end(registrationForm) }}
+                                {{form_row(registrationForm.yearbook)}}
+                            </div>
+
+                            <div class="col-md-6">
+                            {{form_row(registrationForm.email)}}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.plainPassword.first)}}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.birthDate)}}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.plainPassword.second)}}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.data_consent)}}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{form_row(registrationForm.marketing_consent)}}
+                            </div>
+
+                        {{form_row(registrationForm.submit)}}
+                        </div>
+
+                    {{ form_end(registrationForm) }}
+                    </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-4">Copyright 2022 | Polityka prywatności</p>
+                    </div>
+        </div>
     </div>
-    </div>
-    {{include('modals/add_club_modal.html.twig')}}
+
+</div>
+
+
+{{include('modals/add_club_modal.html.twig')}}
 {% endblock %}

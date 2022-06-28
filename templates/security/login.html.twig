@@ -1,43 +1,64 @@
-{% extends 'base.html.twig' %}
+{% extends 'default/without_navbar.html.twig' %}
 
 {% block title %}Zaloguj się{% endblock %}
 
 {% block body %}
-<div class="row">
-<div class="col-md-8 mx-auto">
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+<div class="col-12" id="loginPage">
+    <div class="row h-100">
+        <div class="col-lg-6 text-center d-flex flex-column left-panel">
+            <div class="d-flex flex-column">
+            <div>
+                <img src="{{asset('assets/images/arena_logo.png')}}" class="img-fluid mb-3" />
+            </div>
+            <div>
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+                    <div class="form-group mb-3">
+                    <label class="text-start w-100" for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    </div>
+                    <div class="form-group mb-3">
+                    <label class="text-start w-100" for="inputPassword">Hasło</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                        value="{{ csrf_token('authenticate') }}"
+                    >
+
+
+                    
+                    <div class="d-flex flex-row">
+                        <div class="w-50 text-start">
+                        <button class="btn btn-primary" type="submit">
+                            Zaloguj się
+                        </button>
+                        </div>
+
+                        <div class="w-50 text-end">
+                            <a href={{path('app_register')}} class="btn btn-outline-primary">
+                                Załóż konto
+                            </a>
+                        </div>
+                    </div>
+
+                    <p class="mt-5">Zapomniałeś hasła? <a href="{{path('app_forgot_password_request')}}">Odzyskaj hasło.</a></p>
+                </form>
+            </div>
+            </div>
+            <div>
+                <p class="mb-4">Copyright 2022 | Polityka prywatności</p>
+            </div>
         </div>
-    {% endif %}
+    </div>
 
-    <h1 class="h3 mb-3 fw-normal">Zaloguj się</h1>
-    <label for="inputEmail">{{'email'|trans}}</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">{{'password'|trans}}</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-
-    <p><a href="{{path('app_forgot_password_request')}}">Nie pamiętam hasła</a></p>
-
-    <button class="btn btn-primary mt-2" type="submit">
-        Zaloguj
-    </button>
-</form>
-</div>
 </div>
 {% endblock %}

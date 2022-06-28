@@ -1,13 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'default/with_navbar.html.twig' %}
 
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
 
-<div class="row">
+<h3>Twoje dane</h3>
 
-    <div class="col-md-10 mx-auto mt-4">
-    {%include 'modules/player_info.html.twig' with {'user':user}%}
+    <div class="row">
+        {%include 'modules/player_info.html.twig' with {'user':user}%}
     </div>
-</div>
 {% endblock %}

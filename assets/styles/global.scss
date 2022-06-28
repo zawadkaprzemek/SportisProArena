@@ -1,6 +1,192 @@
+@import "root.scss";
 @import "~bootstrap/scss/bootstrap";
+@import "forms.scss";
+@import "modals.scss";
+@import "menu.scss";
 
+body.main-style {
+    font-family: var(--main-font-family);
+    font-style: var(--main-font-style);
+    font-weight: var(--main-font-weight);
+    font-size: var(--main-font-size);
+    line-height: var(--main-line-spacing);
+    letter-spacing: var(--main-character-spacing);
+    color: var(--dark-gray-color);
+}
 .profile-pic{
-    max-width: 200px;
-    border-radius: 10px;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.profile-pic-container{
+    max-width: 260px;
+    margin-right: 50px;
+}
+.profile-pic-box{
+    
+    
+    margin-bottom: 50px;
+}
+
+
+
+@include media-breakpoint-up(lg) {
+    .left-panel{
+        .col-lg-6{
+            width: calc(50% + 50px);
+        }
+        .col-lg-8{
+            width: calc(75% + 50px);
+        }
+    }
+
+}
+
+
+#loginPage,#registerPage{
+    background-image: url('/public/assets/images/login_right.png');
+    background-position: 100% 0;
+    z-index:1;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+#registerPage{
+    &.player{
+        background-color: #68cdd3;
+        background-image: url('/public/assets/images/register_player.png');
+    }
+    &.manager{
+        background-color: #23b6be;
+        background-image: url('/public/assets/images/register_manager.png');
+    }
+    label{
+        width: 100%;
+    }
+}
+
+.left-panel{
+    background: white url('/public/assets/images/login_left.png') no-repeat;
+    background-position: 0 100%;
+    height: 100vh;
+    border-radius: 0px 30px 30px 0px;
+    z-index: 2;
+    justify-content: flex-end;
+
+    .d-flex.flex-column{
+        justify-content: center;
+        height: 85%;
+        max-width: 500px;
+        margin:0 auto;
+        width:70%;
+    }
+
+    &.col-lg-8{
+        justify-content: space-evenly;
+
+        .img-logo{
+            max-width: 180px;
+            margin-bottom: 45px;
+        }
+        .d-flex.flex-column{
+            max-width: 100%;
+            width: 85%;
+        }
+    }
+}
+
+.content-container{
+    background: white url('/public/assets/images/login_left.png') no-repeat;
+    background-position: bottom left;
+    padding: 40px 50px;
+}
+
+.img-icon{
+    width: 16px;
+    transform: rotate(-45deg);
+    filter: invert(1);
+    margin-top: -5px;
+}
+
+.welcome-header{
+    border-bottom: 1px solid var(--white-color);
+    padding-bottom: 26px;
+    position: relative;
+    margin-bottom: 26px;
+
+    h3{
+        font-weight: 900;
+        font-size: 21px;
+        line-height: 27px;
+    }
+
+    .green-line{
+        width: 175px;
+        height: 3px;
+        position: absolute;
+        bottom:-2px;
+        left:0;
+        background: $primary;
+    }
+}
+
+.container-fluid >.row{
+    min-height: 100vh;
+}
+
+.content{
+
+    font-size:16px;
+
+    .box{
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 6px #00000029;
+        border-radius: 15px;
+        opacity: 1;
+        padding:30px;
+        margin-bottom: 30px;
+
+        .form-group:not(:last-child){
+            margin-bottom: 12px;
+        }
+
+        &.info-box{
+            .col-5{
+                font-weight: 900;
+            }
+            .col-5,.col-7{
+                margin-bottom: 15px;
+            }
+        }
+        &.less-pb{
+            padding: 30px 30px 15px;
+        }
+    }
+
+    label{
+        color:#5a5a5a;
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: bold;
+    }
+    input,select{
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    select[multiple]{
+        height: 70px;
+
+        option:checked{
+            background-color: $primary;
+        }
+    }
+
+
+    h3{
+        font-size: 18px;
+        font-weight: 900;
+        margin-bottom: 30px;
+    }
 }

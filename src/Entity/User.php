@@ -59,16 +59,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $birthDate;
@@ -157,6 +147,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $trainingConfigurations;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fullName;
+
     public function __construct()
     {
         $this->position = new ArrayCollection();
@@ -196,7 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFullName():string
     {
-        return (string) $this->firstName.' '.$this->lastName;
+        return (string) $this->fullName;
     }
 
     /**
@@ -265,30 +260,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
     }
 
     public function getBirthDate(): ?\DateTimeInterface
@@ -640,6 +611,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $trainingConfiguration->setTrainer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
 
         return $this;
     }

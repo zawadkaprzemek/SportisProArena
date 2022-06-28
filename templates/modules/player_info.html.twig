@@ -1,16 +1,42 @@
-<img src="{{asset(user.image)}}" alt="" class="img-fluid profile-pic">
-<p>Imię: {{user.firstName}}</p>
-<p>Nazwisko: {{user.lastName}}</p>
-<p>Data urodzenia: {{user.birthDate|date('d/m/Y')}} ({{user.birthDate|user_age}})</p>
-<p>Data rejestracji: {{user.createdAt|date('d/m/Y')}}</p>
-<p>Miejscowość: {{user.city}}</p>
-<p>Drużyna: {{user.club.name}}</p>
-{%if user.userType|player_type%}
-<p>Pozycje: 
-    <ul>
-        {%for position in user.position%}
-            <li>{{position.name}}</li>
-        {%endfor%}
-    </ul>
-</p>
-{%endif%}
+<div class=" col-sm-6 col-md-6 col-lg-3 profile-pic-container">
+    <div class="profile-pic-box">
+        <img src="{{asset(user.image)}}" alt="" class="img-fluid profile-pic">
+    </div>
+</div>
+<div class="col-md-12 col-lg-9 col-xl-6">
+    <div class="box info-box less-pb">
+        <h3>Informacje o zawodniku</h3>
+        <div class="row">
+            <div class="col-5">Imię i nazwisko:</div>
+            <div class="col-7">{{user.fullName}}</div>
+
+            <div class="col-5">Kraj:</div>
+            <div class="col-7">Polska</div>
+
+            <div class="col-5">Miejscowość:</div>
+            <div class="col-7">{{user.city}}</div>
+            
+            <div class="col-5">Klub:</div>
+            <div class="col-7">{{user.club.name}}</div>
+
+            <div class="col-5">Data urodzenia:</div>
+            <div class="col-7">{{user.birthDate|date('d.m.Y')}} ({{user.birthDate|user_age}})</div>
+
+            {%if user.userType|player_type%}
+            <div class="col-5">Pozycja na boisku:</div>
+            <div class="col-7">
+                <ul>
+                    {%for position in user.position%}
+                        <li>{{position.name}}</li>
+                    {%endfor%}
+                </ul>
+            </div>
+            {%endif%}
+        </div>
+
+    </div>
+
+    {%if app.user==user%}
+        <a href="{{path('app_profile_edit')}}" class="btn btn-primary">Edytuj dane</a>
+    {%endif%}
+</div>

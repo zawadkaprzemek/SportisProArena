@@ -17,15 +17,34 @@ import './bootstrap';
 require('bootstrap');
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
+//require('bootstrap-select');
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
 
 $(document).ready(function() {
-//$('[data-toggle="popover"]').popover();
+//$('[data-toggle="popover"]').popover();\
+
+//$('select.selectpicker').selectpicker();
 const trainingDateCheckbox='<div class="form-check"><input class="form-check-input" name="training_dates[]" type="checkbox" value="__VALUE__" id="trainingDate__COUNT__">'+
 '<label class="form-check-label" for="trainingDate__COUNT__">__TEXT__</label></div>';
 
+
+
+
+$('input[name="registration_form[userType]"]').on('change',function(){
+    if($(this).val()==1)
+    {
+        $('#registerPage').removeClass('manager').addClass('player');
+        $('.player-field').removeClass('d-none').find('input,select').prop('disabled',false);
+        $('.manager-field').addClass('d-none').find('input,select').prop('disabled',true);
+    }else if($(this).val()==2)
+    {
+        $('#registerPage').addClass('manager').removeClass('player');
+        $('.manager-field').removeClass('d-none').find('input,select').prop('disabled',false);
+        $('.player-field').addClass('d-none').find('input,select').prop('disabled',true);
+    }
+})
 
 $('#addClubForm').on('submit',function(e){
     e.preventDefault();
@@ -52,8 +71,7 @@ $('#addClubForm').on('submit',function(e){
                     text: data.name
                 }));
                 select.val(data.id).trigger('change');
-                //select.prop('disabled',true);
-                btn.prop('disabled',true);
+                select.find("option[value='-1']").remove();
                 $("#addClubModal .close").click()
             }
         },
@@ -231,6 +249,23 @@ function removeChecked()
     console.log(items);
     $.each(items,function(){
         $(this).parent().remove();
+    });
+}
+
+let registerForm=$('#registerForm');
+
+if(registerForm.length>0)
+{
+    let select=$('#registration_form_club');
+    select.prepend($('<option>', {
+        value: '-1',
+        text: 'Dodaj mój klub...'
+    }));
+
+    select.on('change',function(){
+        if($(this).val()=='-1'){
+            $('#add_club_button').trigger('click');
+        }
     });
 }
 

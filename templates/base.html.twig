@@ -4,41 +4,19 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="icon" href="{{asset('assets/images/arena_icon.png')}}">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" href="https://use.typekit.net/qxf0tpj.css">
         {% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-2 bg-dark">
-                {{include('default/menu.html.twig')}}
-            </div>
-            <div class="col-sm-10 bg-light">
-                <div class="row">
-                <div class="col-12 alert-container">
-                    <div class="row">
-                        <div class="col-12">
-                            {% for label, messages in app.flashes %}
-                                {% for message in messages %}
-                                    <div class="alert alert-dismissible alert-{{ label }}">
-                                        {{ message|raw }}
-                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-                {% block body %}{% endblock %}
-            </div>
-        </div>
-    </div>
+    <body class="main-style">
+    {% block content %}{% endblock %}
+
+    
     {{include('modals/info_modal.html.twig')}}
     </body>
 </html>

@@ -42,7 +42,7 @@ class PasswordChangeType extends AbstractType
                 // this is read and encoded in the controller
                 'mapped' => false,
             ))
-            ->add('submit',SubmitType::class,array('label'=>'Zapisz'))
+            ->add('submit',SubmitType::class,array('label'=>'Zapisz zmiany'))
         ;
     }
 
