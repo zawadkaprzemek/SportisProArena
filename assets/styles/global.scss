@@ -104,8 +104,6 @@ body.main-style {
 
 .img-icon{
     width: 16px;
-    transform: rotate(-45deg);
-    filter: invert(1);
     margin-top: -5px;
 }
 
@@ -119,6 +117,11 @@ body.main-style {
         font-weight: 900;
         font-size: 21px;
         line-height: 27px;
+    }
+
+    .img-icon{
+        transform: rotate(-45deg);
+        filter: invert(1);
     }
 
     .green-line{
@@ -188,5 +191,19 @@ body.main-style {
         font-size: 18px;
         font-weight: 900;
         margin-bottom: 30px;
+    }
+}
+
+.buy-units{
+    justify-content: space-between;
+    
+    .box{
+        width: calc(33.33% - 20px);
+        margin-bottom:36px;
+
+        h3{
+            margin-bottom: 15px;
+            font-size: 23px;
+        }
     }
 }

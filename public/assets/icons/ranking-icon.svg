@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_10" data-name="Rectangle 10" width="25" height="25" transform="translate(88 692)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="ikona_rankingi" transform="translate(-88 -692)" clip-path="url(#clip-path)">
+    <g id="ranking" transform="translate(87.229 691.239)">
+      <g id="Group_49" data-name="Group 49">
+        <g id="Group_48" data-name="Group 48">
+          <path id="Path_33" data-name="Path 33" d="M7.182,25.761H1.561a.839.839,0,0,1-.781-.781v-5.7a.782.782,0,0,1,.781-.781H7.026V24.98A2.774,2.774,0,0,0,7.182,25.761Z" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_51" data-name="Group 51">
+        <g id="Group_50" data-name="Group 50">
+          <path id="Path_34" data-name="Path 34" d="M17.955,15.613V24.98a.839.839,0,0,1-.781.781H9.368a.839.839,0,0,1-.781-.781V15.613a.782.782,0,0,1,.781-.781h7.806A.782.782,0,0,1,17.955,15.613Z" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_53" data-name="Group 53">
+        <g id="Group_52" data-name="Group 52">
+          <path id="Path_35" data-name="Path 35" d="M25.761,20.3V24.98a.839.839,0,0,1-.781.781H19.36a2.774,2.774,0,0,0,.156-.781V19.516H24.98A.782.782,0,0,1,25.761,20.3Z" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_55" data-name="Group 55">
+        <g id="Group_54" data-name="Group 54">
+          <path id="Path_36" data-name="Path 36" d="M19.594,6.245l-2.576,2.5.625,3.591a.742.742,0,0,1-.312.781,1.106,1.106,0,0,1-.859.078l-3.2-1.717-3.2,1.639a.6.6,0,0,1-.781-.078.742.742,0,0,1-.312-.781L9.6,8.665,6.948,6.245a.853.853,0,0,1-.156-.781.756.756,0,0,1,.625-.546l3.591-.546,1.561-3.2a.807.807,0,0,1,1.405,0l1.561,3.2,3.591.546a.756.756,0,0,1,.625.546.853.853,0,0,1-.156.781Z" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

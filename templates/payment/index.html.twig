@@ -4,16 +4,27 @@
 
 {% block body %}
 
-<div class="row">
+<h3>Dokup jednostki treningowe</h3>
 
-    <div class="col-md-12 mt-4">
+    <div class="col-md-12">
     {%set tokens=[1,3,5,10,15,25]%}
-    <div class="row px-3">
+    <div class="row buy-units">
     {%for token in tokens%}
-        <div class="col-md-4 border mb-2 pb-2">
-            <p>Kup {{token}} jednostek</p>
-            <p>Cena: {{token*10}} zł</p>
-            <button type="button" class="btn-sm btn-block btn btn-success buy-btn" data-units="{{token}}">Kupuję</button>
+        <div class="col-md-4 box">
+            <div class="row">
+                <div class="col-5">
+                    <img src="{{asset('images/'~token~'_unit.jpg')}}" class="img-fluid">
+                </div>
+                <div class="col-7">
+                    <h3>Kup {{token}}
+                    {%if token ==1%} jednostka
+                    {% elseif token<5 %} jednostki
+                    {%else%}
+                     jednostek{%endif%}</h3>
+                    <p>Cena: {{token*10}} zł</p>
+                    <button type="button" class=" btn btn-primary buy-btn px-4" data-units="{{token}}">Kup</button>
+                </div>
+            </div>
         </div>
     {%endfor%}
     </div>

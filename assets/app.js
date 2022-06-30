@@ -269,5 +269,10 @@ if(registerForm.length>0)
     });
 }
 
+$('.menu-section .section-header').on('click',function(){
+    $(this).parent().toggleClass('open');
+});
+
+
 
 });

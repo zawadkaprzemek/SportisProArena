@@ -5,15 +5,15 @@
     <div class="row">
     
         <div class="col-md-6">
-            <h3>Cześć, {{app.user.fullName}}</h3>
+            <h3>Cześć, {{app.user.fullName}}!</h3>
         </div>
 
         <div class="col-md-6 text-end">
             <a href="{{path('app_profile_identifier')}}" target="_blank" class="btn btn-primary">Identyfikator</a>
 
             <a href="{{path('app_notifications')}}" class="btn btn-primary notification-btn ms-4">
-            <img src="{{asset('assets/icons/bell-solid.svg')}}" class="img-fluid img-icon">
-{%if newNotifications>0%}<span class="badge bg-danger rounded-pill">{{newNotifications}}</span>{%endif%}
+            <img src="{{asset('icons/bell-solid.svg')}}" class="img-fluid img-icon">
+{%if newNotifications>0%}<span class="badge bg-danger notification-badge rounded-pill">{{newNotifications}}</span>{%endif%}
 </a>
         </div>
     

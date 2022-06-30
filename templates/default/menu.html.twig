@@ -1,7 +1,98 @@
-<div class="text-light py-5">
+<div class="menu-content">
 {% if is_granted('ROLE_USER') %}
-    <p>Witaj, {{app.user.fullName}}</p>
 
+  <div class="row user-info">
+    <div class="col-3">
+    <img src="{{asset(app.user.image)}}" alt="" class="img-fluid profile-pic">
+    </div>
+    <div class="col-9">
+      <h3>{{app.user.fullName}}</h3>
+      <p>Bramkarz</p>
+    </div>
+  </div>
+  
+<div> 
+  
+{%set section_routes=[path('app_notifications'),path('app_profile'),path('app_profile_edit'),path('app_profile_change_password'),path('app_profile_identifier')]%}
+<div class="menu-section{%if (app.request.pathInfo in section_routes)%} open{%endif%}">
+  <div class="section-header">
+    <a href="javascript:void(0);" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/profile-icon.svg')}}" class="img-fluid img-icon"></button>
+    Twój profil<span></span>
+    </a>
+  </div>
+  <div class="section-content" id="sectionProfile">
+    <div class="section-group">
+    {%set newNotifications = app.user|unreadNotifications%}
+        <a class="section-group-item{% if(app.request.pathInfo==path('app_notifications')) %} active{% endif %}" href="{{ path('app_notifications') }}">Powiadomienia {%if newNotifications>0%}<span class="badge bg-danger notification-badge rounded-pill">{{newNotifications}}</span>{%endif%}</a>
+        <a class="section-group-item{% if(app.request.pathInfo==path('app_profile')) %} active{% endif %}" href="{{ path('app_profile') }}">Mój profil</a>
+        <a class="section-group-item{% if(app.request.pathInfo==path('app_profile_edit')) %} active{% endif %}" href="{{ path('app_profile_edit') }}">Edytuj dane</a>
+        <a class="section-group-item{% if(app.request.pathInfo==path('app_profile_change_password')) %} active{% endif %}" href="{{ path('app_profile_change_password') }}">Zmiana hasła</a>
+        <a target="_blank" class="section-group-item{% if(app.request.pathInfo==path('app_profile_identifier')) %} active{% endif %}" href="{{path('app_profile_identifier')}}">Mój identyfikator</a>
+    </div>
+  </div>
+</div>
+
+{%set section_routes=[path('app_payment_buy_units'),path('app_training_reserve_step1'),path('app_training_reserved')]%}
+<div class="menu-section{%if (app.request.pathInfo in section_routes)%} open{%endif%}">
+  <div class="section-header">
+    <a href="javascript:void(0);" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/trening-icon.svg')}}" class="img-fluid img-icon"></button>
+    Treningi<span></span>
+    </a>
+  </div>
+  <div class="section-content" id="sectionProfile">
+    <div class="section-group">
+    {%set newNotifications = app.user|unreadNotifications%}
+        <a class="section-group-item{% if(app.request.pathInfo==path('app_payment_buy_units')) %} active{% endif %}" href="{{ path('app_payment_buy_units') }}">Dokup jednostki treningowe</a>
+        <a class="section-group-item{% if(app.request.pathInfo==path('app_training_reserve_step1')) %} active{% endif %}" href="{{ path('app_training_reserve_step1') }}">Zarezerwuj termin</a>
+        <a class="section-group-item{% if(app.request.pathInfo==path('app_training_reserved')) %} active{% endif %}" href="{{ path('app_training_reserved') }}">Moje serie treningowe</a>
+    </div>
+  </div>
+</div>
+
+<div class="menu-section link{%if (app.request.pathInfo ==path('app_raports'))%} active{%endif%}">
+  <div class="section-header">
+    <a href="{{path('app_raports')}}" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/raports-icon.svg')}}" class="img-fluid img-icon"></button>
+    Raporty
+    </a>
+  </div>
+</div>
+
+<div class="menu-section link{%if (app.request.pathInfo ==path('app_raports'))%} active{%endif%}">
+  <div class="section-header">
+    <a href="{{path('app_raports')}}" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/tasks-icon.svg')}}" class="img-fluid img-icon"></button>
+    Zadania
+    </a>
+  </div>
+</div>
+
+<div class="menu-section link{%if (app.request.pathInfo ==path('app_raports'))%} active{%endif%}">
+  <div class="section-header">
+    <a href="{{path('app_raports')}}" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/ranking-icon.svg')}}" class="img-fluid img-icon"></button>
+    Rankingi
+    </a>
+  </div>
+</div>
+
+<div class="menu-section link{%if (app.request.pathInfo ==path('app_raports'))%} active{%endif%}">
+  <div class="section-header">
+    <a href="{{path('app_raports')}}" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/competition-icon.svg')}}" class="img-fluid img-icon"></button>
+    Konkursy
+    </a>
+  </div>
+</div>
+  
+
+
+<a href="{{path('app_logout')}}" class="btn btn-primary btn-logout px-5">Wyloguj</a>
+
+</div>
+{#
 <div class="list-group list-group-flush">
 <li class="list-group-item">Profil</li>
 {%set newNotifications = app.user|unreadNotifications%}
@@ -38,8 +129,9 @@ Powiadomienia
   <a href="{{path('app_ranking_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Rankingi</a>
   <a href="{{path('app_competitions_list')}}" class="list-group-item list-group-item-action list-group-item-dark">Konkursy</a>
   {%endif%}
-  <a href="{{path('app_logout')}}" class="list-group-item list-group-item-action list-group-item-dark">Wyloguj</a>
+  
 </div>
+#}
 {%else%}
 <div class="list-group list-group-flush">
 <a href="{{path('app_login')}}" class="list-group-item list-group-item-action">Logowanie</a>

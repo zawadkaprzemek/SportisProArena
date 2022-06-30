@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_10" data-name="Rectangle 10" width="25" height="25" transform="translate(88 512)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="ikona_treningi" transform="translate(-88 -512)" clip-path="url(#clip-path)">
+    <g id="soccer-player" transform="translate(93.777 512)">
+      <path id="Path_39" data-name="Path 39" d="M7.884,20.582A2.209,2.209,0,1,0,9.57,24.216a2.2,2.2,0,0,0-1.687-3.634Zm0,0" fill="#fff"/>
+      <path id="Path_40" data-name="Path 40" d="M13.191,8.623l-2.785-3.1a1,1,0,0,0-.594-.32c-5.167-.778-1.932-.3-5.033-.789a1,1,0,0,0-.744.175L.478,7.148a1,1,0,0,0-.414.794L0,12.115a1,1,0,0,0,.982,1.012H1a1,1,0,0,0,1-.982L2.05,8.473,4.4,6.78l.24,6.066-2.2,3.777A1.2,1.2,0,0,0,2.779,18.2l3.173,2.28a2.934,2.934,0,0,1,2.293-.7,1.2,1.2,0,0,0-.5-.958L5.058,16.887,6.52,14.375l1.358-.054,1.739,5.96a2.944,2.944,0,0,1,1.005,3.445l.121.413a1.2,1.2,0,1,0,2.3-.671L9.932,12.816l-.007,0-.384.239a1.662,1.662,0,1,1-1.758-2.821L9.775,9l-.05-1.25,1.188,1.324L8.135,10.8A1,1,0,0,0,9.19,12.5l3.786-2.36a1,1,0,0,0,.215-1.512Zm0,0" fill="#fff"/>
+      <path id="Path_41" data-name="Path 41" d="M8.947,1.985A2.067,2.067,0,1,0,6.963,4.132,2.067,2.067,0,0,0,8.947,1.985Zm0,0" fill="#fff"/>
+    </g>
+  </g>
+</svg>

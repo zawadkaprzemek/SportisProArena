@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_10" data-name="Rectangle 10" width="25" height="25" transform="translate(88 572)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="ikona_raporty" transform="translate(-88 -572)" clip-path="url(#clip-path)">
+    <g id="file_3_" data-name="file (3)" transform="translate(89.862 572)">
+      <path id="Path_42" data-name="Path 42" d="M16.506,5.016h4.441L16.273.425V4.783a.233.233,0,0,0,.233.233Zm0,0" fill="#fff"/>
+      <path id="Path_43" data-name="Path 43" d="M16.506,6.481a1.7,1.7,0,0,1-1.7-1.7V0H2.629A2.736,2.736,0,0,0-.1,2.733V22.267A2.736,2.736,0,0,0,2.629,25H18.647a2.736,2.736,0,0,0,2.733-2.733V6.481ZM14.832,18.945H5.4a.732.732,0,0,1,0-1.465h9.434a.732.732,0,0,1,0,1.465ZM4.666,15.283a.732.732,0,0,1,.732-.732h8.418a.732.732,0,0,1,0,1.465H5.4A.732.732,0,0,1,4.666,15.283Zm11.057-2.2H5.4a.732.732,0,0,1,0-1.465H15.723a.732.732,0,0,1,0,1.465Zm0,0" fill="#fff"/>
+    </g>
+  </g>
+</svg>
