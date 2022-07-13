@@ -46,15 +46,22 @@ class PlayerManagerRepository extends ServiceEntityRepository
         }
     }
 
-    public function getManagerPlayers(User $manager)
+    public function getManagerPlayers(User $manager,?int $count=null)
     {
-        return $this->createQueryBuilder('pm')
+        $qb= $this->createQueryBuilder('pm')
             ->addSelect('p')
             ->join('pm.player','p')
             ->andWhere('pm.manager = :manager')
             ->andWhere('pm.accepted = true')
             ->andWhere('pm.active = true')
             ->setParameter('manager',$manager)
+            ->addOrderBy('p.fullName')
+            ;
+        if($count!=null)
+        {
+            $qb->setMaxResults($count);
+        }
+        return $qb
             ->getQuery()
             ->getResult()
             ;

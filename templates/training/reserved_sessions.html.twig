@@ -3,52 +3,82 @@
 {% block title %}Moje sesje treningowe{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-12">
-        <h1>Moje sesje treningowe</h1>
 
-        <div id="sessions_list">
-            <div class="row border-bottom text-center">
-                <div class="col-2">Arena</div>
-                <div class="col-2">Data</div>
-                <div class="col-2">Status</div>
-                <div class="col-2">Identyfikator</div>
-                {%if app.user.userType|manager_type%}
-                
-                <div class="col-2">Zawodnik</div>
-                {%endif%}
-            </div>
+{%set pages=((reserved|length)/10)|round(0,'ceil')|number_format(0,".",".")%}
+<h3>Moje sesje treningowe</h3>
 
-            {%for session in reserved %}
-                <div class="row mb-2 text-center">
-                <div class="col-2">
-                <p class="mb-0">{{session.arena.name}}</p>
-                <p class="mb-0">{{session.arena.address}}</p>
-                </div>
-                <div class="col-2">{{session.sessionDate|date('d/m/Y H:i')}}</div>
-                <div class="col-2">{{session.status|status_name}}</div>
-                <div class="col-2">
-                {%if session.player is not null%}
-                    {#<a href="{{path('app_trainig_session_identifier',{"session_uuid":session.uuid,"player_uuid":session.player.uuid,"type":"print"})}}" class="btn btn-primary btn-sm">Wydrukuj</a>#}
-                    <a href="{{path('app_trainig_session_identifier',{"id":session.id})}}" target="_blank" class="btn btn-primary btn-sm">Pokaż</a>
-                {%else%}
-                    <div class="alert alert-warning">Przypisz zawodnika</div>
-                {%endif%}
-                </div>
-                {%if app.user.userType|manager_type%}
-                <div class="col-2">
-                    {%if session.player is null%}
-                    <a href="{{path('app_training_assign_player',{id:session.id})}}" class="btn btn-primary btn-sm">Przypisz</a>
+    <div class="row" id="trainingList">
+        <div class="col-12">
+            <ul class="nav nav-tabs training-nav">
+            <li class="nav-item {%if app.request.attributes.get('type') == 'all'%}active{%endif%}">
+                <a class="nav-link {%if app.request.attributes.get('type') == 'all'%}active{%endif%}" href="{{path('app_training_reserved',{'type':'all'})}}">Wszystkie</a>
+            </li>
+            <li class="nav-item  {%if app.request.attributes.get('type') == 'to-do'%}active{%endif%}">
+                <a class="nav-link  {%if app.request.attributes.get('type') == 'to-do'%}active{%endif%}" href="{{path('app_training_reserved',{'type':'to-do'})}}">Zarezerwowane</a>
+            </li>
+            <li class="nav-item {%if app.request.attributes.get('type') == 'done'%}active{%endif%}">
+                <a class="nav-link {%if app.request.attributes.get('type') == 'done'%}active{%endif%}" href="{{path('app_training_reserved',{'type':'done'})}}">Odbyte</a>
+            </li>
+            <li class="nav-item {%if app.request.attributes.get('type') == 'canceled'%}active{%endif%}">
+                <a class="nav-link {%if app.request.attributes.get('type') == 'canceled'%}active{%endif%}" href="{{path('app_training_reserved',{'type':'canceled'})}}">Anulowane</a>
+            </li>
+            </ul>
+            <div class="box">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Lista treningów</h3>
+                    </div>
+
+                    <div class="col-md-6 text-end">
+                    {% include 'modules/search_form.html.twig' %}
+                    </div>
+                    <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
+                    <thead>
+                        <tr>
+                            <th>Termin</th>
+                            <th>Nazwa areny</th>
+                            <th>Adres</th>
+                            {%if app.user.userType|manager_type%}
+                            <th>Zawodnik</th>
+                            {%endif%}
+                            <th class="text-end">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {%for session in reserved %}
+                    <tr>
+                        <td><p>{{session.sessionDate|date('d/m/Y H:i')}}</td>
+                        <td><p>{{session.arena.name}}</td>
+                        <td><p>{{session.arena.address}}</td>
+                        {%if app.user.userType|manager_type%}
+                        <td>
+                            {%if session.player is null%}
+                            <a href="{{path('app_training_assign_player',{id:session.id})}}" class="btn btn-primary ">Przypisz</a>
+                            {%else%}
+                            <p>{{session.player.fullName}}</p>
+                            {%endif%}
+                        </td>
+                        {%endif%}
+                        <td class="text-end">
+                            <span class="status-icon ms-auto me-2 {{session.status|status_icon_class}}" title="{{session.status|status_name}}">
+                            <img src="{{asset(session.status|status_icon)}}" alt="" class="img-fluid invert">
+                            </span>
+                        </td>
+                    </tr>
                     {%else%}
-                    {{session.player.fullName}}
-                    {%endif%}
+                    <tr>
+                        <td colspan="4">
+                            <div class="alert alert-info">Brak zarezerwowanych sesji treningowych</div>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                    </table>
                 </div>
-                {%endif%}
+                {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
+                
             </div>
-            {%else%}
-                <div class="alert alert-info">Brak zarezerwowanych sesji treningowych</div>
-            {%endfor%}
         </div>
     </div>
-</div>
 {% endblock %}

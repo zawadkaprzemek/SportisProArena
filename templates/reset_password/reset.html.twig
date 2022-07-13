@@ -1,16 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'default/without_navbar.html.twig' %}
 
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-    <h1>Reset your password</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+<div class="col-12" id="resetPage">
+    <div class="row h-100">
+        <div class="col-lg-6 text-center d-flex flex-column left-panel">
+            <div class="d-flex flex-column mb-5">
+            <div>
+                <img src="{{asset('images/arena_logo.png')}}" class="img-fluid mb-5" />
+            </div>
+            <div>
+                    {{ form_start(resetForm) }}
+                        {{ form_row(resetForm.plainPassword) }}
+                    
+                    <div class="d-flex flex-row">
+                        <div class="w-100 text-start">
+                        <button class="btn btn-primary">Reset password</button>
+                        </div>
+                    </div>
+                    {{ form_end(resetForm) }}
+            </div>
+            </div>
+            <div>
+                <p class="mb-4">Copyright 2022 | Polityka prywatności</p>
+            </div>
+        </div>
     </div>
+
 </div>
 {% endblock %}
+
+

@@ -1,7 +1,7 @@
 {%set newNotifications = app.user|unreadNotifications%}
 
 
-<div class="welcome-header col-12">
+<div class="welcome-header col-12 d-none d-lg-block">
     <div class="row">
     
         <div class="col-md-6">
@@ -12,7 +12,7 @@
             <a href="{{path('app_profile_identifier')}}" target="_blank" class="btn btn-primary">Identyfikator</a>
 
             <a href="{{path('app_notifications')}}" class="btn btn-primary notification-btn ms-4">
-            <img src="{{asset('icons/bell-solid.svg')}}" class="img-fluid img-icon">
+            <img src="{{asset('icons/bell-solid.svg')}}" class="img-fluid img-icon invert">
 {%if newNotifications>0%}<span class="badge bg-danger notification-badge rounded-pill">{{newNotifications}}</span>{%endif%}
 </a>
         </div>

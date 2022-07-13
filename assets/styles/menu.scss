@@ -1,5 +1,6 @@
 .left-menu{
     background: var(--white-color);
+    position: fixed;
 
     .img-logo{
         width: 139px;
@@ -60,26 +61,30 @@
             
         }
     }
-
-    span:not(.badge){
-        width: 0; 
-        height: 0; 
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 10px solid #5a5a5a;
-        display: inline-flex;
-        border-radius: 5px;
-        margin-left:10px;
+    .section-header{
+        span:not(.badge){
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #5a5a5a;
+            display: inline-flex;
+            border-radius: 5px;
+            margin-left:10px;
+        }
     }
 
     &.open{
-        span:not(.badge){
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: none;
-            border-bottom: 10px solid #5a5a5a;
-            
+        .section-header{
+            span:not(.badge){
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: none;
+                border-bottom: 10px solid #5a5a5a;
+                
+            }
         }
+        
 
         .section-content{
             display: flex;

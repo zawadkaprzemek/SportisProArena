@@ -40,8 +40,7 @@ class AdminFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         $admin=new User();
-        $admin->setFirstName('Master')
-            ->setLastName('Admin')
+        $admin->setFullName('Master Admin')
             ->setEmail('admin@sportisarenapro.pl')
             ->setPassword($this->encoder->hashPassword($admin, 'Sportis1234'))
             ->setBirthDate((new \DateTime('1989-06-14')))

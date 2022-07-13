@@ -3,15 +3,44 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
-<div class="row">
+{%set pages=(35/10)|number_format(0,".",".")|round(0,'ceil')%}
+<h3>Zadania</h3>
 
-    <div class="col-md-10 mx-auto mt-4">
-    <h1>{{title}}</h1>
+    <div class="row" id="raportsPage">
+        <div class="col-12">
+            <div class="box">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Lista zadań</h3>
+                    </div>
 
-    <div class="alert alert-info">
-        Tutaj będzie lista zadań
+                    <div class="col-md-6 text-end">
+                    {% include 'modules/search_form.html.twig' %}
+                    </div>
+                    <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Zasady</th>
+                            <th>Punkty do zdobycia</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {%for i in 1..35%}
+                        <tr>
+                        <td><p>Precyzja uderzenia z pierwszej piłki</p></td>
+                        <td><p>30 strzałów z różnej pozycji we wskazany punkt</p></td>
+                        <td><p>50</p></td>
+                        <td class="text-end"><a href="#" class="fw-bold">Więcej</a></td>
+                        </tr>
+                    {%endfor%}
+                    </tbody>
+                    </table>
+                </div>
+                {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
+                
+            </div>
+        </div>
     </div>
-    </div>
-
-</div>
 {% endblock %}

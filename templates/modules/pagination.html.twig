@@ -1,0 +1,26 @@
+{%if data.pages==0%}
+{% set  data= {
+    'pages':1,
+    'current':data.current
+} %}
+{%endif%}
+
+<div class="row pagination">
+                
+    <div class="col-6">
+        <p>Strona <span id="currentPage">{{data.current}}</span> z <span id="totalPages">{{data.pages}}</span></p>
+    </div>
+
+    <div class="col-6 text-end pages">
+        <a href="#" class="prev-page btn btn-primary btn-sm d-none" data-page="previous">
+            <img src="{{asset('icons/long-arrow-alt-left-solid.svg')}}" class="img-fluid img-icon invert">
+        </a>
+        {%for i in 1..data.pages%}
+            <a href="#" class="{%if i==data.current%}current{%endif%}" data-page="{{i}}">{{i}}</a>
+        {%endfor%}
+        
+        <a href="#" class="next-page btn btn-primary btn-sm {%if data.pages <2 or data.pages==data.current%}d-none{%endif%}" data-page="next">
+            <img src="{{asset('icons/long-arrow-alt-right-solid.svg')}}" class="img-fluid img-icon invert">
+        </a>
+    </div>
+</div>

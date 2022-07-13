@@ -92,11 +92,43 @@ class TrainingSessionRepository extends ServiceEntityRepository
     }
 
 
-    public function getUserSessions(User $user)
+    public function getUserSessions(User $user,string $type='all')
     {
         $qb=$this->createQueryBuilder('ts')
             ->join('ts.arena','a')
             ->addSelect('a')
+        ;
+        if($user->getUserType()==User::PLAYER_TYPE)
+        {
+            $qb->andWhere('ts.player = :user');
+        }elseif($user->getUserType()==User::MANAGER_TYPE)
+        {
+            $qb->andWhere('ts.buyer = :user');
+        }
+
+        if($type!='all')
+        {
+            $type=array_search($type,TrainingSession::TRAINING_STATUSES);
+            $qb->andWhere('ts.status = :type')
+                ->setParameter('type',$type);
+        }
+
+        return $qb
+        ->setParameter('user',$user)
+        ->addOrderBy('ts.sessionDate','ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+    }
+
+    public function getUserReservedTrainings(User $user,Arena $arena,\DateTime $start,\DateTime $end)
+    {
+        $qb=$this->createQueryBuilder('ts')
+            ->andWhere('ts.arena = :arena')
+            ->andWhere('ts.sessionDate between :start and :end')
+            ->setParameter('arena',$arena)
+            ->setParameter('start',$start)
+            ->setParameter('end',$end)
         ;
         if($user->getUserType()==User::PLAYER_TYPE)
         {

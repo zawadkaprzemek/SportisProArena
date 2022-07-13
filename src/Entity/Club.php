@@ -30,7 +30,7 @@ class Club
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $logo='/assets/images/club-default.jpg';
+    private $logo='images/club-default.png';
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="club")

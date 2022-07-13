@@ -49,11 +49,10 @@
 
 input[type=text],.form-select,.form-control{
     border: 1px solid var(--light-color);
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border-radius: 10px;
     opacity: 1;
     padding:15px;
     color: var(--dark-gray-color);
+    border-radius:10px;
 }
 
 label{
@@ -65,4 +64,27 @@ font: normal normal normal 16px/22px;
 letter-spacing: 0px;
 opacity: 1;
 margin-bottom: 10px;
+width: 100%;
+}
+
+#searchForm{
+    width: 100%;
+    max-width: 400px;
+    margin: 0 0 0 auto;
+    input{
+        padding: 6px;
+    }
+
+    .form-outline{
+        width: calc(100% - 50px);
+    }
+}
+
+#rankingTypes{
+    width: 50%;
+    margin-bottom: 40px;
+}
+
+#resetPage label{
+    text-align: left;
 }

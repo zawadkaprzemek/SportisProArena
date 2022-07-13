@@ -71,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image='assets/images/profile-default.jpg';
+    private $image='images/profile-default.jpg';
 
     /**
      * @ORM\Column(type="boolean")
@@ -372,6 +372,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->position->removeElement($position);
 
         return $this;
+    }
+
+    public function getPositionName():string
+    {
+        $position=$this->position[sizeof($this->position)-1];
+        return $position!=null ? $position->getName() : ''; 
     }
 
     public function getClub(): ?Club

@@ -4,19 +4,33 @@
 
 {% block body %}
 
-<div class="row">
 
-    <div class="col-md-10 mx-auto mt-4">
-        <h1>Przypisz zawodnika do sesji treningowej</h1>
+    <h3>Przypisz zawodnika do sesji treningowej</h3>
 
-        <p>Arena: {{session.arena.name}}  {{session.arena.address}}</p>
-        <p>Data: {{session.sessionDate|date('d/m/Y H:i')}}
-    </div>
-    <div class="col-md-10 mx-auto mt-4">
-        {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-9 col-lg-6">
+    {{ form_start(form)}}
+
+    <div class="box">
+        <div>
+            <p>Arena: {{session.arena.name}}  {{session.arena.address}}</p>
+            <p>Data: {{session.sessionDate|date('d/m/Y H:i')}}
+        </div>
+        <div class="form-group row">
+            {{form_row(form.player)}}
+        </div>
         
-
-        {{ form_end(form) }}
     </div>
-</div>
+    <div class="row">
+        <div class="col-sm-6 col-md-4">
+        {{ form_widget(form.submit) }}
+        </div>
+        <div class="col-sm-6">
+            <a href="{{path('app_training_reserved')}}" class="btn btn-outline-primary">Anuluj</a>
+        </div>
+    </div>
+        
+        {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

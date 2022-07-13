@@ -114,5 +114,31 @@ class TrainingService{
         
         return $slots;
     }
+
+    public function getUserReservedTrainings(User $user,Arena $arena,\DateTime $start, \DateTime $end, bool $datesArray=false)
+    {
+        $repo=$this->em->getRepository(TrainingSession::class);
+
+        $reserved= $repo->getUserReservedTrainings($user,$arena,$start,$end);
+
+        if(!$datesArray)
+        {
+            return $reserved;
+        }else{
+            return $this->prepareDateArray($reserved);
+        }
+    }
+
+    private function prepareDateArray(array $reserved)
+    {
+        $array=[];
+
+        foreach($reserved as $item)
+        {
+            $array[]=$item->getSessionDate()->format('d-m-Y');
+        }
+
+        return array_unique($array);
+    }
     
 }

@@ -1,26 +1,51 @@
-{% extends 'base.html.twig' %}
+{% extends 'default/without_navbar.html.twig' %}
 
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-md-8 mx-auto">
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>Reset your password</h1>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address and we will send you a
-                link to reset your password.
-            </small>
+<div class="col-12" id="resetPage">
+    <div class="row h-100">
+        <div class="col-lg-6 text-center d-flex flex-column left-panel">
+            <div class="d-flex flex-column mb-5">
+            <div>
+                <img src="{{asset('images/arena_logo.png')}}" class="img-fluid mb-5" />
+            </div>
+            <div>
+                    <div class="col-md-10 mx-auto">
+                    {% for flash_error in app.flashes('reset_password_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+                    </div>
+
+                    
+
+                    {{ form_start(requestForm) }}
+                        {{ form_row(requestForm.email) }}
+                        <div class="mb-4">
+                            <small>
+                                Enter your email address and we will send you a
+                                link to reset your password.
+                            </small>
+                        </div>
+
+                    
+
+
+                    
+                    <div class="d-flex flex-row">
+                        <div class="w-100 text-start">
+                        <button class="btn btn-primary">Send password reset email</button>
+                        </div>
+                    </div>
+                    {{ form_end(requestForm) }}
+            </div>
+            </div>
+            <div>
+                <p class="mb-4">Copyright 2022 | Polityka prywatności</p>
+            </div>
         </div>
-
-        <button class="btn btn-primary">Send password reset email</button>
-    {{ form_end(requestForm) }}
     </div>
+
 </div>
 {% endblock %}

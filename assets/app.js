@@ -10,6 +10,7 @@ import './styles/app.css';
 import './styles/global.scss';
 
 const $ = require('jquery');
+import 'datatables';
 // start the Stimulus application
 import './bootstrap';
 // this "modifies" the jquery module: adding behavior to it
@@ -29,7 +30,7 @@ $(document).ready(function() {
 const trainingDateCheckbox='<div class="form-check"><input class="form-check-input" name="training_dates[]" type="checkbox" value="__VALUE__" id="trainingDate__COUNT__">'+
 '<label class="form-check-label" for="trainingDate__COUNT__">__TEXT__</label></div>';
 
-
+const paginationItem='<a href="#" data-page="__PAGE__">__PAGE__</a>'
 
 
 $('input[name="registration_form[userType]"]').on('change',function(){
@@ -142,7 +143,7 @@ $('.notification_row').on('click',function(){
     $(this).find('.col-12').toggleClass('d-none');
 })
 
-$('.training-date-btn').on('click',function(){
+$('.training-date-td').on('click',function(){
     let btn=$(this),
     url=$('#calendar table').data('url'),
     date=$(this).data('date');
@@ -172,6 +173,7 @@ $('#reserveTrainingForm').on('submit',function(e){
     e.preventDefault();
     let url=$(this).prop('action');
     clearAlert($('#trainingDatesModal .alert'));
+    let day=$('#training_day').val();
     let data = getFormData(JSON.parse(JSON.stringify( $(this).serializeArray() )));
     if(confirm('Na pewno chcesz zarezerwować te terminy?'))
     {
@@ -191,6 +193,7 @@ $('#reserveTrainingForm').on('submit',function(e){
                     updateUnitsCount(data.units);
                     removeReserved(data.sessions);
                     removeChecked();
+                    $('#calendar td[data-date="'+day+'"]').find('h3').addClass('reserved_day');
                 }
           });
     }
@@ -273,6 +276,87 @@ $('.menu-section .section-header').on('click',function(){
     $(this).parent().toggleClass('open');
 });
 
+if($('table.dataTable').length>0)
+{
+var th_count=$('table.dataTable th').length;
+console.log(th_count);
+var table = $('table.dataTable').DataTable({
+    info: false,
+    "lengthMenu": [ [10], [10] ],
+    columnDefs: [
+        { orderable: false, targets: th_count-1 }
+      ]
+});
 
+$("#searchBox").on( 'keyup', function () {
+    table.search( this.value ).draw();
+    renderPagination(table.page.info());
+} );
+
+}
+
+
+function renderPagination(info)
+{
+    let pagination=$('.pagination .pages');
+
+    $(pagination).find('a:not(.btn)').remove();
+    let links='';
+    for(var i=1;i<=info.pages;i++)
+    {
+        links+=paginationItem.replaceAll('__PAGE__',i);
+    }
+
+    $(links).insertAfter('.pagination .prev-page');
+    let page=info.page+1;
+    $('.pagination a[data-page="'+page+'"]').addClass('current');
+    $('.pagination .prev-page').addClass('d-none');
+    $('#currentPage').text(page);
+    $('#totalPages').text(info.pages);
+    if(page==info.pages){
+        $('.pagination .next-page').addClass('d-none');
+    }else{
+        $('.pagination .next-page').removeClass('d-none');
+    }
+
+    if(info.pages==0)
+    {
+        $('.pagination').addClass('d-none');
+    }else{
+        $('.pagination').removeClass('d-none');
+    }
+}
+
+
+$('body').on('click','.pagination a',function(e){
+    e.preventDefault();
+    var page=$(this).data('page');
+    $('.pagination .current')
+    if(page=='next'||page=='previous')
+    {
+        $('.paginate_button.'+page).trigger('click');
+    }else{
+        $('span .paginate_button').eq((page-1)).trigger('click');
+    }
+    let info=table.page.info();
+    let current=info.page+1;
+    $('#currentPage').text(current);
+    $('.pagination a').removeClass('current');
+    $('.pagination a[data-page="'+current+'"]').addClass('current');
+    $('table.dataTable').data('current-page',current);
+    let total=info.pages;
+    if(current==1)
+    {
+        $('.pagination .prev-page').addClass('d-none');
+    }else{
+        $('.pagination .prev-page').removeClass('d-none');
+    }
+
+    if(current==total){
+        $('.pagination .next-page').addClass('d-none');
+    }else{
+        $('.pagination .next-page').removeClass('d-none');
+    }
+});
 
 });

@@ -4,4 +4,15 @@
 
 {% block body %}
 
+{%if is_granted("ROLE_USER")%}
+<div class="row dashboard">
+    {%if is_granted("ROLE_PLAYER")%}
+        {%include 'modules/player_dashboard.html.twig' with {'user':app.user, 'data':data}%}
+    {% elseif is_granted("ROLE_MANAGER") %}
+        {%include 'modules/manager_dashboard.html.twig' with {'user':app.user, 'data':data}%}
+    {%endif%}
+</div>
+
+{%endif%}
+
 {% endblock %}

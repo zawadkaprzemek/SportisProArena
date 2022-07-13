@@ -24,3 +24,17 @@
 .modal-title{
     font-weight: bold;
 }
+
+#trainingDatesModal{
+    .form-check{
+        display: flex;
+
+        label{
+            font-weight: normal;
+            order:1;
+        }
+        input{
+            order:2;
+        }
+    }
+}

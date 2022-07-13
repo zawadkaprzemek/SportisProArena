@@ -19,6 +19,7 @@ class UserExtension extends AbstractExtension
             new TwigFilter('manager_type', [$this, 'isManagerType']),
             new TwigFilter('admin_type', [$this, 'isAdminType']),
             new TwigFilter('user_age', [$this, 'userAge']),
+            new TwigFilter('progress_color', [$this, 'progressColor']),
         ];
     }
 
@@ -29,6 +30,7 @@ class UserExtension extends AbstractExtension
             new TwigFunction('manager_type', [$this, 'isManagerType']),
             new TwigFunction('admin_type', [$this, 'isAdminType']),
             new TwigFunction('user_age', [$this, 'userAge']),
+            new TwigFunction('progress_color', [$this, 'progressColor']),
         ];
     }
 
@@ -53,4 +55,27 @@ class UserExtension extends AbstractExtension
         $diff=$now->diff($value);
         return $diff->y;
     }
+
+    public function progressColor(int $value)
+    {
+        $class="bg-";
+        switch($value)
+        {
+            case $value<=40:
+                $class.="danger";
+                break;
+            case $value>40&&$value<=75:
+                $class.="warning";
+                break;
+            case $value>75:
+                $class.="success";
+                break;
+            default:
+            $class.="secondary";
+            break;
+        }
+
+        return $class;
+    }
+
 }

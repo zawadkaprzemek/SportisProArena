@@ -1,7 +1,11 @@
 @import "root.scss";
 @import "~bootstrap/scss/bootstrap";
+@import "~datatables.net-src/css/dataTables.bootstrap";
+@import "datatables.scss";
 @import "forms.scss";
+@import "fonts.scss";
 @import "modals.scss";
+@import "calendar.scss";
 @import "menu.scss";
 
 body.main-style {
@@ -23,12 +27,18 @@ body.main-style {
     margin-right: 50px;
 }
 .profile-pic-box{
-    
-    
     margin-bottom: 50px;
 }
 
+.club-pic-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.mb-50{
+    margin-bottom: 50px;
+}
 
 @include media-breakpoint-up(lg) {
     .left-panel{
@@ -43,7 +53,7 @@ body.main-style {
 }
 
 
-#loginPage,#registerPage{
+#loginPage,#registerPage,#resetPage{
     background-image: url('/public/assets/images/login_right.png');
     background-position: 100% 0;
     z-index:1;
@@ -102,9 +112,18 @@ body.main-style {
     padding: 40px 50px;
 }
 
+@media screen and(max-width:767px) {
+    .content-container{
+        padding: 20px;
+    }
+}
+
 .img-icon{
     width: 16px;
     margin-top: -5px;
+    &.invert{
+        filter: invert(1);
+    }
 }
 
 .welcome-header{
@@ -121,7 +140,6 @@ body.main-style {
 
     .img-icon{
         transform: rotate(-45deg);
-        filter: invert(1);
     }
 
     .green-line{
@@ -205,5 +223,188 @@ body.main-style {
             margin-bottom: 15px;
             font-size: 23px;
         }
+    }
+}
+
+.info-box{
+    .col-5{
+        font-weight: bold;
+    }
+
+    .col-7{
+
+        ul{
+            list-style: none;
+            padding: 0;
+            margin:0;
+        }
+    }
+}
+
+
+.dashboard{
+    .progress{
+        height: 3px;
+    }
+
+    
+
+    .stats-box{
+        height: calc(100% - 50px );
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+
+        .col-5{
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .row{
+            align-items: center;
+        }
+    }
+}
+
+#raportsPage{
+    h4{
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .row:not(.pagination){
+        p{
+            margin-bottom: 28px;
+        }
+    }
+}
+
+.pagination{
+    color:#8b8a8a;
+    p{
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    a{
+        color:#8b8a8a;
+        text-decoration: none;
+        margin:0 3px;
+        &:hover{
+            font-weight: bolder;
+        }
+
+        &.current{
+            font-weight: bold;
+        }
+    }
+}
+
+.competition-box{
+
+    margin-bottom: 30px;
+    &:nth-child(odd)
+    {
+        margin-right: 30px;
+    }
+    &:nth-child(even){
+        margin-left: 30px;
+    }
+
+    align-items: center;
+    p{
+        font-size: 16px;
+    }
+    p,h3{
+        margin-bottom: 15px;
+    }
+}
+
+.status-icon{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+
+    &.missed{
+        background:#b70b0b;
+        img{
+            width: 6px;
+        }
+    }
+    &.to-do{
+        background: #f1db1b;
+        img{
+            width: 14px;
+        }
+    }
+    &.done{
+        background: #32b70b;
+        img{
+            width: 16px;
+        }
+    }
+    img{
+        height: 16px;
+        filter: invert(1);
+    }
+}
+
+.training-nav{
+    border-bottom: none;
+    a{
+        font-size: 16px;
+        color:#8b8a8a;
+        padding:7px 36px 17px;
+    }
+
+    .nav-link{
+        border-top:6px solid transparent;
+        &.active{
+            color:#0baeb7;
+            border-color: #0baeb7;
+            &:hover{
+                border-color: #0baeb7;
+            }
+        }
+        &:hover{
+
+            border-color: transparent;
+        }
+    }
+
+    li{
+        background: #e5e5e5;
+        font-weight: bold;
+        border-right: 1px solid white;
+        &:last-child{
+            border-top-right-radius: 20px;
+        }
+        &:first-child{
+            &:not(.active){
+                border-top-left-radius: 20px;
+            }
+        }
+        &.active{
+            border-right: none;
+            margin-left: -1px;
+            a{
+                color:#0baeb7;
+                background: white;
+                border:none;
+                border-top:6px solid #0baeb7;
+                border-top-left-radius: 15%;
+                border-top-right-radius: 15%;
+            }
+        }
+    }
+}
+
+#trainingList{
+    .box{
+        border-top-left-radius: 0;
     }
 }

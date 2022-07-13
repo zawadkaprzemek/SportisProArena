@@ -34,11 +34,11 @@ class RankingController extends AbstractController
     }
 
     /**
-     * @Route("ranking/competitions", name="app_competitions_list")
+     * @Route("competitions/list", name="app_competitions_list")
      */
     public function competitionsList(): Response
     {
-        return $this->render('ranking/index.html.twig', [
+        return $this->render('competitions/list.html.twig', [
             'title'=>'Lista konkursów',
             'data'=>[]
         ]);

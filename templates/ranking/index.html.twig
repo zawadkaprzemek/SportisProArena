@@ -3,15 +3,56 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
-<div class="row">
+{%set pages=(15/10)|number_format(0,".",".")|round(0,'ceil')%}
+<h3>Rankingi</h3>
 
-    <div class="col-md-10 mx-auto mt-4">
-    <h1>{{title}}</h1>
+    <div class="row" id="raportsPage">
+        <div class="col-12">
+            <div class="box">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select id="rankingTypes" class="form-control form-select">
+                            <option value="1">Ranking ogólny</option>
+                            <option value="2">Ranking juniorów</option>
+                        </select>
+                    </div>
 
-    <div class="alert alert-info">
-        Tutaj będzie lista rankingów/konkursów
+                    <div class="col-md-6 text-end">
+                    {% include 'modules/search_form.html.twig' %}
+                    </div>
+
+                    <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Miejsce</th>
+                            <th>Imię i nazwisko</th>
+                            <th>Klub</th>
+                            <th>Zespół</th>
+                            <th>Ilość treningów</th>
+                            <th>Punkty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {%for i in 1..15%}
+                        <tr>
+                        <td class="text-center"><p>{{i}}</p></td>
+                        <td><p>{{app.user.fullName}}</p></td>
+                        <td><p>{{app.user.club.name}}</p></td>
+                        <td><p>U12</p></td>
+                        <td><p>69</p></td>
+                        <td><p>Punkty</p></td>
+                        <td class="text-end"><a href="#" class="fw-bold">Więcej</a></td>
+                        </tr>
+                    {%endfor%}
+                    </tbody>
+                    </table>
+
+                </div>
+                {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
+                
+            </div>
+        </div>
     </div>
-    </div>
-
-</div>
 {% endblock %}

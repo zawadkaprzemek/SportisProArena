@@ -3,29 +3,54 @@
 {% block title %}Rezerwacja - wybierz Arene{% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-12">
-        <h1>Lista aren</h1>
 
-        <div id="arenas_list">
-            <div class="row border-bottom">
-                <div class="col-1">Id</div>
-                <div class="col">Nazwa</div>
-                <div class="col">Adres</div>
-                <div class="col"></div>
-            </div>
 
-            {%for arena in arenas %}
-                <div class="row mb-2">
-                <div class="col-1">{{arena.id}}</div>
-                <div class="col">{{arena.name}}</div>
-                <div class="col">{{arena.address}}</div>
-                <div class="col">
-                    <a href="{{path('app_training_reserve_choose_dates',{id:arena.id})}}" class="btn btn-primary btn-sm">Wybierz termin/y</a>
+{%set pages=((arenas|length)/10)|round(0,'ceil')|number_format(0,".",".")%}
+<h3>Zarezerwuj termin</h3>
+
+    <div class="row" id="arenaList">
+        <div class="col-12">
+            <div class="box">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Lista aren</h3>
+                    </div>
+
+                    <div class="col-md-6 text-end">
+                    {% include 'modules/search_form.html.twig' %}
+                    </div>
+                    <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Adres</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {%for arena in arenas %}
+                    <tr>
+                        <td><p>{{arena.name}}</td>
+                        <td><p>{{arena.address}}</td>
+                        <td class="text-end">
+                            <a href="{{path('app_training_reserve_choose_dates',{id:arena.id})}}" class="fw-bold">Zarezerwuj</a>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                    </table>
                 </div>
+                {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
+                
             </div>
-            {%endfor%}
         </div>
+        {#
+        <div class="col-3">
+            <div class="box">
+                <h3 class="text-center">Kalendarz</h3>
+            </div>
+        </div>
+        #}
     </div>
-</div>
 {% endblock %}

@@ -12,6 +12,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class TrainingSession
 {
+    const TRAINING_STATUSES=[
+        '-1'=>'canceled',
+        '0'=>'to-do',
+        '1'=>'done'
+    ];
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

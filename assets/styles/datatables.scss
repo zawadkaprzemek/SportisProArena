@@ -1,0 +1,28 @@
+.dataTables_filter{
+    display: none;
+}
+
+.dataTables_length,.dataTables_paginate{
+    display: none;
+}
+
+table.dataTable thead .sorting:after{
+    opacity:0.2;
+    content:"\e150"
+}
+table.dataTable thead .sorting_asc:after{
+    content:"\e253"
+}
+table.dataTable thead .sorting_desc:after{
+    content:"\e252"
+}
+
+.table{
+    color: #5a5a5a;
+}
+.table >:not(:first-child){
+    border-top: none;
+}
+.table> :not(cation )> * > *{
+    border:none;
+}

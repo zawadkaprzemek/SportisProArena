@@ -69,12 +69,13 @@ class TrainingController extends AbstractController
                 }
             }
         }
-
+        $dateStart->setTime(0,0);
         $dateEnd=(clone $dateStart)->modify('last day of this month');
-        
-
+        $dateEnd->setTime(23,59);
+        $reserved=$this->trainingService->getUserReservedTrainings($user,$arena,$dateStart,$dateEnd,true);
         return $this->render('training/choose_dates.html.twig', [
             'arena' => $arena,
+            'reserved'=>$reserved,
             'date'=>[
                 'start'=>$dateStart,
                 'end'=>$dateEnd
@@ -136,13 +137,13 @@ class TrainingController extends AbstractController
 
 
     /**
-     * @Route("/reserved", name="app_training_reserved")
+     * @Route("/reserved/{type}", name="app_training_reserved", defaults={"type":"all"}, requirements={"type":"all|canceled|done|to-do"})
      */
-    public function reservedSessions(Request $request)
+    public function reservedSessions(string $type='all')
     {
         $user=$this->getUser();
         $em=$this->getDoctrine()->getManager();
-        $sessions=$em->getRepository(TrainingSession::class)->getUserSessions($user);
+        $sessions=$em->getRepository(TrainingSession::class)->getUserSessions($user,$type);
         
         return $this->render('training/reserved_sessions.html.twig',[
             'reserved'=>$sessions

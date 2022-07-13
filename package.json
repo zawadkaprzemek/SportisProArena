@@ -21,6 +21,11 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootstrap-select": "^1.14.0-beta2"
+        "bootstrap-select": "^1.14.0-beta2",
+        "datatables": "^1.10.18",
+        "datatables.net-bs": "^1.12.1",
+        "datatables.net-src": "^1.10.12",
+        "glyphicons-halflings": "^1.9.1",
+        "npm": "^8.13.2"
     }
 }

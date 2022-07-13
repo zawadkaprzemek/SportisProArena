@@ -1,0 +1,45 @@
+#calendar{
+    td{
+        &.date-past{
+            h3{
+                color: #e5e5e5 ;
+            }
+        }
+        &:not(.date-past)
+        {
+            cursor: pointer;
+        }
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h3{
+            margin:0;
+            color: #5a5a5a;
+        }
+    }
+    th{
+        color: #8b8a8a;
+    }
+
+    h3{
+        border: 1px solid transparent;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .reserved_day{
+        border-color:#0BAEB7;
+    }
+
+    @media screen and (max-width:767px){
+        td{
+            width: 40px;
+            padding: 0;
+        }
+    }
+}

@@ -15,6 +15,8 @@ class TrainingExtension extends AbstractExtension
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
             new TwigFilter('status_name', [$this, 'statusName']),
+            new TwigFilter('status_icon', [$this, 'statusIcon']),
+            new TwigFilter('status_icon_class', [$this, 'statusIconClass']),
         ];
     }
 
@@ -22,6 +24,8 @@ class TrainingExtension extends AbstractExtension
     {
         return [
             new TwigFunction('status_name', [$this, 'statusName']),
+            new TwigFunction('status_icon', [$this, 'statusIcon']),
+            new TwigFunction('status_icon_class', [$this, 'statusIconClass']),
         ];
     }
 
@@ -43,5 +47,47 @@ class TrainingExtension extends AbstractExtension
             break;
         }
         return $status;
+    }
+
+    public function statusIcon($value)
+    {
+        switch($value)
+        {
+            case -1:
+                $icon="icons/exclamation.svg";
+                break;
+            case 0: 
+                $icon="icons/calendar.svg";
+                break;
+            case 1:
+                $icon="icons/check.svg";
+                break;
+            default:
+                $icon="";
+            break;
+        }
+
+        return $icon;
+    }
+
+    public function statusIconClass($value)
+    {
+        switch($value)
+        {
+            case -1:
+                $class="missed";
+                break;
+            case 0: 
+                $class="to-do";
+                break;
+            case 1:
+                $class="done";
+                break;
+            default:
+                $class="";
+            break;
+        }
+
+        return $class;
     }
 }
