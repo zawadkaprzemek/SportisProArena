@@ -4,22 +4,53 @@
 
 {% block body %}
 
+{%set pages=(players|length/10)|number_format(0,".",".")|round(0,'ceil')%}
 
-<div class="row">
+<div class="row" id="playersPage">
     <div class="col-12">
-        <h1>Moi zawodnicy</h1>
+        <div class="box">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Lista moich zawodników</h3>
+                </div>
 
-        <div>
-            <a href="{{path('app_players_possible_to_assign')}}" class="btn btn-success">Dodaj zawodników</a>
-        </div>
-        <div class="row px-2">
-            {%for assign in players %}
-            {%include 'modules/player_box.html.twig' with {'player':assign.player,'with_assign_button':0}%}
-            {%else%}
-            <div class="col-12">
-            <p class="alert alert-info">Brak przypisanych zawodników</p>
+                <div class="col-md-6 text-end">
+                {% include 'modules/search_form.html.twig' %}
+                </div>
+                <div class="table-responsive">
+                <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
+                <thead>
+                    <tr>
+                        <th>Imię i nazwisko</th>
+                        <th>Klub</th>
+                        <th>Zespół</th>
+                        <th>Pozycja</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {%for assign in players %}
+                    <tr>
+                        <td>{{assign.fullName}}</td>
+                        <td>{{assign.club.name}}</td>
+                        <td>U 12</td>
+                        <td>{{assign.positionName}}</td>
+                        <td class="text-end"><a href="{{path('app_player_profile_show',{id:assign.id})}}" class="fw-bold">Zarządzaj</a></td>
+                    </tr>
+                    {%else%}
+                    <tr>
+                    <td colspan="5">
+                    <div class="alert alert-info">Brak przypisanych zawodników</div>
+                    </td>
+                    </tr>
+                {%endfor%}
+                </tbody>
+                </table>
+                </div>
             </div>
-        {%endfor%}
+            {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
+            
         </div>
     </div>
 </div>

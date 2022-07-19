@@ -6,37 +6,8 @@
 <h3>Karta zawodnika {{player.fullName}}</h3>
 
 <div class="row dashboard">
-{%include 'modules/player_dashboard.html.twig' with {'user':player}%}
+{%include 'modules/player_card.html.twig' with {'user':player,'assigned':assigned}%}
 </div>
-    
-{% if assigned %}
-{#
-<ul class="nav">
-<li class="nav-item">
-<a class="nav-link" aria-current="page" href="{{path('app_player_raports',{'id':player.id})}}">Raporty</a>
-</li>
-<li class="nav-item">
-<a class="nav-link" aria-current="page" href="{{path('app_player_card_show',{'id':player.id})}}">Karta zawodnika</a>
-</li>
-<li class="nav-item dropdown">
-<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Zadania</a>
-<ul class="dropdown-menu">
-  <li><a class="dropdown-item" href="{{path('app_profile_player_tasks_completed',{'id':player.id})}}">Zrealizowane</a></li>
-  <li><a class="dropdown-item" href="{{path('app_profile_player_tasks_to_do',{'id':player.id})}}">Do realizacji</a></li>
-</ul>
-</li>
 
-<li class="nav-item">
-<a class="nav-link" aria-current="page" href="{{path('app_profile_player_rankings',{'id':player.id})}}">Rankingi</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" aria-current="page" href="{{path('app_profile_player_competitions',{'id':player.id})}}">Konkursy</a>
-</li>
-</ul>
-#}
-{%else%}
-    <button type="button" class="btn btn-primary btn-assign-player" data-player="{{player.id}}">Przypisz zawodnika</button> 
-{%endif%}
 
 {% endblock %}

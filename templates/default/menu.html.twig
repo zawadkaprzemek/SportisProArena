@@ -157,9 +157,23 @@ Powiadomienia
 </div>
 #}
 {%else%}
-<div class="list-group list-group-flush">
-<a href="{{path('app_login')}}" class="list-group-item list-group-item-action">Logowanie</a>
-<a href="{{path('app_register')}}" class="list-group-item list-group-item-action">Rejestracja</a>
+
+<div class="menu-section link">
+  <div class="section-header">
+    <a href="{{path('app_login')}}" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/login.svg')}}" class="img-fluid img-icon invert"></button>
+    Logowanie
+    </a>
+  </div>
+</div>
+
+<div class="menu-section link">
+  <div class="section-header">
+    <a href="{{path('app_register')}}" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/register.svg')}}" class="img-fluid img-icon invert"></button>
+    Rejestracja
+    </a>
+  </div>
 </div>
 {% endif %}
 

@@ -20,7 +20,7 @@
                     <div class="col-md-6 text-end">
                     {% include 'modules/search_form.html.twig' %}
                     </div>
-
+                    <div class="table-responsive">
                     <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
                     <thead>
                         <tr>
@@ -38,7 +38,7 @@
                     {%for i in 1..15%}
                         <tr>
                         <td class="text-center"><p>{{i}}</p></td>
-                        <td><p>{{app.user.fullName}}</p></td>
+                        <td><p>{{user.fullName}}</p></td>
                         <td><p>{{app.user.club.name}}</p></td>
                         <td><p>U12</p></td>
                         <td><p>69</p></td>
@@ -48,6 +48,7 @@
                     {%endfor%}
                     </tbody>
                     </table>
+                    </div>
 
                 </div>
                 {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}

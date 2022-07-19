@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block content %}
+{% include 'default/header_mobile.html.twig' %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 col-xl-2 left-menu h-100 d-none d-md-block">
+        <div class="col-md-3 col-xl-2 left-menu h-100 d-none d-lg-block">
             <a href="{{ url('app_home') }}">
             <img src="{{asset('images/arena_logo.png')}}" class="img-fluid img-logo" />
             </a>
             {{include('default/menu.html.twig')}}
         </div>
-        <div class="offset-md-3 offset-xl-2 col-md-9 col-xl-10 content-container">
-            <div class="row">
+        <div class="offset-lg-3 offset-xl-2 col-lg-9 col-xl-10 content-container">
             <div class="col-12 alert-container">
                 <div class="row">
                     <div class="col-12">
@@ -24,20 +24,25 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
 
-                {%if is_granted("ROLE_USER")%}
-                    {{include('default/welcome_header.html.twig')}}
-                {%else%}
-                <div class="col-12 text-center mt-5">
-                    <h1>Sportis Arena Pro</h1>
-                </div>
-                {%endif%}
-
-                <div class="col-12 content">
-                    {% block body %}{% endblock %}
-                </div>
+            {%if is_granted("ROLE_USER")%}
+                {{include('default/welcome_header.html.twig')}}
+            {%else%}
+            <div class="col-12 text-center mt-5">
+                <h1>Sportis Arena Pro</h1>
             </div>
+            {%endif%}
+
+            <div class="col-12 content">
+                {% block body %}{% endblock %}
+            </div>
+            <footer>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="mb-0">Copyright 2022 | Polityka prywatności</p>
+                    </div>
+                </div>
+                </footer>
         </div>
     </div>
 </div>

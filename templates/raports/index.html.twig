@@ -18,6 +18,7 @@
                     <div class="col-md-6 text-end">
                     {% include 'modules/search_form.html.twig' %}
                     </div>
+                    <div class="table-responsive">
                     <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
                     <thead>
                         <tr>
@@ -30,20 +31,27 @@
                     <tbody>
                     {%for i in 1..15%}
                         <tr>
-                        <td><p>25-08-2022, 8:00-8:15</p></td>
+                        <td>
+                        <p class="d-none d-lg-block">25/08/2022, 8:00-8:15</p>
+                        <p class="d-lg-none">25/08,<br>8:00-&nbsp;8:15</p>
+                        </td>
                         <td><p>Stomil Olsztyn Arena</p></td>
                         <td class="text-end"><a href="#" class="fw-bold">Raport</a></td>
                         </tr>
                     {%endfor%}
                     {%for i in 1..20%}
                         <tr>
-                        <td><p>27-08-2022, 8:00-8:15</p></td>
+                        <td>
+                        <p class="d-none d-lg-block">27/08/2022, 8:00-8:15</p>
+                        <p class="d-lg-none">27/08,<br>8:00-&nbsp;8:15</p>
+                        </td>
                         <td><p>Lechia Gdańsk Arena</p></td>
                         <td class="text-end"><a href="#" class="fw-bold">Raport</a></td>
                         </tr>
                     {%endfor%}
                     </tbody>
                     </table>
+                    </div>
                 </div>
                 {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
                 

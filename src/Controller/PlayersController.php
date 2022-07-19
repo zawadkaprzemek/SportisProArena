@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\PlayerManager;
+use App\Service\PlayerManagerService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,17 +17,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class PlayersController extends AbstractController
 {
+
+    private PlayerManagerService $playerManagerService;
+
+    public function __construct(PlayerManagerService $playerManagerService)
+    {
+        $this->playerManagerService=$playerManagerService;
+    }
     /**
      * @Route("/assigned", name="app_my_players")
      */
     public function myPlayers(): Response
     {
+        if(!$this->isGranted("ROLE_MANAGER"))
+        {
+            return $this->redirectToRoute('app_home');
+        }
         $user=$this->getUser();
+        
 
-        $em=$this->getDoctrine()->getManager();
-        $repo=$em->getRepository(PlayerManager::class);
-
-        $players=$repo->getManagerPlayers($user);
+        $players=$this->playerManagerService->getManagerPlayers($user);
         return $this->render('players/my_players.html.twig', [
             'players' => $players,
         ]);
@@ -38,6 +48,10 @@ class PlayersController extends AbstractController
      */
     public function playersList()
     {
+        if(!$this->isGranted("ROLE_MANAGER"))
+        {
+            return $this->redirectToRoute('app_home');
+        }
         /** @var User $user */
         $user=$this->getUser();
 
@@ -48,16 +62,21 @@ class PlayersController extends AbstractController
         return $this->render('players/list.html.twig',[
             'players'=>$players,
             'club'=>$user->getClub(),
-            'with_assign_button'=>false
+            'with_assign_button'=>false,
+            'title'=>'Lista zawodników z mojego klubu'
         ]);
     }
 
     /**
      * @Route("/possible_to_assign", name="app_players_possible_to_assign")
-     * Wyświetla tylko listę zawodników z klubu trenera
+     * Wyświetla tylko listę zawodników z klubu trenera możliwych do przypisania
      */
     public function possibleToAssign()
     {
+        if(!$this->isGranted("ROLE_MANAGER"))
+        {
+            return $this->redirectToRoute('app_home');
+        }
         /** @var User $user */
         $user=$this->getUser();
 
@@ -68,7 +87,8 @@ class PlayersController extends AbstractController
         return $this->render('players/list.html.twig',[
             'players'=>$players,
             'club'=>$user->getClub(),
-            'with_assign_button'=>true
+            'with_assign_button'=>true,
+            'title'=>'Lista zawodników możliwych do przypisania'
         ]);
     }
 }

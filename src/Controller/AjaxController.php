@@ -64,16 +64,16 @@ class AjaxController extends AbstractController
         $player=$em->getRepository(User::class)->find($content['player']);
         if($player==null)
         {
-            return new JsonResponse(['status'=>'error','message'=>'Player dont exists']);
+            return new JsonResponse(['status'=>'error','message'=>'Zawodnik nie istnieje']);
         }
         $assign=$repo->isPlayerAssignedToManager($manager,$player);
         if($assign!==null)
         {
             if($assign->isAccepted())
             {
-                return new JsonResponse(['status'=>'info','message'=>'Player assigned']);
+                return new JsonResponse(['status'=>'info','message'=>'Zawodnik przypisany']);
             }else{
-                return new JsonResponse(['status'=>'info','message'=>'Waiting for accept']);
+                return new JsonResponse(['status'=>'info','message'=>'Oczekuje na akceptacje zawodnika']);
             }
         }
 

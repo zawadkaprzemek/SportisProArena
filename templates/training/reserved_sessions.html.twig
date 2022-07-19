@@ -9,6 +9,7 @@
 
     <div class="row" id="trainingList">
         <div class="col-12">
+        <div class="overflow-x-auto only-x">
             <ul class="nav nav-tabs training-nav">
             <li class="nav-item {%if app.request.attributes.get('type') == 'all'%}active{%endif%}">
                 <a class="nav-link {%if app.request.attributes.get('type') == 'all'%}active{%endif%}" href="{{path('app_training_reserved',{'type':'all'})}}">Wszystkie</a>
@@ -23,6 +24,7 @@
                 <a class="nav-link {%if app.request.attributes.get('type') == 'canceled'%}active{%endif%}" href="{{path('app_training_reserved',{'type':'canceled'})}}">Anulowane</a>
             </li>
             </ul>
+            </div>
             <div class="box">
                 <div class="row">
                     <div class="col-md-6">
@@ -32,6 +34,7 @@
                     <div class="col-md-6 text-end">
                     {% include 'modules/search_form.html.twig' %}
                     </div>
+                    <div class="table-responsive">
                     <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
                     <thead>
                         <tr>
@@ -48,9 +51,12 @@
                     <tbody>
                     {%for session in reserved %}
                     <tr>
-                        <td><p>{{session.sessionDate|date('d/m/Y H:i')}}</td>
-                        <td><p>{{session.arena.name}}</td>
-                        <td><p>{{session.arena.address}}</td>
+                        <td>
+                            <p class="d-none d-lg-block">{{session.sessionDate|date('d/m/Y H:i')}}</p>
+                            <p class="d-lg-none">{{session.sessionDate|date('d/m H:i')}}</p>
+                        </td>
+                        <td><p>{{session.arena.name}}</p></td>
+                        <td><p>{{session.arena.address}}</p></td>
                         {%if app.user.userType|manager_type%}
                         <td>
                             {%if session.player is null%}
@@ -75,6 +81,7 @@
                     {%endfor%}
                     </tbody>
                     </table>
+                    </div>
                 </div>
                 {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
                 

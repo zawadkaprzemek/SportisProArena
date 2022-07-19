@@ -11,21 +11,24 @@
         
 
     {%for notification in notifications%}
-        <div class="my-2 box border notification_row row {%if notification.readed==0%}fw-bold{%endif%}" data-notification="{{notification.id}}">
-            <div class="col">
-                {{notification.createdAt|date('d/m/Y H:i')}}
-            </div>
-            <div class="col">
+        <div class="my-2 col-12 box border notification_row {%if notification.readed==0%}fw-bold{%endif%}" data-notification="{{notification.id}}">
+            <div class="row">
+            <div class="col-md-6">
                 <h3 class="mb-0">{{notification|notificationText}}</h3>
             </div>
+            <div class="col-md-6 mt-2 mt-md-0 text-end">
+                {{notification.createdAt|date('d/m/Y H:i')}}
+            </div>
             {%if notification.referenceId is not null and (notification.referenceId|requestAnswered) ==0%}
-            <div class="col-12 d-none">
-                <div class="btn-group btn-group-sm notification-answers" data-referenceid="{{notification.referenceId}}">
-                <button type="button" class="btn btn-outline-primary" data-answer="0">Nie</button>
+            <div class="col-12 d-none mt-3">
+                <p class="fw-bold">Odpowiedź</p>
+                <div class="btn-group notification-answers" data-referenceid="{{notification.referenceId}}">
                 <button type="button" class="btn btn-primary" data-answer="1">Tak</button>
+                <button type="button" class="btn btn-outline-primary" data-answer="0">Nie</button>
                 </div>
             </div>
             {%endif%}
+            </div>
         </div>
         {%else%}
         <div class="alert alert-info">Brak powiadomień</div>

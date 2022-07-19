@@ -135,9 +135,9 @@ class ProfileController extends AbstractController
 
 
     /**
-     * @Route("/player/{id}/card", name="app_player_card_show")
+     * //@Route("/player/{id}/card", name="app_player_card_show")
      */
-    public function showPlayerCard(User $player)
+    /*public function showPlayerCard(User $player)
     {
         $user=$this->getUser();
         if($player->getUserType()!==User::PLAYER_TYPE|| $user->getUserType()!==User::MANAGER_TYPE)
@@ -151,5 +151,5 @@ class ProfileController extends AbstractController
             'player'=>$player,
             'assigned'=>$assigned
         ]);
-    }
+    }*/
 }

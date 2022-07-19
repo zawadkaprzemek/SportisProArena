@@ -17,6 +17,7 @@
                     <div class="col-md-6 text-end">
                     {% include 'modules/search_form.html.twig' %}
                     </div>
+                    <div class="table-responsive">
                     <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
                     <thead>
                         <tr>
@@ -37,6 +38,7 @@
                     {%endfor%}
                     </tbody>
                     </table>
+                    </div>
                 </div>
                 {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
                 

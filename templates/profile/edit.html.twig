@@ -7,7 +7,7 @@
 <h3>Twoje dane</h3>
 
 <div class="row">
-    <div class=" col-sm-6 col-md-6 col-lg-3 profile-pic-container text-center">
+    <div class="col-md-6 col-lg-3 profile-pic-container text-center mb-3 mb-md-0">
         <div class="profile-pic-box"> 
             <img src="{{asset(user.image)}}" alt="" class="img-fluid profile-pic">
         </div>
@@ -48,10 +48,10 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-6 col-md-4">
+            <div class="col-6 col-md-4">
             {{ form_widget(form.submit) }}
             </div>
-            <div class="col-sm-6">
+            <div class="col-6 text-end">
                 <a href="{{path('app_home')}}" class="btn btn-outline-primary">Anuluj</a>
             </div>
         </div>

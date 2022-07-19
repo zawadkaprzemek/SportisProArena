@@ -16,14 +16,14 @@ import './bootstrap';
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
-window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
+window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.min.js');
 
 //require('bootstrap-select');
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');
 // require('bootstrap/js/dist/popover');
 
-$(document).ready(function() {
+jQuery(function(){
 //$('[data-toggle="popover"]').popover();\
 
 //$('select.selectpicker').selectpicker();
@@ -106,7 +106,9 @@ $('.btn-assign-player').on('click',function(){
             url: '/ajax/assign_request',
             data: JSON.stringify({player:$(btn).data('player')}),    
           }).done(function(data) {
-                alert(data.message);
+            const infoModal = new bootstrap.Modal('#infoModal', []);
+            $('#infoModal .modal-body').html('<p>'+data.message+'</p>');
+            infoModal.show();
           });
     }
 });
@@ -276,10 +278,14 @@ $('.menu-section .section-header').on('click',function(){
     $(this).parent().toggleClass('open');
 });
 
+$('.hamburger-menu').on('click',function(){
+    let target=$(this).data('target');
+    $(target).toggleClass('show');
+});
+
 if($('table.dataTable').length>0)
 {
 var th_count=$('table.dataTable th').length;
-console.log(th_count);
 var table = $('table.dataTable').DataTable({
     info: false,
     "lengthMenu": [ [10], [10] ],

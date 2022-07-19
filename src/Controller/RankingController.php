@@ -27,8 +27,10 @@ class RankingController extends AbstractController
      */
     public function rankingList(): Response
     {
+        $user=$this->getUser();
         return $this->render('ranking/index.html.twig', [
             'title'=>'Lista rankingów',
+            'user'=>$user,
             'data'=>[]
         ]);
     }
@@ -38,9 +40,11 @@ class RankingController extends AbstractController
      */
     public function competitionsList(): Response
     {
+        $user=$this->getUser();
         return $this->render('competitions/list.html.twig', [
             'title'=>'Lista konkursów',
-            'data'=>[]
+            'data'=>[],
+            'user'=>$user
         ]);
     }
 
@@ -59,7 +63,8 @@ class RankingController extends AbstractController
 
         return $this->render('ranking/index.html.twig', [
             'title'=>'Lista rankingów zawodnika',
-            'data'=>[]
+            'data'=>[],
+            'user'=>$player
         ]);
     }
 
@@ -77,7 +82,8 @@ class RankingController extends AbstractController
 
         return $this->render('ranking/index.html.twig', [
             'title'=>'Lista konkursów zawodnika',
-            'data'=>[]
+            'data'=>[],
+            'user'=>$player
         ]);
     }
 }

@@ -25,9 +25,17 @@ body.main-style {
 .profile-pic-container{
     max-width: 260px;
     margin-right: 50px;
+    @include media-breakpoint-down(lg) {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
 }
 .profile-pic-box{
     margin-bottom: 50px;
+    @include media-breakpoint-down(lg) {
+        margin-bottom: 20px;
+    }
 }
 
 .club-pic-box{
@@ -79,10 +87,17 @@ body.main-style {
 .left-panel{
     background: white url('/public/assets/images/login_left.png') no-repeat;
     background-position: 0 100%;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
+    background-attachment: fixed;
     border-radius: 0px 30px 30px 0px;
     z-index: 2;
     justify-content: flex-end;
+
+@include media-breakpoint-down(lg) {
+    justify-content: flex-start;
+    border-radius: 0;
+}
 
     .d-flex.flex-column{
         justify-content: center;
@@ -90,6 +105,10 @@ body.main-style {
         max-width: 500px;
         margin:0 auto;
         width:70%;
+        @include media-breakpoint-down(lg) {
+            height: 100%;
+            width: 90%;
+        }
     }
 
     &.col-lg-8{
@@ -102,6 +121,9 @@ body.main-style {
         .d-flex.flex-column{
             max-width: 100%;
             width: 85%;
+            @include media-breakpoint-down(lg) {
+                width:90%;
+            }
         }
     }
 }
@@ -109,21 +131,44 @@ body.main-style {
 .content-container{
     background: white url('/public/assets/images/login_left.png') no-repeat;
     background-position: bottom left;
-    padding: 40px 50px;
+    padding: 40px 50px 60px;
+    position: relative;
 }
 
 @media screen and(max-width:767px) {
     .content-container{
-        padding: 20px;
+        padding: 20px 20px 40px;
     }
+}
+
+@include media-breakpoint-down(lg) {
+    body{
+        padding-top: 70px;
+    }
+#resetPage{
+    .w-100{
+        .btn{
+            width: 100%;
+        }
+    }
+}
+
+#notificationsPage{
+    .notification-answers{
+        width: 100%;
+        .btn{
+            width: 50%;
+        }
+    }
+}
 }
 
 .img-icon{
     width: 16px;
     margin-top: -5px;
-    &.invert{
-        filter: invert(1);
-    }
+}
+.invert{
+    filter: invert(1);
 }
 
 .welcome-header{
@@ -166,6 +211,9 @@ body.main-style {
         border-radius: 15px;
         opacity: 1;
         padding:30px;
+        @include media-breakpoint-down(lg) {
+            padding:15px;
+        }
         margin-bottom: 30px;
 
         .form-group:not(:last-child){
@@ -173,10 +221,10 @@ body.main-style {
         }
 
         &.info-box{
-            .col-5{
+            .col-md-5{
                 font-weight: 900;
             }
-            .col-5,.col-7{
+            .col-md-5,.col-md-7{
                 margin-bottom: 15px;
             }
         }
@@ -198,7 +246,9 @@ body.main-style {
 
     select[multiple]{
         height: 70px;
-
+        @include media-breakpoint-down(lg) {
+            height: auto;
+        }
         option:checked{
             background-color: $primary;
         }
@@ -216,9 +266,22 @@ body.main-style {
     justify-content: space-between;
     
     .box{
+        @include media-breakpoint-up(lg) {
         width: calc(33.33% - 20px);
+        }
+        @include media-breakpoint-down(lg) {
+            width: calc(50% - 20px);
+        }
+        @include media-breakpoint-down(md) {
+            width: 100%;
+        }
         margin-bottom:36px;
-
+        .col-5{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
         h3{
             margin-bottom: 15px;
             font-size: 23px;
@@ -231,7 +294,7 @@ body.main-style {
         font-weight: bold;
     }
 
-    .col-7{
+    .col-md-7{
 
         ul{
             list-style: none;
@@ -240,7 +303,10 @@ body.main-style {
         }
     }
 }
-
+footer{
+    position: absolute;
+    bottom:15px;
+}
 
 .dashboard{
     .progress{
@@ -307,10 +373,24 @@ body.main-style {
     &:nth-child(odd)
     {
         margin-right: 30px;
+        @include media-breakpoint-down(lg) {
+            margin-right: 0;
+        }
     }
     &:nth-child(even){
         margin-left: 30px;
+        @include media-breakpoint-down(lg) {
+            margin-left: 0;
+        }
     }
+
+    .competition-logo{
+        display: flex;
+        justify-content: center;
+        align-self:center;
+        padding: 0;
+    }
+
 
     align-items: center;
     p{
@@ -352,9 +432,15 @@ body.main-style {
         filter: invert(1);
     }
 }
-
+.overflow-x-auto{
+    overflow-x: auto;
+    &.only-x{
+        overflow-y: hidden;
+    }
+}
 .training-nav{
     border-bottom: none;
+    flex-wrap: nowrap;
     a{
         font-size: 16px;
         color:#8b8a8a;

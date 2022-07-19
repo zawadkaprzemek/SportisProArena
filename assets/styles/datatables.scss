@@ -26,3 +26,11 @@ table.dataTable thead .sorting_desc:after{
 .table> :not(cation )> * > *{
     border:none;
 }
+
+table.dataTable{
+    margin-bottom: 15px!important;
+}
+
+.dataTables_wrapper{
+    padding:0;
+}
