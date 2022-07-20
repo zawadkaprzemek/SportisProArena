@@ -4,6 +4,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes: ['bootstrap_5_layout.html.twig']
     exception_controller: null
+    globals:
+        domain: '%domain%'
 
 when@test:
     twig:
