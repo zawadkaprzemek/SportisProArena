@@ -165,7 +165,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address($this->getParameter('mailer_send_from'), 'Sportis Arena Pro'))
+            ->from(new Address($this->getParameter('mailer_send_from'), 'Sportis Pro Arena'))
             ->to($user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')

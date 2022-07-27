@@ -39,11 +39,9 @@ class MailerService
             ->subject($subject)
             ->html($body)
             ->addTo($recipent)
-            ->addBcc('zawadkaprzemek@gmail.com')
         ;
         $email->getHeaders()->addTextHeader('X-Transport', 'main');
         /** @var Symfony\Component\Mailer\SentMessage $sentEmail */
-        $this->mailerGmail->send($email);
         try {
             $this->mailerGmail->send($email);
         } catch (TransportExceptionInterface $e) {

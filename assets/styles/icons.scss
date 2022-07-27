@@ -1,0 +1,58 @@
+.icon{
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin:5px auto;
+    &.icon-youth{
+        background: blue;
+    }
+
+    &.icon-open{
+        background: pink;
+    }
+
+    &.icon-solo{
+        background: orange;
+    }
+
+    &.icon-pair{
+        background: orangered;
+    }
+    &.icon-test{
+        background: navy;
+    }
+    &.icon-training{
+        background: navajowhite;
+    }
+}
+
+label.unit-form-input{
+    border-radius: 15px;
+    border:1px solid $secondary;
+    text-align: center;
+    padding:10px;
+    width: 120px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    p{
+        font-weight: normal;
+        font-size: 14px;
+        margin:0;
+    }
+
+    &.no-icon{
+        font-weight: normal;
+        width: auto;
+    }
+}
+
+
+input:checked {
+    + label.unit-form-input{
+        border-width: 2px;
+        border-color: $primary;
+        &.no-icon{
+            font-weight: bold;
+        }
+    } 
+}

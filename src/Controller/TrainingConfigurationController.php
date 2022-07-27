@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\TrainingUnit;
-use App\Entity\TrainingConfiguration;
-use App\Form\TrainingConfigurationType;
+#use App\Entity\TrainingUnit;
+#use App\Form\TrainingConfigurationType;
+#use App\Form\TrainingUnitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +24,7 @@ class TrainingConfigurationController extends AbstractController
     public function myConfigrutations(): Response
     {
         $user=$this->getUser();
-        $configurations=$user->getTrainingConfigurations();
+        $configurations=null;
 
         return $this->render('training_configuration/index.html.twig', [
             'configurations' => $configurations,
@@ -35,7 +35,7 @@ class TrainingConfigurationController extends AbstractController
     /**
      * @Route("/add", name="app_training_configuration_add")
      */
-    public function trainingConfigurationForm(Request $request,?TrainingConfiguration $config=null)
+    /*public function trainingConfigurationForm(Request $request,?TrainingConfiguration $config=null)
     {
         $user=$this->getUser();
         if($config==null)
@@ -60,13 +60,13 @@ class TrainingConfigurationController extends AbstractController
             'form' => $form->createView(),
             'config'=>$config
         ]);
-    }
+    }*/
 
 
     /**
      * @Route("/{id}", name="app_training_configuration_preview")
      */
-    public function previewConfiguration(TrainingConfiguration $config)
+    /*public function previewConfiguration(TrainingConfiguration $config)
     {
         $user=$this->getUser();
         if($user!=$config->getTrainer())
@@ -81,19 +81,45 @@ class TrainingConfigurationController extends AbstractController
             'units'=>$units
         ]);
 
-    }
+    }*/
 
     /**
      * @Route("/{id}/unit/{sort}/{step}", name="app_training_configuration_unit_form", defaults={"step":1}, requirements={"step":"\d+"})
      * @ParamConverter("trainingUnit", options={"sort" = "sort", "trainingConfiguration" = "id"})
      */
-    public function trainingUnitForm(Request $request,TrainingConfiguration $config,int $step=1,?TrainingUnit $unit=null)
+    /*public function trainingUnitForm(Request $request,TrainingConfiguration $config,int $step=1,int $sort,?TrainingUnit $unit=null)
     {
         $user=$this->getUser();
         if($user!=$config->getTrainer())
         {
             return $this->redirectToRoute('app_training_configuration_my');
         }
-    }
 
+        if($unit==null)
+        {
+            $unit =new TrainingUnit($config,$sort);
+        }
+
+        $unit->setStep($step);
+        $form=$this->createForm(TrainingUnitType::class,$unit);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()&&$form->isValid())
+        {
+            $subGroups=['ageCategory'=>$form->get('trainingSubGroupsAgeCategory')->getData(),
+                'level'=>$form->get('trainingSubGroupsLevel')->getData()
+            ];
+            $unit->setTrainingSubGroups($subGroups);
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($unit);
+            $em->flush();
+        }
+        
+
+        return $this->render('training_configuration/unit_form.html.twig',[
+            'form'=>$form->createView(),
+            'config'=>$config
+        ]);
+    }
+*/
 }

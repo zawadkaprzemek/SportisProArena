@@ -1,0 +1,27 @@
+{% extends 'default/with_navbar.html.twig' %}
+
+{% block title %}Dodaj konfiguracje{% endblock %}
+
+{% block body %}
+
+<div class="row" id="configsPage">
+    <div class="col-12">
+        <div class="box">
+        {{ form_start(form,{'attr':{'id':'trainingUnitForm'}}) }}
+            <div class="row">
+            <div class="bg-primary py-2 text-white"><h3 class="mb-0 ">Krok 1</h3></div>
+                {{form_row(form.ageCategory)}}
+                <div class="bg-primary py-2 mt-3 text-white d-none step-2"><h3 class="mb-0 ">Krok 2</h3></div>
+                {{form_row(form.trainingType)}}
+                {{form_row(form.test)}}
+                {{form_row(form.trainingGroup)}}
+                {{form_row(form.trainingSubGroupsAgeCategory)}}
+                {{form_row(form.trainingSubGroupsLevel)}}
+
+            </div>
+
+        {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

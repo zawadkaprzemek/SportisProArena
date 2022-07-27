@@ -45,7 +45,7 @@ class NotificationService{
         $this->mailer->sendMailGmail(
             $user->getEmail(),
             'Nowe powiadomienie',
-            'Nowe powiadomienie w Sportis Arena Pro'
+            'Nowe powiadomienie w Sportis Pro Arena'
         );
     }
 

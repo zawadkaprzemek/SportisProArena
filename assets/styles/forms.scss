@@ -91,3 +91,17 @@ width: 100%;
 #resetPage label{
     text-align: left;
 }
+
+.hide-inputs{
+    input{
+        display: none;
+    }
+    label{
+        margin-bottom: 0;
+    }
+    .form-check{
+        padding-left: 0;
+        margin-bottom: 0;
+        position: relative;
+    }
+}

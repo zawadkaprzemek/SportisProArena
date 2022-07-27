@@ -365,4 +365,69 @@ $('body').on('click','.pagination a',function(e){
     }
 });
 
+$('#trainingUnitForm input[name="training_unit[test]"][value="test"]').prop('disabled',true);
+$('#trainingUnitForm input[name="training_unit[trainingType]"][value="pair"]').prop('disabled',true);
+
+$('#trainingUnitForm input').on('change',function(){
+    let name =$(this).attr('name');
+    let formArray=$('#trainingUnitForm').serializeArray();
+    let data = getFormData(JSON.parse(JSON.stringify( formArray )));
+    let target=$(this).parent().parent().data('show');
+    let find=false;
+    let fieldsCount=$('#trainingUnitForm fieldset').length;
+    $(formArray).each(function(i,elem){
+        if(elem.name==name)
+        {
+            find=true;
+        }
+    });
+    $('#trainingUnitForm button[type="submit"]').prop('disabled',Object.keys(data).length<fieldsCount)
+    if(find)
+    {
+        $(target).parent().removeClass('d-none');
+    }else{
+        $(target).parent().addClass('d-none');
+    }
+    
+    if(target=='#training_unit_trainingType')
+    {
+        $('.step-2').removeClass('d-none');
+    }
+    
+    let ageCat=$('[name="training_unit[ageCategory]"]:checked').val();
+    if(ageCat=="youth")
+    {
+        $('#training_unit_trainingSubGroupsAgeCategory .form-check:gt(-6)').hide();
+        $('#training_unit_trainingSubGroupsAgeCategory .form-check:lt(-5)').show();
+    }
+    if(ageCat=="open")
+    {
+        $('#training_unit_trainingSubGroupsAgeCategory .form-check:gt(-6)').show();
+        $('#training_unit_trainingSubGroupsAgeCategory .form-check:lt(-5)').hide();
+    }
+
+});
+
+function getFormData(json)
+{
+    let obj = [];
+    json.forEach(function (item){
+        if(item.name!=="training_unit[_token]")
+        {
+            if(item.name.slice(-2)==="[]")
+            {
+                let len = (!(item.name.slice(0, -2) in obj) ? 0 : obj[item.name.slice(0, -2)].length);
+                if(len===0)
+                {
+                    obj[item.name.slice(0,-2)]=[];
+                }
+                obj[item.name.slice(0,-2)][len]=item.value;
+            }else{
+                obj[item.name]=item.value;
+            }
+        }
+    })
+    return Object.assign({},obj);
+}
+
 });

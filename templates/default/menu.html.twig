@@ -57,6 +57,23 @@
   </div>
 </div>
 
+{%if app.user.managerExpert%}
+{%set section_routes=['app_training_configuration_my']%}
+<div class="menu-section{%if (_route in section_routes)%} open{%endif%}">
+  <div class="section-header">
+    <a href="javascript:void(0);" >
+    <button class="btn btn-primary" type="button"><img src="{{asset('icons/training-config.svg')}}" class="img-fluid img-icon invert"></button>
+    Konfiguracja treningu<span></span>
+    </a>
+  </div>
+  <div class="section-content" id="sectionProfile">
+    <div class="section-group">
+        <a class="section-group-item{% if _route == 'app_training_configuration_my' %} active{% endif %}" href="{{ path('app_training_configuration_my') }}">Moje konfiguracje</a>
+    </div>
+  </div>
+</div>
+  {%endif%}
+
 {%if app.user.userType|manager_type%}
 {%set section_routes=['app_my_players','app_players_list']%}
 <div class="menu-section{%if (_route in section_routes)%} open{%endif%}">
