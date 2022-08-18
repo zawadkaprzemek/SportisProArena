@@ -35,12 +35,12 @@
                         <tr>
                         <td>{{config.name}}</td>
                         <td>{{config.createdAt|date('d/m/Y H:i')}}</td>
-                        <td>{{config.trainingUnits|length}}</td>
+                        <td>0</td>
                         <td>
-                            {%if config.status==0 %}
+                            {%if config.status==1 %}
                             <a href="" class="btn btn-primary btn-sm">Dokończ konfiguracje</a>
                             {%else%}
-                            <a href="" class="btn btn-primary btn-sm">Edytuj konfiguracje</a>
+                            <a href="{{path('app_training_configuration_edit',{'id':config.id})}}" class="btn btn-primary btn-sm">Edytuj konfiguracje</a>
                             {%endif%}
                         </td>
                         </tr>

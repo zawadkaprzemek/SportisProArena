@@ -1,0 +1,24 @@
+{% extends 'default/with_navbar.html.twig' %}
+
+{% block title %}Lista serii{% endblock %}
+
+{% block body %}
+<h3>Lista serii</h3>
+<div class="row" id="configsPage">
+    <div class="col-12">
+        <div class="box">
+            <div class="row">
+            
+            {% for i in 1..unit.seriesCount %}
+                <div class="col-6 mb-2">
+                    Seria {{i}}
+                </div>
+                <div class="col-6 mb-2 text-end">
+                    <a href="{{path("app_training_configuration_serie_form",{'id':unit.id,'sort':i})}}" class="btn btn-primary">Konfiguruj</a>
+                </div>
+            {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -148,6 +148,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $fullName;
 
+    /**
+     * @ORM\OneToMany(targetEntity=TrainingUnit::class, mappedBy="trainer")
+     */
+    private $trainingConfigurations;
+
     public function __construct()
     {
         $this->position = new ArrayCollection();
@@ -155,6 +160,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notifications = new ArrayCollection();
         $this->purchasedTrainingSessions = new ArrayCollection();
         $this->trainingSessions = new ArrayCollection();
+        $this->trainingConfigurations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -589,6 +595,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFullName(string $fullName): self
     {
         $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrainingUnit>
+     */
+    public function getTrainingConfigurations(): Collection
+    {
+        return $this->trainingConfigurations;
+    }
+
+    public function addTrainingConfiguration(TrainingUnit $trainingConfiguration): self
+    {
+        if (!$this->trainingConfigurations->contains($trainingConfiguration)) {
+            $this->trainingConfigurations[] = $trainingConfiguration;
+            $trainingConfiguration->setTrainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrainingConfiguration(TrainingUnit $trainingConfiguration): self
+    {
+        if ($this->trainingConfigurations->removeElement($trainingConfiguration)) {
+            // set the owning side to null (unless already changed)
+            if ($trainingConfiguration->getTrainer() === $this) {
+                $trainingConfiguration->setTrainer(null);
+            }
+        }
 
         return $this;
     }

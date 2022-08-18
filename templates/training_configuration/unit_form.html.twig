@@ -9,15 +9,50 @@
         <div class="box">
         {{ form_start(form,{'attr':{'id':'trainingUnitForm'}}) }}
             <div class="row">
-            <div class="bg-primary py-2 text-white"><h3 class="mb-0 ">Krok 1</h3></div>
+            <div class="bg-primary py-2 mb-2 text-white"><h3 class="mb-0 ">Krok 1</h3></div>
+                {{form_row(form.name)}}
                 {{form_row(form.ageCategory)}}
-                <div class="bg-primary py-2 mt-3 text-white d-none step-2"><h3 class="mb-0 ">Krok 2</h3></div>
+                <div class="bg-primary py-2 mt-3 mb-2 text-white step-2 {%if config.id is null%}d-none{%endif%}"><h3 class="mb-0 ">Krok 2</h3></div>
                 {{form_row(form.trainingType)}}
                 {{form_row(form.test)}}
                 {{form_row(form.trainingGroup)}}
-                {{form_row(form.trainingSubGroupsAgeCategory)}}
-                {{form_row(form.trainingSubGroupsLevel)}}
+                {{form_row(form.trainingSubGroupsAgeCategories)}}
+                {{form_row(form.trainingSubGroupsLevels)}}
+                
 
+                <div class="bg-primary py-2 mb-2 text-white step-3 {%if config.id is null%}d-none{%endif%}"><h3 class="mb-0 ">Krok 3</h3></div>
+                {{form_row(form.seriesCount)}}
+                <div class="accordion accordion-flush step-3 d-none" id="accordionSeries"
+                     data-accordion-prototype="{{ include('modules/trainingSeriesAccordionItem.html.twig')|e }}"
+                     data-prototype="{{ form_row(form.trainingSeries.vars.prototype)|e }}"
+                >
+                    {% for i,child in form.trainingSeries %}
+                    <div class="accordion-item" id="accordion-item-series_{{ i+1 }}">
+                        <h2 class="accordion-header" id="flush-series{{ i+1 }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeries{{ i+1 }}"
+                                    aria-expanded="false" aria-controls="flush-collapseSeries1">
+                                Konfiguruj serie {{ i+1 }}
+                            </button>
+                        </h2>
+                        <div id="flush-collapseSeries{{ i+1 }}" class="accordion-collapse collapse" aria-labelledby="flush-series{{ i+1 }}" data-bs-parent="#accordionSeries">
+                            <div class="accordion-body">
+                                {% for children in child.children %}
+                                    {% if children.vars.name=='trainingUnitThrowConfigs' %}
+                                        {{ form_widget(children) }}
+                                        {#{% for elem in children.vars.prototype.children %}
+                                            {{ form_row(elem) }}
+                                        {% endfor %}#}
+                                        {% else %}
+                                            {{ form_row(children)|replace({'__name__':i})|replace({'__t__':0})|raw }}
+                                            {#{{ form_row(children) }}#}
+                                    {% endif %}
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
 
         {{ form_end(form) }}

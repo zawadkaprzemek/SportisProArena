@@ -15,7 +15,7 @@ import 'datatables';
 import './bootstrap';
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
-require('bootstrap');
+//require('bootstrap');
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.min.js');
 
 //require('bootstrap-select');
@@ -24,22 +24,37 @@ window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.min.js');
 // require('bootstrap/js/dist/popover');
 
 jQuery(function(){
-//$('[data-toggle="popover"]').popover();\
+//$('[data-toggle="popover"]').popover();
 
 //$('select.selectpicker').selectpicker();
 const trainingDateCheckbox='<div class="form-check"><input class="form-check-input" name="training_dates[]" type="checkbox" value="__VALUE__" id="trainingDate__COUNT__">'+
 '<label class="form-check-label" for="trainingDate__COUNT__">__TEXT__</label></div>';
 
+const ACCORDION_PROTOTYPE="<div class=\"accordion accordion-flush\" id=\"__ID__Accordion\"></div>";
+const ACCORDION_ITEM="<div id=\"accordion-item__TARGET____X__\" class=\"accordion-item\">\n" +
+    "    <h2 class=\"accordion-header\" id=\"flush-series__X__\">\n" +
+    "        <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#flush-collapse__TARGET____X__\" aria-expanded=\"false\"\n" +
+    "                aria-controls=\"flush-collapse__TARGET____X__\">\n" +
+    "            __HEADER__ __Y__\n" +
+    "        </button>\n" +
+    "    </h2>\n" +
+    "    <div id=\"flush-collapse__TARGET____X__\" class=\"accordion-collapse collapse\" aria-labelledby=\"flush-__TARGET____X__\" data-bs-parent=\"__ID__Accordion\">\n" +
+    "        <div class=\"accordion-body\">\n" +
+    "            __CONTENT__\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>"
+
 const paginationItem='<a href="#" data-page="__PAGE__">__PAGE__</a>'
 
 
 $('input[name="registration_form[userType]"]').on('change',function(){
-    if($(this).val()==1)
+    if($(this).val()===1)
     {
         $('#registerPage').removeClass('manager').addClass('player');
         $('.player-field').removeClass('d-none').find('input,select').prop('disabled',false);
         $('.manager-field').addClass('d-none').find('input,select').prop('disabled',true);
-    }else if($(this).val()==2)
+    }else if($(this).val()===2)
     {
         $('#registerPage').addClass('manager').removeClass('player');
         $('.manager-field').removeClass('d-none').find('input,select').prop('disabled',false);
@@ -49,7 +64,6 @@ $('input[name="registration_form[userType]"]').on('change',function(){
 
 $('#addClubForm').on('submit',function(e){
     e.preventDefault();
-    let btn= $('#add_club_button');
     let url= $(this).prop('action');
     let input=$('#addClubName');
     let name= input.val().trim();
@@ -64,7 +78,7 @@ $('#addClubForm').on('submit',function(e){
         url: url,
         data: JSON.stringify({name:name}),
         success: function(data, textStatus, xhr) {
-            if(xhr.status==201)
+            if(xhr.status===201)
             {
                 let select=$('#registration_form_club');
                 select.append($('<option>', {
@@ -123,7 +137,7 @@ $('.notification-answers button').on('click',function(){
         url: '/ajax/answer_request',
         data: JSON.stringify({request:notification,answer:answer}),    
       }).done(function(data) {
-            if(data.status=="success")
+            if(data.status==="success")
             {
                 $(btn).parent().parent().remove();
             }
@@ -146,8 +160,7 @@ $('.notification_row').on('click',function(){
 })
 
 $('.training-date-td').on('click',function(){
-    let btn=$(this),
-    url=$('#calendar table').data('url'),
+    let url=$('#calendar table').data('url'),
     date=$(this).data('date');
     $('#training_day').val(date);
     $('#trainingDatesModal .alert').addClass('d-none').removeClass('alert-danger').removeClass('alert-scucess').text('');
@@ -251,7 +264,6 @@ function removeReserved(items)
 function removeChecked()
 {
     let items = $('#reserveTrainingForm').find("input:checked");
-    console.log(items);
     $.each(items,function(){
         $(this).parent().remove();
     });
@@ -268,7 +280,7 @@ if(registerForm.length>0)
     }));
 
     select.on('change',function(){
-        if($(this).val()=='-1'){
+        if($(this).val()==='-1'){
             $('#add_club_button').trigger('click');
         }
     });
@@ -319,13 +331,13 @@ function renderPagination(info)
     $('.pagination .prev-page').addClass('d-none');
     $('#currentPage').text(page);
     $('#totalPages').text(info.pages);
-    if(page==info.pages){
+    if(page===info.pages){
         $('.pagination .next-page').addClass('d-none');
     }else{
         $('.pagination .next-page').removeClass('d-none');
     }
 
-    if(info.pages==0)
+    if(info.pages===0)
     {
         $('.pagination').addClass('d-none');
     }else{
@@ -338,7 +350,7 @@ $('body').on('click','.pagination a',function(e){
     e.preventDefault();
     var page=$(this).data('page');
     $('.pagination .current')
-    if(page=='next'||page=='previous')
+    if(page==='next'||page==='previous')
     {
         $('.paginate_button.'+page).trigger('click');
     }else{
@@ -351,14 +363,14 @@ $('body').on('click','.pagination a',function(e){
     $('.pagination a[data-page="'+current+'"]').addClass('current');
     $('table.dataTable').data('current-page',current);
     let total=info.pages;
-    if(current==1)
+    if(current===1)
     {
         $('.pagination .prev-page').addClass('d-none');
     }else{
         $('.pagination .prev-page').removeClass('d-none');
     }
 
-    if(current==total){
+    if(current===total){
         $('.pagination .next-page').addClass('d-none');
     }else{
         $('.pagination .next-page').removeClass('d-none');
@@ -368,45 +380,134 @@ $('body').on('click','.pagination a',function(e){
 $('#trainingUnitForm input[name="training_unit[test]"][value="test"]').prop('disabled',true);
 $('#trainingUnitForm input[name="training_unit[trainingType]"][value="pair"]').prop('disabled',true);
 
-$('#trainingUnitForm input').on('change',function(){
-    let name =$(this).attr('name');
+
+let trainingUnitForm=$('#trainingUnitForm');
+if(trainingUnitForm.length>0)
+{
+    var fieldNames=[];
+
+    let ageCat=$('[name="training_unit[ageCategory]"]:checked').val();
+    //console.log(ageCat);
+    if(ageCat==="youth")
+    {
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6)').hide();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6) input').prop('disabled',true).prop('checked',false);
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5)').show();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5) input').prop('disabled',false);
+    }
+    if(ageCat==="open")
+    {
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6)').show();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6) input').prop('disabled',false);
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5)').hide();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5) input').prop('checked',false).prop('disabled',true);
+    }
+    checkReadyToSubmit('#trainingUnitForm');
+    $("#trainingUnitForm input").each(function(i,input){
+        var name=$(input).prop('name');
+        
+        if(name!=='training_unit[_token]'){
+            fieldNames.push($(input).prop('name'));
+        }
+        
+    });
+    fieldNames=fieldNames.filter(onlyUnique);
+
+    $('body').on('change','#trainingUnitForm input',function(){
+        watchTrainingUnitFormStep1($(this));
+    });
+    let p_m_Inputs=$('.plus-minus-input');
+    $.each(p_m_Inputs,function (i,elem){
+       insertPlusMinusButtons(elem);
+    });
+}
+
+function insertPlusMinusButtons(elem)
+{
+    let btnMinus="<span class=\"input-group-text\">\n" +
+        "<button type=\"button\" class=\"btn btn-secondary btn-change-count btn-minus\" data-target=\"#__ID__\">-</button>\n" +
+        "</span>";
+    let btnPlus="<span class=\"input-group-text\">\n" +
+        "<button type=\"button\" class=\"btn btn-secondary btn-change-count btn-plus\" data-target=\"#__ID__\">+</button>\n" +
+        "</span>";
+
+    btnPlus=btnPlus.replaceAll('__ID__',$(elem).attr('id'));
+    btnMinus=btnMinus.replaceAll('__ID__',$(elem).attr('id'));
+    $(btnMinus).insertBefore($(elem));
+    $(btnPlus).insertAfter($(elem));
+    $(elem).parent().find('label').removeClass('input-group-text')
+}
+
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+function watchTrainingUnitFormStep1(input)
+{
+    let name =$(input).attr('name');
+    let target=$(input).parent().parent().data('show');
+    if(target==='#training_unit_trainingType')
+    {
+        $('.step-2').removeClass('d-none');
+    }
+
+    if(target==='#training_unit_seriesCount')
+    {
+        $('.step-3').removeClass('d-none');
+    }
+    
+    let ageCat=$('[name="training_unit[ageCategory]"]:checked').val();
+    if(ageCat==="youth")
+    {
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6)').hide();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6) input').prop('disabled',true).prop('checked',false);
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5)').show();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5) input').prop('disabled',false);
+    }
+    if(ageCat==="open")
+    {
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6)').show();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:gt(-6) input').prop('disabled',false);
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5)').hide();
+        $('#training_unit_trainingSubGroupsAgeCategories .form-check:lt(-5) input').prop('checked',false).prop('disabled',true);
+    }
+    if($('#training_unit_trainingSubGroupsAgeCategories .form-check input:checked').length===0)
+    {
+        $('#training_unit_trainingSubGroupsLevels').parent().addClass('d-none');
+    }
+
+
     let formArray=$('#trainingUnitForm').serializeArray();
-    let data = getFormData(JSON.parse(JSON.stringify( formArray )));
-    let target=$(this).parent().parent().data('show');
     let find=false;
-    let fieldsCount=$('#trainingUnitForm fieldset').length;
+
     $(formArray).each(function(i,elem){
-        if(elem.name==name)
+        if(elem.name===name)
         {
             find=true;
         }
     });
-    $('#trainingUnitForm button[type="submit"]').prop('disabled',Object.keys(data).length<fieldsCount)
+    checkReadyToSubmit('#trainingUnitForm')
+    //$('#trainingUnitForm button[type="submit"]').prop('disabled',Object.keys(data).length<fieldNames.length)
     if(find)
     {
         $(target).parent().removeClass('d-none');
     }else{
         $(target).parent().addClass('d-none');
-    }
-    
-    if(target=='#training_unit_trainingType')
-    {
-        $('.step-2').removeClass('d-none');
-    }
-    
-    let ageCat=$('[name="training_unit[ageCategory]"]:checked').val();
-    if(ageCat=="youth")
-    {
-        $('#training_unit_trainingSubGroupsAgeCategory .form-check:gt(-6)').hide();
-        $('#training_unit_trainingSubGroupsAgeCategory .form-check:lt(-5)').show();
-    }
-    if(ageCat=="open")
-    {
-        $('#training_unit_trainingSubGroupsAgeCategory .form-check:gt(-6)').show();
-        $('#training_unit_trainingSubGroupsAgeCategory .form-check:lt(-5)').hide();
-    }
 
-});
+        if(target==='#training_unit_seriesCount')
+        {
+            $('.step-3').addClass('d-none');
+        }
+    }
+}
+
+function checkReadyToSubmit(form)
+{
+    let formArray=$(form).serializeArray();
+    let data = getFormData(JSON.parse(JSON.stringify( formArray )));
+    $(form+' button[type="submit"]').prop('disabled',Object.keys(data).length<fieldNames.length)
+}
 
 function getFormData(json)
 {
@@ -430,4 +531,139 @@ function getFormData(json)
     return Object.assign({},obj);
 }
 
+$('body').on('click','.btn-change-count',function(){
+    let target= $(this).data('target');
+    let value=parseInt($(target).val());
+    let itemsCount=$('#accordionSeries > .accordion-item').length;
+    if($(this).hasClass('btn-minus')&& value>$(target).attr('min'))
+    {
+        value--;
+    }
+    if($(this).hasClass('btn-plus'))
+    {
+        value++;
+        let accId,
+            rangeInputs,
+            p_m_Inputs;
+        if(target==="#training_unit_seriesCount")
+        {
+            let seriesForm=$('#accordionSeries').attr('data-prototype');
+            seriesForm=seriesForm.replaceAll(/__name__/g,itemsCount);
+            let itemProt=$('#accordionSeries').attr('data-accordion-prototype');
+            itemProt=itemProt.replaceAll('__X__',(itemsCount+1)).replaceAll('__FORM__',seriesForm);
+            $(itemProt).appendTo($('#accordionSeries'));
+            accId=$('#'+$(itemProt).attr('id'));
+
+            p_m_Inputs=accId.find('.plus-minus-input');
+            rangeInputs=accId.find('input[type="range"]');
+        }else{
+            let elemTarget=target.replace('seriesVolume','trainingUnitThrowConfigs');
+            let accordion=$(elemTarget).find('.accordion');
+            if(accordion.length===0)
+            {
+                createAccordion(elemTarget);
+                accordion=$(elemTarget).find('.accordion');
+            }
+            let throwsCount=accordion.find('.accordion-item').length;
+            let elem=$(elemTarget).attr('data-prototype');
+            let accItem=ACCORDION_ITEM.replaceAll('__ID__',elemTarget.replace('#','')).replaceAll('__TARGET__',elemTarget.replace('#',''))
+                .replaceAll('__X__',throwsCount).replaceAll('__HEADER__','Konfiguruj wyrzut').replaceAll('__Y__',(throwsCount+1))
+            elem=elem.replaceAll(/__name__/g,throwsCount).replaceAll(/__t__/g,throwsCount).replaceAll('__X__',(throwsCount+1));
+            accItem=accItem.replaceAll('__CONTENT__',elem);
+            $(accItem).appendTo($(accordion));
+            accId=$('#'+$(accItem).attr('id'));
+            p_m_Inputs=accId.find('.plus-minus-input');
+            rangeInputs=accId.find('input[type="range"]');
+        }
+        $.each(p_m_Inputs,function (i,elem){
+            insertPlusMinusButtons(elem);
+        });
+        $.each(rangeInputs,function (i,input){
+            addRangeBubble(input)
+        });
+    }
+    $(target).val(value);
+})
+
+    function createAccordion(target)
+    {
+        let accordion=ACCORDION_PROTOTYPE.replaceAll('__ID__',target);
+        $(accordion).appendTo(target);
+    }
+
+function addRangeBubble(input){
+    let output='<output class="bubble" id="'+$(input).attr('id')+'_bubble"></output>';
+    $(output).insertAfter(input);
+    let bubble='#'+$(input).attr('id')+'_bubble'
+    $(input).attr('data-bubble',bubble);
+    $(input).on("input", function () {
+        setBubble($(input), $(bubble));
+    });
+    setBubble($(input), $(bubble));
+}
+
+let rangeInputs=$('input[type="range"]');
+$.each(rangeInputs,function(i,input){
+    addRangeBubble(input);
+});
+
+
+$.each($("body .range-wrap"),function (i,wrap) {
+  const range = $(wrap).find(".range");
+  const bubble = range.attr("data-bubble");
+  range.on("input", function () {
+    setBubble(range, $(bubble));
+  });
+  setBubble(range, $(bubble));
+});
+
+
+function setBubble(range, bubble) {
+  const val = range.val();
+  const min = range.attr('min') ? range.attr('min') : 0;
+  const max = range.attr('max') ? range.attr('max') : 100;
+  const newVal = Number(((val - min) * 100) / (max - min));
+
+  bubble.html(val);
+
+  // Sorta magic numbers based on size of the native UI thumb
+    if(bubble.parent().hasClass('range-vertical'))
+    {
+        let hP=newVal*range.height()/100;
+        bubble.css("bottom",`calc(${hP}px - (${newVal * 0.15}px))`);
+    }else{
+        bubble.css("left",`calc(${newVal}% + (${8 - newVal * 0.15}px))`);
+    }
+}
+
+$('body').on('change','.tasks-what input',function (){
+    let val=$(this).val();
+    let target=$(this).parent().parent().data('show');
+    showTasksHow(val,target)
+
+});
+
+function showTasksHow(value,target)
+{
+    let hideVals=[];
+    switch (value){
+        case 'take-ball':
+            hideVals=['head']
+            break;
+        case 'first-touch':
+            hideVals=['chest'];
+            break;
+        case 'free-choice':
+            hideVals=['head','chest'];
+            break;
+        default:break;
+    }
+    $(target).find('input').prop('disabled',false);
+    $(target).find('.form-check').show();
+    $.each(hideVals,function (i,val){
+        let elem =$(target).find('input[value="'+val+'"]');
+        elem.prop('disabled',true).prop('checked',false);
+        elem.parent().hide();
+    });
+}
 });

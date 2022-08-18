@@ -1,0 +1,21 @@
+{% extends 'default/with_navbar.html.twig' %}
+
+{% block title %}Konfiguracja serii{% endblock %}
+
+{% block body %}
+
+<div class="row" id="configsPage">
+    <div class="col-12">
+        <div class="box">
+        {{ form_start(form,{'attr':{'id':'trainingSeriesForm'}}) }}
+            <div class="row">
+                <div class="bg-primary py-2 text-white"><h3 class="mb-0 ">Konfiguruj serie nr {{serie.sort}}</h3></div>
+
+                
+            </div>
+
+        {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
