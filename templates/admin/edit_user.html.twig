@@ -1,0 +1,65 @@
+{% extends 'default/with_navbar.html.twig' %}
+
+{% block title %}Edytuj użytkownika{% endblock %}
+
+{% block body %}
+
+<h3>Dane użytkownika</h3>
+
+<div class="row">
+    <div class="col-md-6 col-lg-3 profile-pic-container text-center mb-3 mb-md-0">
+        <div class="profile-pic-box"> 
+            <img src="{{asset(user.image)}}" alt="" class="img-fluid profile-pic">
+        </div>
+
+        <button type="button" class="btn btn-primary">Zmień zdjęcie</button>
+    </div>
+    <div class="col-md-12 col-lg-9 col-xl-6">
+        {{ form_start(form) }}
+        <div class="box info-box less-pb">
+            <div class="form-group row">
+                <div class="col-12 col-sm-3 col-form-label">{{ form_label(form.fullName) }}</div>
+                <div class="col-12 col-sm-9">{{form_widget(form.fullName)}}</div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12 col-sm-3 col-form-label">{{ form_label(form.birthDate) }}</div>
+                <div class="col-12 col-sm-9">{{form_widget(form.birthDate)}}</div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12 col-sm-3 col-form-label">{{ form_label(form.city) }}</div>
+                <div class="col-12 col-sm-9">{{form_widget(form.city)}}</div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12 col-sm-3 col-form-label">{{ form_label(form.club) }}</div>
+                <div class="col-12 col-sm-9">{{form_widget(form.club)}}</div>
+            </div>
+            {% if user.userType|player_type%}
+            <div class="form-group row">
+                <div class="col-12 col-sm-3 col-form-label">{{ form_label(form.position) }}</div>
+                <div class="col-12 col-sm-9">{{form_widget(form.position)}}</div>
+            </div>
+            {%endif%}
+            {% if user.userType|manager_type%}
+            <div class="form-group row">
+                <div class="col-12 col-sm-3 col-form-label">{{ form_label(form.yearbook) }}</div>
+                <div class="col-12 col-sm-9">{{form_widget(form.yearbook)}}</div>
+            </div>
+                <div class="form-group row">
+                    <div class="col-12 col-sm-3 col-form-label">{{ form_label(form.expert_manager) }}</div>
+                    <div class="col-12 col-sm-9">{{form_widget(form.expert_manager)}}</div>
+                </div>
+            {%endif%}
+        </div>
+
+        <div class="row">
+            <div class="col-6 col-md-4">
+            {{ form_widget(form.submit) }}
+            </div>
+            <div class="col-6 text-end">
+                <a href="{{path('app_home')}}" class="btn btn-outline-primary">Anuluj</a>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

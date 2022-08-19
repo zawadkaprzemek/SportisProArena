@@ -1,0 +1,52 @@
+{% extends 'default/with_navbar.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+
+{%set pages=(users|length/10)|number_format(0,".",".")|round(0,'ceil')%}
+<h3>Raporty</h3>
+
+    <div class="row" id="usersPage">
+        <div class="col-12">
+            <div class="box">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>{{title}}</h3>
+                    </div>
+
+                    <div class="col-md-6 text-end">
+                    {% include 'modules/search_form.html.twig' %}
+                    </div>
+                    <div class="table-responsive">
+                    <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
+                    <thead>
+                        <tr>
+                            <th>Imię i nazwisko</th>
+                            <th>Email</th>
+                            <th>Klub</th>
+                            <th>Data rejestracji</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {%for user in users%}
+                        <tr>
+                            <td>{{ user.fullName }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.club.name }}</td>
+                            <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                            <td class="text-end"><a href="{{path('app_admin_user_edit',{'id':user.id})}}" class="fw-bold">Edytuj</a></td>
+                        </tr>
+                    {%endfor%}
+                    </tbody>
+                    </table>
+                    </div>
+                </div>
+                {% include 'modules/pagination.html.twig' with {'data':{'pages':pages,'current':1}} %}
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
