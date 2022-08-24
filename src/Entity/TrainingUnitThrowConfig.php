@@ -43,14 +43,14 @@ class TrainingUnitThrowConfig
     private $light;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="string", length=255)
      */
-    private $startPlace = [];
+    private $startPlace = '0,0';
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sort;
+    private $sort=0;
 
     /**
      * @ORM\ManyToOne(targetEntity=TrainingSeries::class, inversedBy="trainingUnitThrowConfigs")
@@ -123,12 +123,12 @@ class TrainingUnitThrowConfig
         return $this;
     }
 
-    public function getStartPlace(): ?array
+    public function getStartPlace(): string
     {
         return $this->startPlace;
     }
 
-    public function setStartPlace(array $startPlace): self
+    public function setStartPlace(string $startPlace): self
     {
         $this->startPlace = $startPlace;
 

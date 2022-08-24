@@ -63,7 +63,7 @@ class TrainingUnit
     private $seriesCount;
 
     /**
-     * @ORM\OneToMany(targetEntity=TrainingSeries::class, mappedBy="trainingUnit")
+     * @ORM\OneToMany(targetEntity=TrainingSeries::class, mappedBy="trainingUnit",cascade={"persist","remove"})
      */
     private $trainingSeries;
 

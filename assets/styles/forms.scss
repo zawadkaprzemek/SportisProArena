@@ -171,3 +171,27 @@ form{
         border-bottom: 1px solid $secondary;
     }
 }
+
+.pointPickerWrapper{
+    &.rounded{
+        .pointPicker{
+            border-radius: 50%;
+        }
+    }
+    .pointPicker{
+        width:201px;
+        height: 201px;
+        background: $secondary;
+        cursor: pointer;
+        position: relative;
+
+        .point{
+            position: absolute;
+            width:5px;
+            height: 5px;
+            background:$primary;
+            border-radius: 50%;
+        }
+    }
+}
+

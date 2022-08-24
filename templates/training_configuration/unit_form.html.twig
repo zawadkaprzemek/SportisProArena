@@ -38,7 +38,25 @@
                             <div class="accordion-body">
                                 {% for children in child.children %}
                                     {% if children.vars.name=='trainingUnitThrowConfigs' %}
-                                        {{ form_widget(children) }}
+                                        <div id="{{ children.vars.id }}" data-prototype="{{ form_row(children.vars.prototype)|e }}">
+                                        <div class="accordion accordion-flush" id="{{ children.vars.id }}Accordion">
+                                            {% for c,thChild in children %}
+                                            <div id="accordion-item-{{ children.vars.id }}AccordionItem_{{c}}" class="accordion-item">
+                                                <h2 class="accordion-header" id="flush-{{ children.vars.id }}AccordionItem_{{c}}">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_{{ children.vars.id }}AccordionItem_{{c}}" aria-expanded="false"
+                                                            aria-controls="flush-collapse_{{ children.vars.id }}AccordionItem_{{c}}">
+                                                        Konfiguruj wyrzut {{c+1}}
+                                                    </button>
+                                                </h2>
+                                                <div id="flush-collapse_{{ children.vars.id }}AccordionItem_{{c}}" class="accordion-collapse collapse" aria-labelledby="flush-{{ children.vars.id }}AccordionItem_{{c}}" data-bs-parent="{{ children.vars.id }}Accordion">
+                                                    <div class="accordion-body">
+                                                    {{ form_row(thChild) }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+
                                         {#{% for elem in children.vars.prototype.children %}
                                             {{ form_row(elem) }}
                                         {% endfor %}#}
@@ -58,5 +76,6 @@
         {{ form_end(form) }}
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

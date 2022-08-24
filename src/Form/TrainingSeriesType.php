@@ -24,29 +24,18 @@ class TrainingSeriesType extends AbstractType
                 'label_attr'=>['class'=>'unit-form-input'],
                 'choices'=>$this->prepareScreenChoices(6),
                 'row_attr'=>['class'=>'form-check-inline col-12 hide-inputs'],
-                'attr'=>['data-show'=>'#training_unit_trainingSeries___name___screensChoice'],
+                'attr'=>['data-show'=>'#training_unit_trainingSeries___name___mainScreen'],
                 'expanded'=>true
             ])
-            ->add('screensChoice',ChoiceType::class,[
+            ->add('mainScreen',ChoiceType::class,[
                 'label'=>'Główny ekran',
                 'label_html'=>true,
                 'label_attr'=>['class'=>'unit-form-input'],
                 'choices'=>$this->prepareScreenChoices(4),
                 'row_attr'=>['class'=>'form-check-inline col-12 hide-inputs d-none'],
                 'attr'=>['data-show'=>'#training_unit_trainingSeries___name___targetType'],
-                'expanded'=>true,
-                'mapped'=>false
+                'expanded'=>true
             ])
-           /* ->add('screensChoice',ChoiceType::class,[
-                'label'=>'Główny ekran',
-                'label_html'=>true,
-                'label_attr'=>['class'=>'unit-form-input'],
-                'choices'=>$this->prepareScreenChoices(4),
-                'row_attr'=>['class'=>'form-check-inline col-12 hide-inputs'],
-                'attr'=>['data-show'=>'#training_unit_trainingType'],
-                'expanded'=>true,
-                'mapped'=>false
-            ])*/
             //->add('screensConfiguration')
             ->add('targetType',ChoiceType::class,[
                 'label'=>'Punktowanie',
@@ -73,7 +62,6 @@ class TrainingSeriesType extends AbstractType
                 'row_attr'=>['class'=>'form-check-inline col-12 hide-inputs tasks-what'],
                 'attr'=>['data-show'=>'#training_unit_trainingSeries___name___playerTasksHow'],
                 'expanded'=>true,
-                'mapped'=>false
             ])
             ->add('playerTasksHow',ChoiceType::class,[
                 'label'=>false,
@@ -89,14 +77,12 @@ class TrainingSeriesType extends AbstractType
                 'row_attr'=>['class'=>'form-check-inline col-12 hide-inputs d-none'],
                 'attr'=>['data-show'=>'#training_unit_trainingSeries___name___seriesVolume'],
                 'expanded'=>true,
-                'mapped'=>false
             ])
 
             ->add('seriesVolume',NumberType::class,[
                 'label'=>'Objętość serii',
                 //'data'=>($unit->getSeriesCount()?? 1),
                 'html5'=>true,
-                'data'=>0,
                 'attr'=>[
                     'step'=>1,
                     'min'=>1,
@@ -143,7 +129,6 @@ class TrainingSeriesType extends AbstractType
                     'Im szybciej tym lepiej'=>'the_sooned_the_better',
                     'W określonym czasie'=>'in_certain_time'
                 ],
-                'mapped'=>false,
                 'row_attr'=>['class'=>'form-check-inline col-12 hide-inputs d-none'],
                 'attr'=>['data-show'=>'#training_unit_trainingSeries___name___timeConfigurationMin,
                 #training_unit_trainingSeries___name___timeConfigurationMax,
@@ -159,8 +144,7 @@ class TrainingSeriesType extends AbstractType
                 'row_attr'=>[
                     'class'=>'range-wrap col-md-6 d-none'
                 ],
-                'data'=>10,
-                'mapped'=>false,
+                'empty_data'=>10,
             ])
             ->add('timeConfigurationMax',RangeType::class,[
                 'label'=>'Ile czasu max (w sekundach)',
@@ -168,8 +152,7 @@ class TrainingSeriesType extends AbstractType
                 'row_attr'=>[
                     'class'=>'range-wrap col-md-6 d-none'
                 ],
-                'data'=>60,
-                'mapped'=>false,
+                'empty_data'=>60
             ])
 
             ->add('timeConfigurationPercent',RangeType::class,[
@@ -178,8 +161,7 @@ class TrainingSeriesType extends AbstractType
                 'row_attr'=>[
                     'class'=>'range-wrap col-md-6 d-none'
                 ],
-                'data'=>50,
-                'mapped'=>false,
+                'empty_data'=>50
             ])
 
             //->add('breaksConfiguration')
@@ -192,8 +174,6 @@ class TrainingSeriesType extends AbstractType
                     'data-show'=>'#training_unit_trainingSeries___name___seriesBreaks'
                 ],
                 'row_attr'=>['class'=>'col-md-6 d-none'],
-                'data'=>$this->getBreakValue($options,'throw'),
-                'mapped'=>false
             ])
             ->add('seriesBreaks',NumberType::class,[
                 'label'=>'Przerwy między seriami',
@@ -204,8 +184,6 @@ class TrainingSeriesType extends AbstractType
                     'data-show'=>'#training_unit_trainingSeries___name___unitBreaks'
                 ],
                 'row_attr'=>['class'=>'col-md-6 d-none'],
-                'data'=>$this->getBreakValue($options,'series'),
-                'mapped'=>false
             ])
             ->add('unitBreaks',NumberType::class,[
                 'label'=>'Przerwy między jednostkami',
@@ -216,8 +194,6 @@ class TrainingSeriesType extends AbstractType
                     'data-show'=>'#training_unit_trainingSeries___name___trainingObjectives'
                 ],
                 'row_attr'=>['class'=>'col-md-6 d-none'],
-                'data'=>$this->getBreakValue($options,'unit'),
-                'mapped'=>false
             ])
             ->add('trainingObjectives',ChoiceType::class,[
                 'label'=>'4 główne cele',
@@ -241,7 +217,7 @@ class TrainingSeriesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TrainingSeries::class,
-            'inherit_data'=>true
+            //'inherit_data'=>true
         ]);
     }
 
@@ -254,15 +230,5 @@ class TrainingSeriesType extends AbstractType
         }
 
         return $choices;
-    }
-
-    private function getBreakValue($options,string $type)
-    {
-        if(array_key_exists('data',$options))
-        {
-            return $options['data']->getBreakValue($type);
-        }else{
-            return 0;
-        }
     }
 }

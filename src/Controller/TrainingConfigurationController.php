@@ -2,23 +2,17 @@
 
 namespace App\Controller;
 
-#use App\Entity\TrainingUnit;
-#use App\Form\TrainingConfigurationType;
-#use App\Form\TrainingUnitType;
-
 use App\Entity\TrainingSeries;
 use App\Entity\User;
 use App\Entity\TrainingUnit;
 use App\Entity\TrainingUnitThrowConfig;
-use App\Form\TrainingScenarioType;
-use App\Form\TrainingSeriesType;
 use App\Form\TrainingUnitType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/training/configuration")
@@ -57,18 +51,50 @@ class TrainingConfigurationController extends AbstractController
             $series->addTrainingUnitThrowConfig(new TrainingUnitThrowConfig());
             $unit->addTrainingSeries($series);
         }
+        $oldSeries=new ArrayCollection();
+        $oldThrows=new ArrayCollection();
+        foreach ($unit->getTrainingSeries() as $series)
+        {
+            $oldSeries[]=$series;
+            foreach ($series->getTrainingUnitThrowConfigs() as $throwConfig)
+            {
+                $oldThrows[]=$throwConfig;
+            }
+        }
 
         $form=$this->createForm(TrainingUnitType::class,$unit);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid())
         {
+            $seriesNew=new ArrayCollection();
+            $throwsNew=new ArrayCollection();
             $em=$this->getDoctrine()->getManager();
-            //$unit->nextStep();
-            //dd($unit);
+            foreach ($unit->getTrainingSeries() as $series)
+            {
+                $seriesNew[]=$series;
+                foreach ($series->getTrainingUnitThrowConfigs() as $throwConfig)
+                {
+                    $throwsNew[]=$throwConfig;
+                }
+            }
+            foreach ($oldThrows as $oldThrow)
+            {
+                if(!$throwsNew->contains($oldThrow))
+                {
+                    $em->remove($oldThrow);
+                }
+            }
+            foreach ($oldSeries as $series)
+            {
+                if(!$seriesNew->contains($series))
+                {
+                    $em->remove($series);
+                }
+            }
             $em->persist($unit);
             $em->flush();
             $this->addFlash('success','Zapisano konfigurację');
-            return $this->redirectToRoute('app_training_configuration_scenario_form',[
+            return $this->redirectToRoute('app_training_configuration_my',[
                 'id'=>$unit->getId()
             ]);
         }
@@ -101,29 +127,6 @@ class TrainingConfigurationController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{id}/scenario", name="app_training_configuration_scenario_form")
-     */
-    public function sessionScenarioForm(Request $request,TrainingUnit $unit)
-    {
-        $form=$this->createForm(TrainingScenarioType::class,$unit);
-        $form->handleRequest($request);
-        if($form->isSubmitted()&&$form->isValid())
-        {
-            $em=$this->getDoctrine()->getManager();
-            $em->persist($unit);
-            $em->flush();
-            $this->addFlash('success','Zapisano konfigurację');
-            return $this->redirectToRoute('app_training_configuration_scenario_series_list',[
-                'id'=>$unit->getId()
-            ]);
-        }
-
-        return $this->render('training_configuration/scenario_form.html.twig',[
-            'form'=>$form->createView(),
-            'unit'=>$unit
-        ]);
-    }
 
     /**
      * @Route("/{id}/scenario/series", name="app_training_configuration_scenario_series_list")

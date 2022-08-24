@@ -28,7 +28,7 @@ class TrainingUnitType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        
+        /** @var TrainingUnit $unit */
         $unit=$options['data'];
 
             $builder
@@ -125,7 +125,8 @@ class TrainingUnitType extends AbstractType
                 'row_attr'=>['class'=>'d-none'],
                 'allow_delete'=>true,
                 'prototype' => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'data'=>$unit->getTrainingSeries()
             ])
         ;
 

@@ -39,6 +39,8 @@ class TrainingSeries
      */
     private $screensConfiguration = [];
 
+    private $mainScreen;
+
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
@@ -54,10 +56,14 @@ class TrainingSeries
      */
     private $playerTasks = [];
 
+    private $playerTasksWhat;
+
+    private $playerTasksHow;
+
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $seriesVolume;
+    private $seriesVolume=0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -69,10 +75,24 @@ class TrainingSeries
      */
     private $timeConfiguration = [];
 
+    private $timeConfigurationMeaning;
+
+    private $timeConfigurationMin;
+
+    private $timeConfigurationMax;
+
+    private $timeConfigurationPercent;
+
     /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $breaksConfiguration = [];
+
+    private $seriesBreaks;
+
+    private $throwBreaks;
+
+    private $unitBreaks;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -82,10 +102,10 @@ class TrainingSeries
     /**
      * @ORM\Column(type="integer")
      */
-    private $sort;
+    private $sort=1;
 
     /**
-     * @ORM\OneToMany(targetEntity=TrainingUnitThrowConfig::class, mappedBy="trainingSeries")
+     * @ORM\OneToMany(targetEntity=TrainingUnitThrowConfig::class, mappedBy="trainingSeries",cascade={"persist","remove"})
      */
     private $trainingUnitThrowConfigs;
 
@@ -180,6 +200,7 @@ class TrainingSeries
     public function getSeriesVolume(): ?int
     {
         return $this->seriesVolume;
+        //return sizeof($this->trainingUnitThrowConfigs);
     }
 
     public function setSeriesVolume(?int $seriesVolume): self
@@ -299,5 +320,165 @@ class TrainingSeries
         }else{
             return 0;
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMainScreen()
+    {
+        return $this->screensConfiguration['mainScreen']?? null;
+    }
+
+    /**
+     * @param mixed $mainScreen
+     */
+    public function setMainScreen($mainScreen): void
+    {
+        $this->screensConfiguration['mainScreen']=$mainScreen;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerTasksWhat()
+    {
+        return $this->playerTasks['what']?? null;
+    }
+
+    /**
+     * @param mixed $playerTasksWhat
+     */
+    public function setPlayerTasksWhat($playerTasksWhat): void
+    {
+        $this->playerTasks['what'] = $playerTasksWhat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerTasksHow()
+    {
+        return $this->playerTasks['how']?? null;
+    }
+
+    /**
+     * @param mixed $playerTasksHow
+     */
+    public function setPlayerTasksHow($playerTasksHow): void
+    {
+        $this->playerTasks['how'] = $playerTasksHow;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeConfigurationMeaning()
+    {
+        return $this->timeConfiguration['meaning']?? null;
+    }
+
+    /**
+     * @param mixed $timeConfigurationMeaning
+     */
+    public function setTimeConfigurationMeaning($timeConfigurationMeaning): void
+    {
+        $this->timeConfiguration['meaning'] = $timeConfigurationMeaning;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeConfigurationMin()
+    {
+        return $this->timeConfiguration['min']?? null;
+    }
+
+    /**
+     * @param mixed $timeConfigurationMin
+     */
+    public function setTimeConfigurationMin($timeConfigurationMin): void
+    {
+        $this->timeConfiguration['min'] = $timeConfigurationMin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeConfigurationMax()
+    {
+        return $this->timeConfiguration['max'] ?? null;
+    }
+
+    /**
+     * @param mixed $timeConfigurationMax
+     */
+    public function setTimeConfigurationMax($timeConfigurationMax): void
+    {
+        $this->timeConfiguration['max'] = $timeConfigurationMax;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeConfigurationPercent()
+    {
+        return $this->timeConfiguration['percent']?? null;
+    }
+
+    /**
+     * @param mixed $timeConfigurationPercent
+     */
+    public function setTimeConfigurationPercent($timeConfigurationPercent): void
+    {
+        $this->timeConfiguration['percent'] = $timeConfigurationPercent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSeriesBreaks()
+    {
+        return $this->breaksConfiguration['series']?? null;
+    }
+
+    /**
+     * @param mixed $seriesBreaks
+     */
+    public function setSeriesBreaks($seriesBreaks): void
+    {
+        $this->breaksConfiguration['series'] = $seriesBreaks;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getThrowBreaks()
+    {
+        return $this->breaksConfiguration['throws']?? null;
+    }
+
+    /**
+     * @param mixed $throwBreaks
+     */
+    public function setThrowBreaks($throwBreaks): void
+    {
+        $this->breaksConfiguration['throws'] = $throwBreaks;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnitBreaks()
+    {
+        return $this->breaksConfiguration['unit']?? null;
+    }
+
+    /**
+     * @param mixed $unitBreaks
+     */
+    public function setUnitBreaks($unitBreaks): void
+    {
+        $this->breaksConfiguration['unit'] = $unitBreaks;
     }
 }

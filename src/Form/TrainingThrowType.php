@@ -4,11 +4,11 @@ namespace App\Form;
 
 use App\Entity\TrainingUnitThrowConfig;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class TrainingThrowType extends AbstractType
@@ -22,7 +22,7 @@ class TrainingThrowType extends AbstractType
                 'label_attr'=>['class'=>'unit-form-input'],
                 'choices'=>$this->prepareLauncherChoices(6),
                 'row_attr'=>['class'=>'form-check-inline col-12 hide-inputs'],
-                'attr'=>['data-show'=>'#training_unit_trainingSeries___name___trainingUnitThrowConfigs___t___power,#training_unit_trainingSeries___name___trainingUnitThrowConfigs___t___angle'],
+                'attr'=>['data-show'=>'#training_unit_trainingSeries___name___trainingUnitThrowConfigs___t___power,#training_unit_trainingSeries___name___trainingUnitThrowConfigs___t___angle,#training_unit_trainingSeries___name___trainingUnitThrowConfigs___t___startPlace'],
                 'expanded'=>true
             ])
             ->add('power',RangeType::class,[
@@ -43,13 +43,18 @@ class TrainingThrowType extends AbstractType
             ->add('sound', CheckboxType::class, [
                 'label'=>'Dźwięk',
                 'row_attr' => ['class' => 'form-switch'],
+                'required'=>false
             ])
             ->add('light', CheckboxType::class, [
                 'label'=>'Światło',
                 'row_attr' => ['class' => 'form-switch'],
+                'required'=>false
             ])
-            ->add('startPlace')
-            ->add('sort',HiddenType::class)
+            ->add('startPlace',TextType::class,[
+                'label'=>'Miejsce startu ćwiczenia',
+                'attr'=>['class'=>'d-none-always'],
+                'row_attr'=>['class'=>'pointPickerWrapper rounded d-none']
+            ])
         ;
     }
 

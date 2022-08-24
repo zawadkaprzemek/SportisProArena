@@ -35,7 +35,7 @@
                         <tr>
                         <td>{{config.name}}</td>
                         <td>{{config.createdAt|date('d/m/Y H:i')}}</td>
-                        <td>0</td>
+                        <td>{{ config.trainingSeries|length }}</td>
                         <td>
                             {%if config.status==1 %}
                             <a href="" class="btn btn-primary btn-sm">Dokończ konfiguracje</a>

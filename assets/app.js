@@ -31,14 +31,14 @@ const trainingDateCheckbox='<div class="form-check"><input class="form-check-inp
 '<label class="form-check-label" for="trainingDate__COUNT__">__TEXT__</label></div>';
 
 const ACCORDION_PROTOTYPE="<div class=\"accordion accordion-flush\" id=\"__ID__Accordion\"></div>";
-const ACCORDION_ITEM="<div id=\"accordion-item__TARGET____X__\" class=\"accordion-item\">\n" +
-    "    <h2 class=\"accordion-header\" id=\"flush-series__X__\">\n" +
-    "        <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#flush-collapse__TARGET____X__\" aria-expanded=\"false\"\n" +
-    "                aria-controls=\"flush-collapse__TARGET____X__\">\n" +
+const ACCORDION_ITEM="<div id=\"accordion-item-__TARGET__AccordionItem___X__\" class=\"accordion-item\">\n" +
+    "    <h2 class=\"accordion-header\" id=\"flush-__TARGET___AccordionItem___X__\">\n" +
+    "        <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#flush-collapse-__TARGET____X__\" aria-expanded=\"false\"\n" +
+    "                aria-controls=\"flush-collapse-__TARGET____X__\">\n" +
     "            __HEADER__ __Y__\n" +
     "        </button>\n" +
     "    </h2>\n" +
-    "    <div id=\"flush-collapse__TARGET____X__\" class=\"accordion-collapse collapse\" aria-labelledby=\"flush-__TARGET____X__\" data-bs-parent=\"__ID__Accordion\">\n" +
+    "    <div id=\"flush-collapse-__TARGET____X__\" class=\"accordion-collapse collapse\" aria-labelledby=\"flush-__TARGET____X__\" data-bs-parent=\"__ID__Accordion\">\n" +
     "        <div class=\"accordion-body\">\n" +
     "            __CONTENT__\n" +
     "        </div>\n" +
@@ -384,8 +384,8 @@ $('#trainingUnitForm input[name="training_unit[trainingType]"][value="pair"]').p
 let trainingUnitForm=$('#trainingUnitForm');
 if(trainingUnitForm.length>0)
 {
+    trainingUnitForm.find('.d-none').removeClass('d-none');
     var fieldNames=[];
-
     let ageCat=$('[name="training_unit[ageCategory]"]:checked').val();
     //console.log(ageCat);
     if(ageCat==="youth")
@@ -435,6 +435,10 @@ function insertPlusMinusButtons(elem)
     btnMinus=btnMinus.replaceAll('__ID__',$(elem).attr('id'));
     $(btnMinus).insertBefore($(elem));
     $(btnPlus).insertAfter($(elem));
+    if($(elem).val()==="")
+    {
+        $(elem).val(0);
+    }
     $(elem).parent().find('label').removeClass('input-group-text')
 }
 
@@ -534,17 +538,30 @@ function getFormData(json)
 $('body').on('click','.btn-change-count',function(){
     let target= $(this).data('target');
     let value=parseInt($(target).val());
+    if(value==="NaN")
+    {
+        value=0;
+    }
     let itemsCount=$('#accordionSeries > .accordion-item').length;
     if($(this).hasClass('btn-minus')&& value>$(target).attr('min'))
     {
         value--;
+        if(target==="#training_unit_seriesCount")
+        {
+            $('#accordionSeries .accordion-item:last-child').remove();
+        }else{
+            let elemTarget=target.replace('seriesVolume','trainingUnitThrowConfigs')+'Accordion';
+            $(elemTarget+' .accordion-item:last-child').remove();
+        }
     }
     if($(this).hasClass('btn-plus'))
     {
         value++;
         let accId,
             rangeInputs,
-            p_m_Inputs;
+            p_m_Inputs,
+            pickers
+        ;
         if(target==="#training_unit_seriesCount")
         {
             let seriesForm=$('#accordionSeries').attr('data-prototype');
@@ -556,6 +573,7 @@ $('body').on('click','.btn-change-count',function(){
 
             p_m_Inputs=accId.find('.plus-minus-input');
             rangeInputs=accId.find('input[type="range"]');
+            pickers=accId.find('.pointPickerWrapper');
         }else{
             let elemTarget=target.replace('seriesVolume','trainingUnitThrowConfigs');
             let accordion=$(elemTarget).find('.accordion');
@@ -566,14 +584,17 @@ $('body').on('click','.btn-change-count',function(){
             }
             let throwsCount=accordion.find('.accordion-item').length;
             let elem=$(elemTarget).attr('data-prototype');
+            let regex = /\d+/g;
+            let matches = elemTarget.match(regex);
             let accItem=ACCORDION_ITEM.replaceAll('__ID__',elemTarget.replace('#','')).replaceAll('__TARGET__',elemTarget.replace('#',''))
                 .replaceAll('__X__',throwsCount).replaceAll('__HEADER__','Konfiguruj wyrzut').replaceAll('__Y__',(throwsCount+1))
-            elem=elem.replaceAll(/__name__/g,throwsCount).replaceAll(/__t__/g,throwsCount).replaceAll('__X__',(throwsCount+1));
+            elem=elem.replaceAll(/__name__/g,matches[0]).replaceAll(/__t__/g,throwsCount).replaceAll('__X__',(throwsCount+1));
             accItem=accItem.replaceAll('__CONTENT__',elem);
             $(accItem).appendTo($(accordion));
             accId=$('#'+$(accItem).attr('id'));
             p_m_Inputs=accId.find('.plus-minus-input');
             rangeInputs=accId.find('input[type="range"]');
+            pickers=$(accItem).find('.pointPickerWrapper');
         }
         $.each(p_m_Inputs,function (i,elem){
             insertPlusMinusButtons(elem);
@@ -581,13 +602,16 @@ $('body').on('click','.btn-change-count',function(){
         $.each(rangeInputs,function (i,input){
             addRangeBubble(input)
         });
+        $.each(pickers,function (i,picker){
+            //generatePicker(picker);
+        })
     }
     $(target).val(value);
 })
 
     function createAccordion(target)
     {
-        let accordion=ACCORDION_PROTOTYPE.replaceAll('__ID__',target);
+        let accordion=ACCORDION_PROTOTYPE.replaceAll('__ID__',target+'Accordion');
         $(accordion).appendTo(target);
     }
 
@@ -607,6 +631,29 @@ $.each(rangeInputs,function(i,input){
     addRangeBubble(input);
 });
 
+$('body').on('click','.pointPicker',function (e){
+    let x = e.pageX - $(e.currentTarget).offset().left;
+    let y = e.pageY - $(e.currentTarget).offset().top;
+    x=parseInt(x);
+    y=parseInt(y);
+    addPoint(x,y,$(this));
+});
+
+function addPoint(x,y,picker)
+{
+    //console.log(x,y,picker);
+    $(picker).find('.point').remove();
+    let point=$('<div class="point"></div>');
+    $(point).css({
+        "top":y+'px',
+        "left":x+'px'
+    });
+    let target=$(picker).data('target');
+    //console.log($(picker),target);
+    $(target).val((x-101)+','+(101-y));
+    //console.log($(target).val());
+    $(picker).append($(point));
+}
 
 $.each($("body .range-wrap"),function (i,wrap) {
   const range = $(wrap).find(".range");
@@ -617,7 +664,38 @@ $.each($("body .range-wrap"),function (i,wrap) {
   setBubble(range, $(bubble));
 });
 
+$.each($("body .pointPickerWrapper"),function (i,picker){
+    generatePicker(picker);
+});
 
+function generatePicker(picker){
+    const input=$(picker).find('input');
+    let inputId=$(input).attr('id');
+    $(picker).attr('id',inputId+'PickerWrapper');
+    let div=$('<div id="'+inputId+'Picker" class="pointPicker" data-target="#'+inputId+'"></div>')
+    $(div).appendTo($(picker));
+
+    let val=$('#'+inputId).val();
+    if(val==="")
+    {
+        val="0,0";
+    }
+    let arr=val.split(',');
+    let x=parseInt(arr[0])+101; let y=101-parseInt(arr[1]);
+    addPoint(x,y,'#'+inputId+'Picker');
+}
+    const observer = new MutationObserver(list => {
+        let target=$(list[0].target);
+        let pickers=$(target).find('.pointPickerWrapper');
+        $.each(pickers,function(i,picker){
+           console.log(typeof $(picker).attr('id'));
+            if(typeof $(picker).attr('id')==='undefined')
+           {
+               generatePicker(picker);
+           }
+        });
+    });
+    observer.observe(document.body, { childList: true, subtree: true});
 function setBubble(range, bubble) {
   const val = range.val();
   const min = range.attr('min') ? range.attr('min') : 0;
