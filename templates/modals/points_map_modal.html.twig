@@ -1,0 +1,35 @@
+<!-- Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+               {# <h5 class="modal-title" id="mapModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+            </div>
+            <form id="targetMapPointsForm">
+                <div class="modal-body">
+
+                    <input type="hidden" id="mapSeriesNumber">
+                    <p class="fw-bold">Wybierz punktację</p>
+                    <fieldset class="hide-inputs form-check-inline">
+                        {% for i in 1..10 %}
+                            <div class="form-check">
+                                <input type="radio" id="targetMapPoints[{{ i }}]" name="targetMapPoints" value="{{ i }}"
+                                       class="form-check-input" required>
+                                <label class="form-check-label required unit-form-input" for="targetMapPoints[{{ i }}]">
+                                    <span class="icon icon-number">{{ i }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+
+
+                </div>
+                <div class="modal-footer w-100 justify-content-end">
+                    {#<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>#}
+                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

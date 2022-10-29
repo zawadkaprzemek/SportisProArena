@@ -4,78 +4,98 @@
 
 {% block body %}
 
-<div class="row" id="configsPage">
-    <div class="col-12">
-        <div class="box">
-        {{ form_start(form,{'attr':{'id':'trainingUnitForm'}}) }}
-            <div class="row">
-            <div class="bg-primary py-2 mb-2 text-white"><h3 class="mb-0 ">Krok 1</h3></div>
-                {{form_row(form.name)}}
-                {{form_row(form.ageCategory)}}
-                <div class="bg-primary py-2 mt-3 mb-2 text-white step-2 {%if config.id is null%}d-none{%endif%}"><h3 class="mb-0 ">Krok 2</h3></div>
-                {{form_row(form.trainingType)}}
-                {{form_row(form.test)}}
-                {{form_row(form.trainingGroup)}}
-                {{form_row(form.trainingSubGroupsAgeCategories)}}
-                {{form_row(form.trainingSubGroupsLevels)}}
-                
+    <div class="row" id="configsPage">
+        <div class="col-12">
+            <div class="box">
+                {{ form_start(form,{'attr':{'id':'trainingUnitForm'}}) }}
+                <div class="row">
+                    <div class="bg-primary py-2 mb-2 text-white"><h3 class="mb-0 ">Krok 1</h3></div>
+                    {{ form_row(form.id) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.ageCategory) }}
+                    <div class="bg-primary py-2 mt-3 mb-2 text-white step-2 {% if config.id is null %}d-none{% endif %}">
+                        <h3 class="mb-0 ">Krok 2</h3></div>
+                    {{ form_row(form.trainingType) }}
+                    {{ form_row(form.test) }}
+                    {{ form_row(form.trainingGroup) }}
+                    {{ form_row(form.trainingSubGroupsAgeCategories) }}
+                    {{ form_row(form.trainingSubGroupsLevels) }}
 
-                <div class="bg-primary py-2 mb-2 text-white step-3 {%if config.id is null%}d-none{%endif%}"><h3 class="mb-0 ">Krok 3</h3></div>
-                {{form_row(form.seriesCount)}}
-                <div class="accordion accordion-flush step-3 d-none" id="accordionSeries"
-                     data-accordion-prototype="{{ include('modules/trainingSeriesAccordionItem.html.twig')|e }}"
-                     data-prototype="{{ form_row(form.trainingSeries.vars.prototype)|e }}"
-                >
-                    {% for i,child in form.trainingSeries %}
-                    <div class="accordion-item" id="accordion-item-series_{{ i+1 }}">
-                        <h2 class="accordion-header" id="flush-series{{ i+1 }}">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeries{{ i+1 }}"
-                                    aria-expanded="false" aria-controls="flush-collapseSeries1">
-                                Konfiguruj serie {{ i+1 }}
-                            </button>
-                        </h2>
-                        <div id="flush-collapseSeries{{ i+1 }}" class="accordion-collapse collapse" aria-labelledby="flush-series{{ i+1 }}" data-bs-parent="#accordionSeries">
-                            <div class="accordion-body">
-                                {% for children in child.children %}
-                                    {% if children.vars.name=='trainingUnitThrowConfigs' %}
-                                        <div id="{{ children.vars.id }}" data-prototype="{{ form_row(children.vars.prototype)|e }}">
-                                        <div class="accordion accordion-flush" id="{{ children.vars.id }}Accordion">
-                                            {% for c,thChild in children %}
-                                            <div id="accordion-item-{{ children.vars.id }}AccordionItem_{{c}}" class="accordion-item">
-                                                <h2 class="accordion-header" id="flush-{{ children.vars.id }}AccordionItem_{{c}}">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse_{{ children.vars.id }}AccordionItem_{{c}}" aria-expanded="false"
-                                                            aria-controls="flush-collapse_{{ children.vars.id }}AccordionItem_{{c}}">
-                                                        Konfiguruj wyrzut {{c+1}}
-                                                    </button>
-                                                </h2>
-                                                <div id="flush-collapse_{{ children.vars.id }}AccordionItem_{{c}}" class="accordion-collapse collapse" aria-labelledby="flush-{{ children.vars.id }}AccordionItem_{{c}}" data-bs-parent="{{ children.vars.id }}Accordion">
-                                                    <div class="accordion-body">
-                                                    {{ form_row(thChild) }}
+
+                    <div class="bg-primary py-2 mb-2 text-white step-3 {% if config.id is null %}d-none{% endif %}"><h3
+                                class="mb-0 ">Krok 3</h3></div>
+                    {{ form_row(form.seriesCount) }}
+                    <div class="accordion accordion-flush step-3 d-none" id="accordionSeries"
+                         data-accordion-prototype="{{ include('modules/trainingSeriesAccordionItem.html.twig')|e }}"
+                         data-prototype="{{ form_row(form.trainingSeries.vars.prototype)|e }}"
+                    >
+                        {% for i,child in form.trainingSeries %}
+                            <div class="accordion-item" id="accordion-item-series_{{ i+1 }}">
+                                <h2 class="accordion-header" id="flush-series{{ i+1 }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#flush-collapseSeries{{ i+1 }}"
+                                            aria-expanded="false" aria-controls="flush-collapseSeries1">
+                                        Konfiguruj serie {{ i+1 }}
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseSeries{{ i+1 }}" class="accordion-collapse collapse"
+                                     aria-labelledby="flush-series{{ i+1 }}" data-bs-parent="#accordionSeries">
+                                    <div class="accordion-body">
+                                        {% for children in child.children %}
+                                        {% if children.vars.name=='trainingUnitThrowConfigs' %}
+                                        <div id="{{ children.vars.id }}"
+                                             data-prototype="{{ form_row(children.vars.prototype)|e }}">
+                                            <div class="accordion accordion-flush d-none"
+                                                 id="{{ children.vars.id }}Accordion">
+                                                {% for c,thChild in children %}
+                                                    <div id="accordion-item-{{ children.vars.id }}AccordionItem_{{ c }}"
+                                                         class="accordion-item">
+                                                        <h2 class="accordion-header"
+                                                            id="flush-{{ children.vars.id }}AccordionItem_{{ c }}">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#flush-collapse_{{ children.vars.id }}AccordionItem_{{ c }}"
+                                                                    aria-expanded="false"
+                                                                    aria-controls="flush-collapse_{{ children.vars.id }}AccordionItem_{{ c }}">
+                                                                Konfiguruj wyrzut {{ c+1 }}
+                                                            </button>
+                                                        </h2>
+                                                        <div id="flush-collapse_{{ children.vars.id }}AccordionItem_{{ c }}"
+                                                             class="accordion-collapse collapse"
+                                                             aria-labelledby="flush-{{ children.vars.id }}AccordionItem_{{ c }}"
+                                                             data-bs-parent="{{ children.vars.id }}Accordion">
+                                                            <div class="accordion-body">
+                                                                {{ form_row(thChild)|replace({'__name__':i})|replace({'__t__':c})|raw }}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                {% endfor %}
                                             </div>
+
+                                            {# {% for elem in children.vars.prototype.children %}
+                                                {{ form_row(elem) }}
+                                            {% endfor %} #}
+                                            {% else %}
+                                                {{ form_row(children)|replace({'__name__':i})|replace({'__t__':0})|raw }}
+                                                {# {{ form_row(children) }} #}
+                                            {% endif %}
+
                                             {% endfor %}
                                         </div>
-
-                                        {#{% for elem in children.vars.prototype.children %}
-                                            {{ form_row(elem) }}
-                                        {% endfor %}#}
-                                        {% else %}
-                                            {{ form_row(children)|replace({'__name__':i})|replace({'__t__':0})|raw }}
-                                            {#{{ form_row(children) }}#}
-                                    {% endif %}
-
-                                {% endfor %}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% endfor %}
+
                     </div>
-                    {% endfor %}
+
+                    {{ form_end(form) }}
                 </div>
             </div>
-
-        {{ form_end(form) }}
         </div>
     </div>
-</div>
-</div>
+
+    {{ include('modals/points_map_modal.html.twig') }}
+    {{ include('modals/points_shield_modal.html.twig') }}
+
 {% endblock %}

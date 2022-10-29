@@ -173,9 +173,34 @@ form{
 }
 
 .pointPickerWrapper{
+    display: flex;
+    justify-content: start;
+    margin-bottom: 15px;
+
     &.rounded{
+        flex-direction: column;
         .pointPicker{
             border-radius: 50%;
+        }
+    }
+    &.big{
+        .pointPicker{
+            width: 401px;
+            height: 301px;
+        }
+
+    }
+
+    .pointPickerList{
+        width: 300px;
+        height: 301px;
+        margin-left: 100px;
+        border:1px solid $secondary;
+
+        .btn{
+            width: 45%;
+            height: 50px;
+            margin:5px 2.5%;
         }
     }
     .pointPicker{
@@ -184,7 +209,34 @@ form{
         background: $secondary;
         cursor: pointer;
         position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        &.map{
+            .point{
+                width:10px;
+                height: 10px;
+            }
+        }
 
+        &.shield{
+            .target-shield{
+                width: 100px;
+                height: 100px;
+                border:1px solid $primary;
+                position: absolute;
+                border-radius: 50%;
+                >div{
+                    position: absolute;
+                    border-radius: 50%;
+                    &:nth-child(odd){
+                        background: $primary;
+                    }
+                    &:nth-child(even){
+                        background: $secondary;
+                    }
+                }
+            }
+        }
         .point{
             position: absolute;
             width:5px;
@@ -195,3 +247,29 @@ form{
     }
 }
 
+#targetShieldPointsForm{
+    .icon{
+        &.icon-number{
+            white-space: nowrap;
+            width: 100%;
+        }
+    }
+    label.unit-form-input{
+        width: 150px;
+    }
+}
+
+
+@for $i from 1 through 10 {
+
+    .width-#{$i}0 {
+        width: percentage($i/10);
+        height: percentage($i/10);
+        top:calc(50% - percentage($i / 20));
+        left:calc(50% - percentage($i / 20));
+    }
+
+    .z-ind-#{$i}{
+        z-index: (10-$i)*10;
+    }
+}

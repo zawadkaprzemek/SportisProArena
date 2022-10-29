@@ -4,7 +4,7 @@
 
 {% block body %}
 
-{%set pages=(players|length/10)|number_format(0,".",".")|round(0,'ceil')%}
+{%set pages=(players|length/10)|round(0,'ceil')%}
 
 <div class="row" id="playersPage">
     <div class="col-12">

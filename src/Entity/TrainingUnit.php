@@ -13,6 +13,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class TrainingUnit
 {
+    const STATUS_BEGIN=0;
+    const STATUS_FINISHED=1;
+
+
     use TimestampableEntity;
 
     /**
@@ -93,6 +97,12 @@ class TrainingUnit
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(?int $id): self
+    {
+        $this->id=$id;
+        return $this;
     }
 
     public function getName(): ?string

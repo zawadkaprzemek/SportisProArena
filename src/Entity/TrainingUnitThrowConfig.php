@@ -18,37 +18,37 @@ class TrainingUnitThrowConfig
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $launcher;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $power;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $angle;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $sound;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $light;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $startPlace = '0,0';
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $sort=0;
 
@@ -68,7 +68,7 @@ class TrainingUnitThrowConfig
         return $this->launcher;
     }
 
-    public function setLauncher(int $launcher): self
+    public function setLauncher(?int $launcher): self
     {
         $this->launcher = $launcher;
 
@@ -80,7 +80,7 @@ class TrainingUnitThrowConfig
         return $this->power;
     }
 
-    public function setPower(int $power): self
+    public function setPower(?int $power): self
     {
         $this->power = $power;
 
@@ -92,7 +92,7 @@ class TrainingUnitThrowConfig
         return $this->angle;
     }
 
-    public function setAngle(int $angle): self
+    public function setAngle(?int $angle): self
     {
         $this->angle = $angle;
 
@@ -104,7 +104,7 @@ class TrainingUnitThrowConfig
         return $this->sound;
     }
 
-    public function setSound(bool $sound): self
+    public function setSound(?bool $sound): self
     {
         $this->sound = $sound;
 
@@ -116,19 +116,19 @@ class TrainingUnitThrowConfig
         return $this->light;
     }
 
-    public function setLight(bool $light): self
+    public function setLight(?bool $light): self
     {
         $this->light = $light;
 
         return $this;
     }
 
-    public function getStartPlace(): string
+    public function getStartPlace(): ?string
     {
         return $this->startPlace;
     }
 
-    public function setStartPlace(string $startPlace): self
+    public function setStartPlace(?string $startPlace): self
     {
         $this->startPlace = $startPlace;
 
@@ -140,7 +140,7 @@ class TrainingUnitThrowConfig
         return $this->sort;
     }
 
-    public function setSort(int $sort): self
+    public function setSort(?int $sort): self
     {
         $this->sort = $sort;
 

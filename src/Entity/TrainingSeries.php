@@ -9,13 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass=TrainingSeriesRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\TrainingSeriesRepository", repositoryClass=TrainingSeriesRepository::class)
  */
 class TrainingSeries
 {
 
     use TimestampableEntity;
-    
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -48,8 +48,29 @@ class TrainingSeries
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * [
+     * 'targetsMap','targetsShield','targetsMapPoints','targetsShieldPoints','targetPresentation','disablePointsBehindGoal'
+     * ]
      */
     private $targetConfiguration = [];
+
+    /** @var string example 0,0;120,-20 */
+    private $targets = "";
+
+    private $targetsMap;
+    private $targetShield;
+
+    /** @var string */
+    private $targetsMapPoints;
+
+    /** @var string */
+    private $targetsShieldPoints;
+
+    /** @var string */
+    private $targetPresentation;
+
+    /** @var bool */
+    private $disablePointsBehindGoal = false;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -63,7 +84,7 @@ class TrainingSeries
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $seriesVolume=0;
+    private $seriesVolume = 1;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -88,11 +109,11 @@ class TrainingSeries
      */
     private $breaksConfiguration = [];
 
-    private $seriesBreaks;
+    private $seriesBreaks = 0;
 
-    private $throwBreaks;
+    private $throwBreaks = 0;
 
-    private $unitBreaks;
+    private $unitBreaks = 0;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -102,7 +123,7 @@ class TrainingSeries
     /**
      * @ORM\Column(type="integer")
      */
-    private $sort=1;
+    private $sort = 1;
 
     /**
      * @ORM\OneToMany(targetEntity=TrainingUnitThrowConfig::class, mappedBy="trainingSeries",cascade={"persist","remove"})
@@ -199,8 +220,8 @@ class TrainingSeries
 
     public function getSeriesVolume(): ?int
     {
-        return $this->seriesVolume;
-        //return sizeof($this->trainingUnitThrowConfigs);
+        //return $this->seriesVolume;
+        return sizeof($this->trainingUnitThrowConfigs);
     }
 
     public function setSeriesVolume(?int $seriesVolume): self
@@ -312,12 +333,11 @@ class TrainingSeries
         return $this;
     }
 
-    public function getBreakValue(string $type):int
+    public function getBreakValue(string $type): int
     {
-        if(array_key_exists($type,$this->breaksConfiguration))
-        {
-            return $this->breaksConfiguration[$type];
-        }else{
+        if (array_key_exists($type, $this->breaksConfiguration)) {
+            return $this->breaksConfiguration[$type] ?? 0;
+        } else {
             return 0;
         }
     }
@@ -327,7 +347,7 @@ class TrainingSeries
      */
     public function getMainScreen()
     {
-        return $this->screensConfiguration['mainScreen']?? null;
+        return $this->screensConfiguration['mainScreen'] ?? null;
     }
 
     /**
@@ -335,7 +355,7 @@ class TrainingSeries
      */
     public function setMainScreen($mainScreen): void
     {
-        $this->screensConfiguration['mainScreen']=$mainScreen;
+        $this->screensConfiguration['mainScreen'] = $mainScreen;
     }
 
     /**
@@ -343,7 +363,7 @@ class TrainingSeries
      */
     public function getPlayerTasksWhat()
     {
-        return $this->playerTasks['what']?? null;
+        return $this->playerTasks['what'] ?? null;
     }
 
     /**
@@ -359,7 +379,7 @@ class TrainingSeries
      */
     public function getPlayerTasksHow()
     {
-        return $this->playerTasks['how']?? null;
+        return $this->playerTasks['how'] ?? null;
     }
 
     /**
@@ -375,7 +395,7 @@ class TrainingSeries
      */
     public function getTimeConfigurationMeaning()
     {
-        return $this->timeConfiguration['meaning']?? null;
+        return $this->timeConfiguration['meaning'] ?? null;
     }
 
     /**
@@ -391,7 +411,7 @@ class TrainingSeries
      */
     public function getTimeConfigurationMin()
     {
-        return $this->timeConfiguration['min']?? null;
+        return $this->timeConfiguration['min'] ?? null;
     }
 
     /**
@@ -423,7 +443,7 @@ class TrainingSeries
      */
     public function getTimeConfigurationPercent()
     {
-        return $this->timeConfiguration['percent']?? null;
+        return $this->timeConfiguration['percent'] ?? null;
     }
 
     /**
@@ -439,7 +459,7 @@ class TrainingSeries
      */
     public function getSeriesBreaks()
     {
-        return $this->breaksConfiguration['series']?? null;
+        return $this->breaksConfiguration['series'] ?? 0;
     }
 
     /**
@@ -455,7 +475,7 @@ class TrainingSeries
      */
     public function getThrowBreaks()
     {
-        return $this->breaksConfiguration['throws']?? null;
+        return $this->breaksConfiguration['throws'] ?? 0;
     }
 
     /**
@@ -471,7 +491,7 @@ class TrainingSeries
      */
     public function getUnitBreaks()
     {
-        return $this->breaksConfiguration['unit']?? null;
+        return $this->breaksConfiguration['unit'] ?? 0;
     }
 
     /**
@@ -480,5 +500,117 @@ class TrainingSeries
     public function setUnitBreaks($unitBreaks): void
     {
         $this->breaksConfiguration['unit'] = $unitBreaks;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargets(): string
+    {
+        return $this->targetConfiguration['targets'] ?? "";
+    }
+
+    /**
+     * @param string $targets
+     */
+    public function setTargets(string $targets): void
+    {
+        $this->targetConfiguration['targets'] = $targets;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetsMap(): string
+    {
+        return $this->targetConfiguration['targetsMap'] ?? "";
+    }
+
+    /**
+     * @param ?string $targetsMap
+     */
+    public function setTargetsMap(?string $targetsMap): void
+    {
+        $this->targetConfiguration['targetsMap'] = $targetsMap;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetsShield(): string
+    {
+        return $this->targetConfiguration['targetsShield'] ?? "";
+    }
+
+    /**
+     * @param ?string $targetsShield
+     */
+    public function setTargetsShield(?string $targetsShield): void
+    {
+        $this->targetConfiguration['targetsShield'] = $targetsShield;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getTargetsMapPoints(): ?string
+    {
+        return $this->targetConfiguration['targetsMapPoints'] ?? "";
+    }
+
+    /**
+     * @param string|null $points
+     */
+    public function setTargetsMapPoints(?string $points): void
+    {
+        $this->targetConfiguration['targetsMapPoints'] = $points;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetsShieldPoints(): ?string
+    {
+        return $this->targetConfiguration['targetsShieldPoints'] ?? "";
+    }
+
+    /**
+     * @param string|null $points
+     */
+    public function setTargetsShieldPoints(?string $points): void
+    {
+        $this->targetConfiguration['targetsShieldPoints'] = $points;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetPresentation(): ?string
+    {
+        return $this->targetConfiguration['targetPresentation'] ?? null;
+    }
+
+    /**
+     * @param string|null $targetPresentation
+     */
+    public function setTargetPresentation(?string $targetPresentation): void
+    {
+        $this->targetConfiguration['targetPresentation'] = $targetPresentation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDisablePointsBehindGoal(): bool
+    {
+        return $this->targetConfiguration['disablePointsBehindGoal'] ?? false;
+    }
+
+    /**
+     * @param bool $disablePointsBehindGoal
+     */
+    public function setDisablePointsBehindGoal(?bool $disablePointsBehindGoal): void
+    {
+        $this->targetConfiguration['disablePointsBehindGoal'] = $disablePointsBehindGoal;
     }
 }

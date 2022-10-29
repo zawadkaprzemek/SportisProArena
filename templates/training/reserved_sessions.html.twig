@@ -4,7 +4,7 @@
 
 {% block body %}
 
-{%set pages=((reserved|length)/10)|round(0,'ceil')|number_format(0,".",".")%}
+{%set pages=((reserved|length)/10)|number_format(0,".",".")%}
 <h3>Moje sesje treningowe</h3>
 
     <div class="row" id="trainingList">

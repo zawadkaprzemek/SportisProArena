@@ -1,0 +1,38 @@
+{% set scales=[
+    '0.1-1', '0.5-5', '1-10', '2-20', '3-30', '4-40', '5-50'
+] %}
+<!-- Modal -->
+<div class="modal fade" id="shieldModal" tabindex="-1" aria-labelledby="shieldModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shieldModal"></h5>
+                {#<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
+            </div>
+            <form id="targetShieldPointsForm">
+                <div class="modal-body">
+
+                    <input type="hidden" id="shieldSeriesNumber">
+                    <p class="fw-bold">Wybierz skale punktacji</p>
+                    <fieldset class="hide-inputs form-check-inline">
+                        {% for key,scale in scales %}
+                            <div class="form-check">
+                                <input type="radio" id="targetShieldPoints[{{ key }}]" name="targetShieldPoints" value="{{ scale }}"
+                                       class="form-check-input" required>
+                                <label class="form-check-label required unit-form-input" for="targetShieldPoints[{{ key }}]">
+                                    <span class="icon icon-number">{{ scale }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </fieldset>
+
+
+                </div>
+                <div class="modal-footer w-100 justify-content-end">
+                    {#<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>#}
+                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

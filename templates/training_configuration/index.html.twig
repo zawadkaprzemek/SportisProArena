@@ -4,12 +4,14 @@
 
 {% block body %}
 
-{%set pages=(configurations|length/10)|number_format(0,".",".")|round(0,'ceil')%}
+{%set pages=(configurations|length/10)|round(0,'ceil')%}
 <h3>Konfiguracja treningów</h3>
 
     <div class="row" id="configsPage">
         <div class="col-12">
+            {% if app.user.trainingConfigurationsToFinish|length ==0 %}
             <a href="{{path('app_training_configuration_add')}}" class="btn btn-primary mb-3">Dodaj nową konfiguracje treningu</a>
+            {% endif %}
             <div class="box">
                 <div class="row">
                     <div class="col-md-6">
@@ -37,11 +39,15 @@
                         <td>{{config.createdAt|date('d/m/Y H:i')}}</td>
                         <td>{{ config.trainingSeries|length }}</td>
                         <td>
-                            {%if config.status==1 %}
-                            <a href="" class="btn btn-primary btn-sm">Dokończ konfiguracje</a>
-                            {%else%}
-                            <a href="{{path('app_training_configuration_edit',{'id':config.id})}}" class="btn btn-primary btn-sm">Edytuj konfiguracje</a>
-                            {%endif%}
+
+                            <a href="{{path('app_training_configuration_edit',{'id':config.id})}}" class="btn btn-primary btn-sm">
+                                {%if config.status==0 %}
+                                Dokończ konfiguracje
+                                {%else%}
+                                Edytuj konfiguracje
+                                {%endif%}
+                            </a>
+
                         </td>
                         </tr>
                         {%else%}

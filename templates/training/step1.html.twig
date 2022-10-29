@@ -5,7 +5,7 @@
 {% block body %}
 
 
-{%set pages=((arenas|length)/10)|round(0,'ceil')|number_format(0,".",".")%}
+{%set pages=((arenas|length)/10)|round(0,'ceil')%}
 <h3>Zarezerwuj termin</h3>
 
     <div class="row" id="arenaList">

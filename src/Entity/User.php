@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Criteria;
 use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -460,9 +461,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @param string|float $trainingUnits
+     * @return $this
+     */
     public function addTrainingUnits(string $trainingUnits):self
     {
-        $this->trainingUnits+=$trainingUnits;
+        $this->trainingUnits=$this->trainingUnits + $trainingUnits;
         return $this;
     }
 
@@ -632,5 +637,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getTrainingConfigurationsToFinish():Collection
+    {
+        $criteria= Criteria::create()
+            ->andWhere(Criteria::expr()->eq('status',TrainingUnit::STATUS_BEGIN));
+
+        return $this->trainingConfigurations->matching($criteria);
     }
 }

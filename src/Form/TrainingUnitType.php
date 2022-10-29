@@ -6,6 +6,7 @@ use App\Entity\TrainingUnit;
 use App\Entity\TrainingDictionary;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -32,6 +33,8 @@ class TrainingUnitType extends AbstractType
         $unit=$options['data'];
 
             $builder
+
+            ->add('id',HiddenType::class)
             ->add('name',TextType::class,[
                 'label'=>'Nazwa',
                 'row_attr'=>['class'=>'col-md-6 mt-3'],
