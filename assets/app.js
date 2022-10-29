@@ -561,7 +561,7 @@ jQuery(function () {
             value = 0;
         }
         let itemsCount = $('#accordionSeries > .accordion-item').length;
-        console.log(itemsCount);
+
         if ($(this).hasClass('btn-minus') && value > $(target).attr('min')) {
             value--;
             if (target === "#training_unit_seriesCount") {
