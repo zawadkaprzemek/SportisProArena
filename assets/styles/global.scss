@@ -250,7 +250,7 @@ body.main-style {
     }
 
     select[multiple]{
-        height: 70px;
+        max-height: 80px;
         @include media-breakpoint-down(lg) {
             height: auto;
         }

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Arena;
+use App\Entity\Club;
 use App\Entity\User;
 use App\Form\AdminUserEditType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -16,27 +18,34 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_admin")
-     */
-    public function index(): Response
-    {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
-    }
 
     /**
      * @Route("/users/managers", name="app_admin_managers_list")
      */
-    public function managersList()
+    public function managersList(): Response
     {
         $em=$this->getDoctrine()->getManager();
         $users=$em->getRepository(User::class)->findBy(['userType'=>User::MANAGER_TYPE],['createdAt'=>'DESC']);
 
         return $this->render('admin/users.html.twig',[
            'users'=>$users,
-           'title'=>'Lista managerów'
+           'title'=>'Lista managerów',
+            'show_club'=>true
+        ]);
+    }
+
+    /**
+     * @Route("/users/players", name="app_admin_players_list")
+     */
+    public function playersList(): Response
+    {
+        $em=$this->getDoctrine()->getManager();
+        $users=$em->getRepository(User::class)->findBy(['userType'=>User::PLAYER_TYPE],['createdAt'=>'DESC']);
+
+        return $this->render('admin/users.html.twig',[
+            'users'=>$users,
+            'title'=>'Lista zawodników',
+            'show_club'=>true
         ]);
     }
 
@@ -68,6 +77,34 @@ class AdminController extends AbstractController
         return $this->render('admin/edit_user.html.twig',[
             'form'=>$form->createView(),
             'user'=>$user
+        ]);
+    }
+
+    /**
+     * @Route("/clubs", name="app_admin_clubs_list")
+     */
+    public function clubList(): Response
+    {
+        $em=$this->getDoctrine()->getManager();
+        $clubs=$em->getRepository(Club::class)->findAll();
+
+        return $this->render('admin/clubs.html.twig',[
+            'clubs'=>$clubs,
+            'title'=>'Lista klubów'
+        ]);
+    }
+
+    /**
+     * @Route("/arenas", name="app_admin_arenas_list")
+     */
+    public function arenasList(): Response
+    {
+        $em=$this->getDoctrine()->getManager();
+        $arenas=$em->getRepository(Arena::class)->findAll();
+
+        return $this->render('admin/arenas.html.twig',[
+            'arenas'=>$arenas,
+            'title'=>'Lista arena'
         ]);
     }
 }

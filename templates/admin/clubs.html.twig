@@ -4,7 +4,7 @@
 
 {% block body %}
 
-{%set pages=(users|length/10)|round(0,'ceil')%}
+{%set pages=(clubs|length/10)|round(0,'ceil')%}
 <h3>{{title}}</h3>
 
     <div class="row" id="usersPage">
@@ -22,26 +22,22 @@
                     <table class="table dataTable" data-current-page="1" data-pages="{{pages}}">
                     <thead>
                         <tr>
-                            <th>Imię i nazwisko</th>
-                            <th>Email</th>
-                            {% if show_club %}
-                            <th>Klub</th>
-                            {% endif %}
-                            <th>Data rejestracji</th>
+                            <th>Nazwa klubu</th>
+                            <th>Ilość zawodników</th>
+                            <th>Data dodania</th>
                             <th></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                    {%for user in users%}
+                    {%for club in clubs%}
                         <tr>
-                            <td>{{ user.fullName }}</td>
-                            <td>{{ user.email }}</td>
-                            {% if show_club %}
-                            <td>{{ user.club.name }}</td>
-                            {% endif %}
-                            <td>{{ user.createdAt|date('d/m/Y') }}</td>
-                            <td class="text-end"><a href="{{path('app_admin_user_edit',{'id':user.id})}}" class="fw-bold">Edytuj</a></td>
+                            <td>{{ club.name }}</td>
+                            <td>{{ club.players|length }}</td>
+                            <td>{{ club.createdAt|date('d/m/Y') }}</td>
+                            <td class="text-end">
+                                {#<a href="{{path('app_admin_user_edit',{'id':user.id})}}" class="fw-bold">Edytuj</a>#}
+                            </td>
                         </tr>
                     {%endfor%}
                     </tbody>
